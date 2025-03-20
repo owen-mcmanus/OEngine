@@ -43,4 +43,4 @@ target_link_libraries(Game OEngine)
 #install(TARGETS OEngine DESTINATION /usr/local/lib)
 #install(DIRECTORY include/ DESTINATION /usr/local/include)
 
-#add_subdirectory(tests)
+add_subdirectory(tests)
