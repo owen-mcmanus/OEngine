@@ -1,12 +1,13 @@
 #pragma once
 #include "../AssetManager/TextureManager.h"
-#include "SDLDeleter.h"
+#include "../Utils/SDLDeleter.h"
 #include "Sprite.h"
 
 #include <SDL_render.h>
 #include <memory>
 #include <unordered_map>
 
+namespace OEngine {
 class Renderer {
   public:
     Renderer(SDL_Window* window);
@@ -127,3 +128,4 @@ class Renderer {
     std::unique_ptr<AssetManager::TextureCache> texture_cache;
     bool rendering_paused;
 };
+} // namespace OEngine

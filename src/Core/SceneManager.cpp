@@ -2,9 +2,11 @@
 
 #include <olog.h>
 
-void SceneManager::SetActiveScene(Scene& scene, Renderer& renderer) {
+using namespace OEngine;
+
+void SceneManager::SetActiveScene(Scene& scene) {
     activeScene = std::ref(scene);
-    scene.Init(renderer);
+    scene.Init();
 }
 
 void SceneManager::HandleEvents() {

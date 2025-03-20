@@ -2,6 +2,8 @@
 
 #include <olog.h>
 
+using namespace OEngine;
+
 Window::Window(const std::string& title, int width, int height, bool fullscreen) {
     Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
     if (fullscreen) {

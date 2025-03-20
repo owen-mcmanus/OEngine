@@ -3,9 +3,10 @@
 #include <memory>
 #include <optional>
 
+namespace OEngine {
 class SceneManager {
   public:
-    void SetActiveScene(Scene& scene, Renderer& renderer);
+    void SetActiveScene(Scene& scene);
     void HandleEvents();
     void Update();
     void Render(Renderer& renderer);
@@ -13,3 +14,4 @@ class SceneManager {
   private:
     std::optional<std::reference_wrapper<Scene>> activeScene;
 };
+} // namespace OEngine

@@ -3,6 +3,8 @@
 #include <SDL2/SDL_image.h>
 #include <olog.h>
 
+using namespace OEngine;
+
 Sprite::Sprite(const std::string& texturesheet, int width, int height)
     : x(0), y(0), rotation(0), width(width), height(height), destRect(0, 0, width, height) {
     surf_id = AssetManager::TextureManager::LoadSurface(texturesheet);

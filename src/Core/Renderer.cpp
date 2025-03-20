@@ -2,6 +2,8 @@
 
 #include <olog.h>
 
+using namespace OEngine;
+
 Renderer::Renderer(SDL_Window* window) : rendering_paused(false) {
     SDL_Renderer* rawRenderer =
         SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
