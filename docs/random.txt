@@ -1,0 +1,46 @@
+OEngine/
+├── CMakeLists.txt          # CMake build configuration
+├── cmake/                  # CMake modules (optional)
+│   └── FindSDL2.cmake      # Custom SDL2 find module (if needed)
+├── src/                    # Source code for the engine
+│   ├── core/               # Core engine functionality
+│   │   ├── Engine.cpp      # Engine class implementation
+│   │   ├── Engine.h        # Engine class header
+│   │   ├── Scene.cpp       # Scene management implementation
+│   │   ├── Scene.h         # Scene management header
+│   │   ├── SceneManager.cpp# Scene manager class implementation
+│   │   ├── SceneManager.h  # Scene manager class header
+│   │   ├── Window.cpp      # Window class implementation
+│   │   ├── Window.h        # Window class header
+│   │   └── TextureManager.cpp # Texture manager implementation
+│   │   └── TextureManager.h   # Texture manager header
+│   ├── rendering/          # Rendering-related code (optional)
+│   │   ├── Renderer.cpp    # Renderer class implementation
+│   │   ├── Renderer.h      # Renderer class header
+│   ├── input/              # Input handling (optional)
+│   │   ├── InputManager.cpp # Input manager implementation
+│   │   └── InputManager.h   # Input manager header
+├── include/                # Public headers
+│   ├── OEngine/            # Public-facing engine headers
+│   │   ├── Engine.h        # Public Engine header
+│   │   ├── Scene.h         # Public Scene header
+│   │   ├── SceneManager.h  # Public Scene Manager header
+│   │   ├── Window.h        # Public Window header
+│   │   └── TextureManager.h# Public TextureManager header
+├── assets/                 # Asset files like textures, sounds, etc.
+│   ├── textures/           # Textures directory
+│   ├── sounds/             # Sounds directory
+│   └── models/             # Models directory
+├── tests/                  # Unit and integration tests
+│   ├── CMakeLists.txt      # CMake for tests
+│   ├── TestEngine.cpp      # Test file for Engine class
+│   ├── TestRenderer.cpp    # Test file for Renderer class
+│   └── TestScene.cpp       # Test file for Scene class
+├── tools/                  # Tools used by the engine (optional)
+│   ├── AssetConverter.cpp  # Example of asset converter
+│   ├── AssetConverter.h    # Header for asset converter
+├── docs/                   # Documentation (optional)
+│   ├── design.md           # Design document
+│   ├── architecture.md     # Architecture document
+├── LICENSE                 # License for your engine
+└── README.md               # Project README
