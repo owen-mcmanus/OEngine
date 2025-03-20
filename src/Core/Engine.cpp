@@ -1,14 +1,20 @@
 #include "Engine.h"
 
-#include <SDL2/SDL.h>
+#include "../AssetManager/TextureManager.h"
+#include "Renderer.h"
+#include "SceneManager.h"
+#include "Window.h"
+
+#include <SDL.h>
 #include <SDL_image.h>
-#include <functional>
-#include <iostream>
+#include <chrono>
 #include <olog.h>
+#include <stdexcept>
+#include <string>
 
 using namespace OEngine;
 
-Engine::Engine() : frameDelay(1000 / 60) {
+Engine::Engine() {
     OLog::openLogFile("log.txt", OL_LOG_TO_STDOUT);
     OLog::log(OLog::INFO, "Starting Engine...");
 
@@ -17,7 +23,7 @@ Engine::Engine() : frameDelay(1000 / 60) {
         throw std::runtime_error("SDL_Init failed");
     }
 
-    if (IMG_Init(IMG_INIT_PNG) == 0) {
+    if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
         OLog::log(OLog::CRITICAL, IMG_GetError());
         throw std::runtime_error("IMG_Init failed");
     }
@@ -25,13 +31,11 @@ Engine::Engine() : frameDelay(1000 / 60) {
     OLog::log(OLog::INFO, "Engine Startup Complete");
 }
 
-Engine::Engine(const int fps) : Engine() { frameDelay = std::chrono::milliseconds(1000 / fps); }
-
 Engine::~Engine() {
     OLog::log(OLog::INFO, "Starting Engine Cleanup...");
     AssetManager::TextureManager::ClearCache();
-    SDL_Quit();
     IMG_Quit();
+    SDL_Quit();
     OLog::log(OLog::INFO, "Engine Cleanup Complete");
     OLog::closeLogFile();
 }
@@ -66,20 +70,20 @@ void Engine::Run() {
     OLog::log(OLog::INFO, "Game Loop Complete");
 }
 
-Window& Engine::CreateWindow(const std::string& tite, int width, int height, bool fullscreen) {
-    window = std::make_unique<Window>(tite, width, height, fullscreen);
+Window& Engine::CreateWindow(const std::string& title, int width, int height, bool fullscreen) {
+    window = std::make_unique<Window>(title, width, height, fullscreen);
     return *window;
 }
 
-Window& Engine::GetWindow() const { return *window; }
-
-void Engine::SetActiveScene(Scene& scene) {
-    // if (!window) {
-    //     OLog::log(OLog::ERROR, "SetActiveScene: Window does not exist");
-    //     throw std::runtime_error("Engine has no active window");
-    // }
-    sceneManager.SetActiveScene(scene);
+Window& Engine::GetWindow() const {
+    if (!window) {
+        OLog::log(OLog::ERROR, "GetWindow: Window does not exist");
+        throw std::runtime_error("Window does not exist");
+    }
+    return *window;
 }
+
+void Engine::SetActiveScene(Scene& scene) { sceneManager.SetActiveScene(scene); }
 
 void Engine::HandleEvents() {
     SDL_Event event;
@@ -91,6 +95,7 @@ void Engine::HandleEvents() {
         default:
             break;
         }
-        window->HandleEvent(event);
+        if (window)
+            window->HandleEvent(event);
     }
 }

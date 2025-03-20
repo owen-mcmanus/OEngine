@@ -1,5 +1,7 @@
 #include "Window.h"
 
+#include "Renderer.h"
+
 #include <olog.h>
 
 using namespace OEngine;
@@ -20,6 +22,7 @@ Window::Window(const std::string& title, int width, int height, bool fullscreen)
 
     renderer = std::make_unique<Renderer>(rawWindow);
 }
+
 Renderer& Window::GetRenderer() const { return *renderer; }
 
 void Window::HandleEvent(const SDL_Event& event) {

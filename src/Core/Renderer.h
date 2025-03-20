@@ -1,17 +1,22 @@
 #pragma once
+
 #include "../AssetManager/TextureManager.h"
 #include "../Utils/SDLDeleter.h"
-#include "Sprite.h"
 
 #include <SDL_render.h>
 #include <memory>
-#include <unordered_map>
 
 namespace OEngine {
+
+namespace AssetManager {
+class TextureCache;
+}
+
+class Sprite;
+
 class Renderer {
   public:
     Renderer(SDL_Window* window);
-    ~Renderer() = default;
 
     /**
      * @brief Clears the current rendering target.
@@ -118,14 +123,15 @@ class Renderer {
      */
     void FillRect(int x, int y, int w, int h) const;
 
-    void RenderSprite(Sprite& sprite);
-    void RenderSpriteWithRotation(Sprite& sprite);
+    void RenderSprite(Sprite& sprite) const;
+    void RenderSpriteWithRotation(Sprite& sprite) const;
 
     SDL_Renderer& GetSDLRenderer() const;
 
   private:
     std::unique_ptr<SDL_Renderer, SDL_Deleter> renderer;
     std::unique_ptr<AssetManager::TextureCache> texture_cache;
-    bool rendering_paused;
+    bool rendering_paused = false;
 };
+
 } // namespace OEngine

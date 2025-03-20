@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL2/SDL.h>
 
+namespace OEngine {
+
 struct SDL_Deleter {
     void operator()(SDL_Renderer* ptr) const {
         // OLog::log(OLog::DEBUG, "Clean Renderer");
@@ -26,3 +28,5 @@ struct SDL_Deleter {
             SDL_FreeSurface(ptr);
     }
 };
+
+} // namespace OEngine

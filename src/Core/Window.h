@@ -1,11 +1,14 @@
 #pragma once
 
 #include "../Utils/SDLDeleter.h"
-#include "Renderer.h"
 
 #include <SDL2/SDL.h>
 #include <memory>
+
 namespace OEngine {
+
+class Renderer;
+
 class Window {
   public:
     // Window();
@@ -24,4 +27,5 @@ class Window {
     // std::unique_ptr<SDL_Renderer, SDL_Deleter> renderer;
     // bool rendering_paused;
 };
+
 } // namespace OEngine

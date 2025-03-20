@@ -1,6 +1,6 @@
 #include "SceneManager.h"
 
-#include <olog.h>
+#include "Scene.h"
 
 using namespace OEngine;
 

@@ -1,9 +1,13 @@
 #pragma once
-#include "Scene.h"
+
 #include <memory>
 #include <optional>
 
 namespace OEngine {
+
+class Scene;
+class Renderer;
+
 class SceneManager {
   public:
     void SetActiveScene(Scene& scene);
@@ -14,4 +18,5 @@ class SceneManager {
   private:
     std::optional<std::reference_wrapper<Scene>> activeScene;
 };
+
 } // namespace OEngine

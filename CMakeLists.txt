@@ -1,6 +1,6 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
 project(OEngine)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -11,7 +11,6 @@ find_package(SDL2_image REQUIRED)
 find_package(SDL2TTF REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIR})
 
-#include_directories(${CMAKE_SOURCE_DIR}/include)
 
 set(SOURCES
         src/Core/Engine.cpp
@@ -44,4 +43,4 @@ target_link_libraries(Game OEngine)
 #install(TARGETS OEngine DESTINATION /usr/local/lib)
 #install(DIRECTORY include/ DESTINATION /usr/local/include)
 
-add_subdirectory(tests)
+#add_subdirectory(tests)

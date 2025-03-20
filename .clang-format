@@ -7,3 +7,4 @@ BinPackParameters: false
 
 Language: Cpp
 PointerAlignment: Left
+SeparateDefinitionBlocks: Always

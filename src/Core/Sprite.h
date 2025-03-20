@@ -1,10 +1,16 @@
 #pragma once
-#include "../AssetManager/TextureManager.h"
+
 #include "../Utils/SDLDeleter.h"
 
 #include <memory>
 #include <string>
+
 namespace OEngine {
+
+namespace AssetManager {
+using surface_id = int;
+}
+
 class Sprite {
   public:
     Sprite(const std::string& texturesheet, int width, int height);
@@ -33,4 +39,5 @@ class Sprite {
     SDL_Rect destRect;
     AssetManager::surface_id surf_id;
 };
+
 } // namespace OEngine

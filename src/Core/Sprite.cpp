@@ -1,5 +1,7 @@
 #include "Sprite.h"
 
+#include "../AssetManager/TextureManager.h"
+
 #include <SDL2/SDL_image.h>
 #include <olog.h>
 
@@ -31,9 +33,15 @@ void Sprite::UpdateOriginCorner(double x, double y, double rotation) {
 // void Sprite::SetOpacity(int opacity) { SDL_SetSurfaceAlphaMod(surface.get(), opacity); }
 
 double Sprite::GetX() const { return x; }
+
 double Sprite::GetY() const { return y; }
+
 double Sprite::GetRotation() const { return rotation; }
+
 int Sprite::GetWidth() const { return width; }
+
 int Sprite::GetHeight() const { return height; }
+
 int Sprite::GetSurfaceId() const { return surf_id; }
+
 const SDL_Rect* Sprite::GetDestRect() const { return &destRect; }

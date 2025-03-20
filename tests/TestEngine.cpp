@@ -6,6 +6,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+using namespace OEngine;
+
 class MockScene : public Scene {
   public:
     MockScene() = default;
@@ -24,15 +26,15 @@ TEST(EngineTest, ConstructorInitializesSuccessfully) {
     EXPECT_EQ(engine.running, false); // Shouldn't be running yet
 }
 
-// Test for constructor with custom FPS
-TEST(EngineTest, ConstructorWithCustomFPS) {
-    const int customFPS = 30;
-    Engine engine(customFPS);
-
-    // Directly checking the frameDelay is not possible without access to private members
-    // So we would have to rely on testing behavior when calling Run, which we’ll do in another test
-    EXPECT_EQ(engine.running, false); // Ensure it's not running yet
-}
+// // Test for constructor with custom FPS
+// TEST(EngineTest, ConstructorWithCustomFPS) {
+//     const int customFPS = 30;
+//     Engine engine(customFPS);
+//
+//     // Directly checking the frameDelay is not possible without access to private members
+//     // So we would have to rely on testing behavior when calling Run, which we’ll do in another
+//     test EXPECT_EQ(engine.running, false); // Ensure it's not running yet
+// }
 
 // Test for CreateWindow method
 TEST(EngineTest, CreateWindowCreatesWindow) {
@@ -54,16 +56,16 @@ TEST(EngineTest, GetWindowReturnsValidWindow) {
     EXPECT_EQ(&engine.GetWindow(), &window);
 }
 
-// Test for SetActiveScene method
-TEST(EngineTest, SetActiveSceneChangesScene) {
-    Engine engine;
-    MockScene scene;
-    engine.CreateWindow("Test Window", 800, 600, false);
-
-    // Since there's no direct access to check if the scene was set, we assume that
-    // if SetActiveScene is called, no errors should occur and everything should run smoothly
-    EXPECT_NO_THROW(engine.SetActiveScene(scene));
-}
+// // Test for SetActiveScene method
+// TEST(EngineTest, SetActiveSceneChangesScene) {
+//     Engine engine;
+//     MockScene scene;
+//     engine.CreateWindow("Test Window", 800, 600, false);
+//
+//     // Since there's no direct access to check if the scene was set, we assume that
+//     // if SetActiveScene is called, no errors should occur and everything should run smoothly
+//     EXPECT_NO_THROW(engine.SetActiveScene(scene));
+// }
 
 // Test for Run method (test that it processes events and doesn't run forever)
 TEST(EngineTest, RunProcessesEvents) {

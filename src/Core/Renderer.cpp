@@ -1,10 +1,13 @@
 #include "Renderer.h"
 
+#include "Sprite.h"
+
 #include <olog.h>
+#include <stdexcept>
 
 using namespace OEngine;
 
-Renderer::Renderer(SDL_Window* window) : rendering_paused(false) {
+Renderer::Renderer(SDL_Window* window) {
     SDL_Renderer* rawRenderer =
         SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!rawRenderer) {
@@ -20,11 +23,14 @@ void Renderer::Clear() const {
     if (!rendering_paused)
         SDL_RenderClear(renderer.get());
 }
+
 void Renderer::Present() const {
     if (!rendering_paused)
         SDL_RenderPresent(renderer.get());
 }
+
 void Renderer::Pause() { rendering_paused = true; }
+
 void Renderer::Resume() { rendering_paused = false; }
 
 void Renderer::SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) const {
@@ -67,13 +73,13 @@ void Renderer::FillRect(int x, int y, int w, int h) const {
     }
 }
 
-void Renderer::RenderSprite(Sprite& sprite) {
+void Renderer::RenderSprite(Sprite& sprite) const {
     SDL_RenderCopy(
         renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr,
         sprite.GetDestRect());
 }
 
-void Renderer::RenderSpriteWithRotation(Sprite& sprite) {
+void Renderer::RenderSpriteWithRotation(Sprite& sprite) const {
     SDL_Point pt;
     pt.x = sprite.GetWidth() / 2;
     pt.y = sprite.GetHeight() / 2;
