@@ -33,6 +33,7 @@ Engine::Engine() {
 
 Engine::~Engine() {
     OLog::log(OLog::INFO, "Starting Engine Cleanup...");
+    window.reset();
     AssetManager::TextureManager::ClearCache();
     IMG_Quit();
     SDL_Quit();
@@ -54,7 +55,6 @@ void Engine::Run() {
 
         // render
         if (window) {
-            window->GetRenderer().Clear();
             sceneManager.Render(window->GetRenderer());
             window->GetRenderer().Present();
         }
@@ -87,7 +87,7 @@ void Engine::SetActiveScene(Scene& scene) { sceneManager.SetActiveScene(scene); 
 
 void Engine::HandleEvents() {
     SDL_Event event;
-    while (SDL_PollEvent(&event)) {
+    while (SDL_PollEvent(&event)) { // TODO: consider SDL_WaitEvent
         switch (event.type) {
         case SDL_QUIT:
             running = false;

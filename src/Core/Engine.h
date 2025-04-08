@@ -113,9 +113,6 @@ class Engine {
      *
      * Polls SDL for events and processes them, including checking for the SDL_QUIT event
      * to stop the game loop.
-     *
-     * @pre SDL must be initialized.
-     * @post Events are processed and handled accordingly.
      */
     void HandleEvents();
 };
