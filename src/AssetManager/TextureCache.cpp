@@ -1,3 +1,9 @@
+/**
+ * @file TextureCache.cpp
+ * @author Owen McManus
+ * @date 2025/4/9
+ */
+
 #include "../Utils/SDLDeleter.h"
 #include "TextureManager.h"
 

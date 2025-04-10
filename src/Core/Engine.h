@@ -1,14 +1,7 @@
 /**
  * @file Engine.h
- * @brief Public header for the OEngine::Engine class.
- *
- * This file declares the Engine class which serves as the core component
- * of the OEngine game engine. The Engine class is responsible for initializing
- * the SDL environment, managing the main game loop, handling window creation,
- * and scene management. It also ensures proper cleanup of resources on shutdown.
- *
  * @author Owen McManus
- * @date 3/19/25
+ * @date 2025/19/3
  */
 
 #pragma once

@@ -1,3 +1,9 @@
+/**
+ * @file Renderer.cpp
+ * @author Owen McManus
+ * @date 2025/9/4
+ */
+
 #include "Renderer.h"
 
 #include "Sprite.h"
@@ -7,13 +13,7 @@
 
 using namespace OEngine;
 
-Renderer::Renderer(SDL_Window* window) {
-    SDL_Renderer* rawRenderer =
-        SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (!rawRenderer) {
-        OLog::log(OLog::CRITICAL, SDL_GetError());
-        throw std::runtime_error("Failed to create renderer: " + std::string(SDL_GetError()));
-    }
+Renderer::Renderer(SDL_Renderer* rawRenderer) {
     renderer = std::unique_ptr<SDL_Renderer, SDL_Deleter>(rawRenderer);
 
     texture_cache = std::make_unique<AssetManager::TextureCache>(*renderer);
@@ -47,44 +47,44 @@ void Renderer::SetBackground(Uint8 r, Uint8 g, Uint8 b, Uint8 a) const {
     SetDrawColor(old_r, old_g, old_b, old_a);
 }
 
-void Renderer::DrawPoint(int x, int y) const {
+void Renderer::DrawPoint(float x, float y) const {
     if (!rendering_paused) {
-        SDL_RenderDrawPoint(renderer.get(), x, y);
+        SDL_RenderPoint(renderer.get(), x, y);
     }
 }
 
-void Renderer::DrawLine(int x1, int y1, int x2, int y2) const {
+void Renderer::DrawLine(float x1, float y1, float x2, float y2) const {
     if (!rendering_paused) {
-        SDL_RenderDrawLine(renderer.get(), x1, y1, x2, y2);
+        SDL_RenderLine(renderer.get(), x1, y1, x2, y2);
     }
 }
 
-void Renderer::DrawRect(int x, int y, int w, int h) const {
+void Renderer::DrawRect(float x, float y, float w, float h) const {
     if (!rendering_paused) {
-        SDL_Rect rect = {x, y, w, h};
-        SDL_RenderDrawRect(renderer.get(), &rect);
+        SDL_FRect rect = {x, y, w, h};
+        SDL_RenderRect(renderer.get(), &rect);
     }
 }
 
-void Renderer::FillRect(int x, int y, int w, int h) const {
+void Renderer::FillRect(float x, float y, float w, float h) const {
     if (!rendering_paused) {
-        SDL_Rect rect = {x, y, w, h};
+        SDL_FRect rect = {x, y, w, h};
         SDL_RenderFillRect(renderer.get(), &rect);
     }
 }
 
 void Renderer::RenderSprite(Sprite& sprite) const {
-    SDL_RenderCopy(
+    SDL_RenderTexture(
         renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr,
         sprite.GetDestRect());
 }
 
 void Renderer::RenderSpriteWithRotation(Sprite& sprite) const {
-    SDL_Point pt;
+    SDL_FPoint pt;
     pt.x = sprite.GetWidth() / 2;
     pt.y = sprite.GetHeight() / 2;
 
-    SDL_RenderCopyEx(
+    SDL_RenderTextureRotated(
         renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr,
         sprite.GetDestRect(), sprite.GetRotation(), &pt, SDL_FLIP_NONE);
 }

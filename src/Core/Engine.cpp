@@ -1,3 +1,9 @@
+/**
+ * @file Engine.cpp
+ * @author Owen McManus
+ * @date 2025/4/9
+ */
+
 #include "Engine.h"
 
 #include "../AssetManager/TextureManager.h"
@@ -5,8 +11,7 @@
 #include "SceneManager.h"
 #include "Window.h"
 
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL3/SDL.h>
 #include <chrono>
 #include <olog.h>
 #include <stdexcept>
@@ -15,17 +20,16 @@
 using namespace OEngine;
 
 Engine::Engine() {
-    OLog::openLogFile("log.txt", OL_LOG_TO_STDOUT);
+    OLog::openLogFile("log.txt", OLog::OL_LOG_TO_STDOUT);
     OLog::log(OLog::INFO, "Starting Engine...");
 
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-        OLog::log(OLog::CRITICAL, SDL_GetError());
-        throw std::runtime_error("SDL_Init failed");
+    if (!SDL_SetAppMetadata("OEngine", "0.1.0", "oengine.test")) {
+        OLog::log(OLog::ERROR, SDL_GetError());
     }
 
-    if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
-        OLog::log(OLog::CRITICAL, IMG_GetError());
-        throw std::runtime_error("IMG_Init failed");
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS)) {
+        OLog::log(OLog::CRITICAL, SDL_GetError());
+        throw std::runtime_error("SDL_Init failed");
     }
 
     OLog::log(OLog::INFO, "Engine Startup Complete");
@@ -35,7 +39,6 @@ Engine::~Engine() {
     OLog::log(OLog::INFO, "Starting Engine Cleanup...");
     window.reset();
     AssetManager::TextureManager::ClearCache();
-    IMG_Quit();
     SDL_Quit();
     OLog::log(OLog::INFO, "Engine Cleanup Complete");
     OLog::closeLogFile();
@@ -89,7 +92,7 @@ void Engine::HandleEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) { // TODO: consider SDL_WaitEvent
         switch (event.type) {
-        case SDL_QUIT:
+        case SDL_EVENT_QUIT:
             running = false;
             break;
         default:

@@ -1,9 +1,15 @@
+/**
+ * @file Renderer.h
+ * @author Owen McManus
+ * @date 2025/9/4
+ */
+
 #pragma once
 
 #include "../AssetManager/TextureManager.h"
 #include "../Utils/SDLDeleter.h"
 
-#include <SDL_render.h>
+#include <SDL3/SDL_render.h>
 #include <memory>
 
 namespace OEngine {
@@ -16,7 +22,7 @@ class Sprite;
 
 class Renderer {
   public:
-    Renderer(SDL_Window* window);
+    explicit Renderer(SDL_Renderer* rawRenderer);
 
     /**
      * @brief Clears the current rendering target.
@@ -83,7 +89,7 @@ class Renderer {
      * @param x The x-coordinate of the point.
      * @param y The y-coordinate of the point.
      */
-    void DrawPoint(int x, int y) const;
+    void DrawPoint(float x, float y) const;
 
     /**
      * @brief Draws a line between two points.
@@ -95,7 +101,7 @@ class Renderer {
      * @param x2 The x-coordinate of the ending point.
      * @param y2 The y-coordinate of the ending point.
      */
-    void DrawLine(int x1, int y1, int x2, int y2) const;
+    void DrawLine(float x1, float y1, float x2, float y2) const;
 
     /**
      * @brief Draws a rectangle.
@@ -108,7 +114,7 @@ class Renderer {
      * @param w The width of the rectangle.
      * @param h The height of the rectangle.
      */
-    void DrawRect(int x, int y, int w, int h) const;
+    void DrawRect(float x, float y, float w, float h) const;
 
     /**
      * @brief Draws a filled rectangle.
@@ -121,12 +127,35 @@ class Renderer {
      * @param w The width of the rectangle.
      * @param h The height of the rectangle.
      */
-    void FillRect(int x, int y, int w, int h) const;
+    void FillRect(float x, float y, float w, float h) const;
 
+    /**
+     * @brief Renders a sprite onto the screen.
+     *
+     * This method renders the sprite by fetching its texture from the texture cache
+     * and drawing it at the destination rectangle provided by the sprite.
+     *
+     * @param sprite The sprite to be rendered. The sprite must have a valid surface ID and
+     *               a destination rectangle defined for positioning.
+     */
     void RenderSprite(Sprite& sprite) const;
+
+    /**
+     * @brief Renders a sprite with rotation.
+     *
+     * This method renders the sprite with a rotation. The sprite's texture is fetched
+     * from the texture cache and drawn at the destination rectangle provided by the sprite.
+     * The sprite is rotated around its center point.
+     *
+     * @param sprite The sprite to be rendered. The sprite must have a valid surface ID,
+     *               a destination rectangle, and a rotation angle defined.
+     *
+     * @note The rotation is applied around the center of the sprite, and flipping is
+     *       disabled (no mirroring).
+     */
     void RenderSpriteWithRotation(Sprite& sprite) const;
 
-    SDL_Renderer& GetSDLRenderer() const;
+    [[nodiscard]] SDL_Renderer& GetSDLRenderer() const;
 
   private:
     std::unique_ptr<SDL_Renderer, SDL_Deleter> renderer;

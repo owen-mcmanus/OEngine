@@ -1,11 +1,16 @@
+/**
+ * @file TextureManager.h
+ * @author Owen McManus
+ * @date 2025/4/9
+ */
+
 #pragma once
 
-#include <SDL2/SDL_render.h>
+#include <SDL3/SDL.h>
 #include <string>
 #include <unordered_map>
 
-namespace OEngine {
-namespace AssetManager {
+namespace OEngine::AssetManager {
 
 using surface_id = int;
 
@@ -35,5 +40,4 @@ class TextureCache {
     std::unordered_map<surface_id, SDL_Texture*> texture_cache;
 };
 
-} // namespace AssetManager
-} // namespace OEngine
+} // namespace OEngine::AssetManager

@@ -1,8 +1,14 @@
+/**
+ * @file TextureManager.cpp
+ * @author Owen McManus
+ * @date 2025/4/9
+ */
+
 #include "TextureManager.h"
 
 #include "../Utils/SDLDeleter.h"
 
-#include <SDL_image.h>
+#include <SDL3_image/SDL_image.h>
 #include <olog.h>
 #include <stdexcept>
 
@@ -23,8 +29,8 @@ surface_id TextureManager::LoadSurface(const std::string& path) {
     if (!surface_cache.contains(id)) {
         SDL_Surface* surface = IMG_Load(path.c_str());
         if (surface == nullptr) {
-            OLog::log(OLog::ERROR, IMG_GetError());
-            throw std::runtime_error(IMG_GetError());
+            OLog::log(OLog::ERROR, SDL_GetError());
+            throw std::runtime_error(SDL_GetError());
         }
         surface_cache[id] = surface;
     }

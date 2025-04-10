@@ -1,32 +1,54 @@
+/**
+ * @file SDLDeleter.h
+ * @author Owen McManus
+ * @date 2025/4/9
+ */
+
 #pragma once
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
+
+// #define LOG_DELETES
+
+#ifdef LOG_DELETES
+#include <olog.h>
+#endif
 
 namespace OEngine {
 
 struct SDL_Deleter {
     void operator()(SDL_Renderer* ptr) const {
-        // OLog::log(OLog::DEBUG, "Clean Renderer");
+#ifdef LOG_DELETES
+        OLog::log(OLog::DEBUG, "Clean Renderer");
+#endif
         if (ptr)
             SDL_DestroyRenderer(ptr);
     }
 
     void operator()(SDL_Window* ptr) const {
-        // OLog::log(OLog::DEBUG, "Clean Window");
+#ifdef LOG_DELETES
+        OLog::log(OLog::DEBUG, "Clean Window");
+#endif
         if (ptr)
             SDL_DestroyWindow(ptr);
     }
 
     void operator()(SDL_Texture* ptr) const {
-        // OLog::log(OLog::DEBUG, "Clean Texture");
+#ifdef LOG_DELETES
+        OLog::log(OLog::DEBUG, "Clean Texture");
+#endif
         if (ptr)
             SDL_DestroyTexture(ptr);
     }
 
     void operator()(SDL_Surface* ptr) const {
-        // OLog::log(OLog::DEBUG, "Clean Surface");
+#ifdef LOG_DELETES
+        OLog::log(OLog::DEBUG, "Clean Surface");
+#endif
         if (ptr)
-            SDL_FreeSurface(ptr);
+            SDL_DestroySurface(ptr);
     }
 };
 
 } // namespace OEngine
+
+#undef LOG_DELETES
