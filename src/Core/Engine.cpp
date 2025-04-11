@@ -1,7 +1,7 @@
 /**
  * @file Engine.cpp
  * @author Owen McManus
- * @date 2025/4/9
+ * @date 2025/4/11
  */
 
 #include "Engine.h"
@@ -32,6 +32,8 @@ Engine::Engine() {
         throw std::runtime_error("SDL_Init failed");
     }
 
+    EventManager::AddListener<QuitEvent>(&eventListener);
+
     OLog::log(OLog::INFO, "Engine Startup Complete");
 }
 
@@ -51,12 +53,10 @@ void Engine::Run() {
     while (running) {
         const std::chrono::milliseconds frameStart(SDL_GetTicks());
 
-        // handle events
-        HandleEvents();
-        // update
+        EventManager::HandleEvents();
+
         sceneManager.Update();
 
-        // render
         if (window) {
             sceneManager.Render(window->GetRenderer());
             window->GetRenderer().Present();
@@ -88,17 +88,4 @@ Window& Engine::GetWindow() const {
 
 void Engine::SetActiveScene(Scene& scene) { sceneManager.SetActiveScene(scene); }
 
-void Engine::HandleEvents() {
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) { // TODO: consider SDL_WaitEvent
-        switch (event.type) {
-        case SDL_EVENT_QUIT:
-            running = false;
-            break;
-        default:
-            break;
-        }
-        if (window)
-            window->HandleEvent(event);
-    }
-}
+void Engine::Quit() { running = false; }

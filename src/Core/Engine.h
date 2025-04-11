@@ -1,11 +1,13 @@
 /**
  * @file Engine.h
  * @author Owen McManus
- * @date 2025/19/3
+ * @date 2025/4/11
  */
 
 #pragma once
 
+#include "../Events/Event.h"
+#include "../Events/EventManager.h"
 #include "SceneManager.h"
 
 #include <chrono>
@@ -94,20 +96,15 @@ class Engine {
      */
     void SetActiveScene(Scene& scene);
 
+    void Quit();
+
   private:
     bool running = false; ///< Indicates whether the game loop is running.
     std::chrono::milliseconds frameDelay =
         std::chrono::milliseconds(1000 / 60); ///< Desired length of one frame.
     std::unique_ptr<Window> window;           ///< Unique pointer to the Window instance.
     SceneManager sceneManager;                ///< Manages scenes and scene transitions.
-
-    /**
-     * @brief Handles input and system events.
-     *
-     * Polls SDL for events and processes them, including checking for the SDL_QUIT event
-     * to stop the game loop.
-     */
-    void HandleEvents();
+    EventListener<QuitEvent> eventListener = [this](const QuitEvent& e) { Quit(); };
 };
 
 } // namespace OEngine
