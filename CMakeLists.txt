@@ -47,6 +47,7 @@ set(SOURCES
         src/Core/Window.cpp
         src/Core/Renderer.cpp
         src/Core/Sprite.cpp
+        src/Events/EventManager.cpp
         src/AssetManager/TextureCache.cpp
         src/AssetManager/TextureManager.cpp
         src/AssetManager/TextureManager.h
@@ -56,12 +57,16 @@ set(SOURCES
         src/Core/SceneManager.h
         src/Core/Sprite.h
         src/Core/Window.h
+        src/Events/EventManager.h
         src/Utils/SDLDeleter.h
+        src/Events/Event.cpp
+        src/Events/Event.h
 )
 
 set(SOURCES_GAME
         testGame/main.cpp
         testGame/TestScene.cpp
+        src/Utils/Keys.h
 )
 
 add_library(OEngine STATIC ${SOURCES})
