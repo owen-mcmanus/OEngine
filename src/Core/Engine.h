@@ -95,13 +95,19 @@ class Engine {
      */
     void SetActiveScene(Scene& scene);
 
+    /**
+     * @brief Signals the engine to stop running.
+     *
+     * Sets the internal running flag to `false`, which will cause the main game loop
+     * to exit after the current iteration. Typically called in response to a quit event.
+     */
     void Quit();
 
   private:
-    volatile bool running = false;  // marked volatile to supress warnings
-    int frameDelay = 16;         ///< Desired length of one frame.
-    std::unique_ptr<Window> window; ///< Unique pointer to the Window instance.
-    SceneManager sceneManager;      ///< Manages scenes and scene transitions.
+    volatile bool running = false; // marked volatile to supress warnings
+    int frameDelay = 16;
+    std::unique_ptr<Window> window;
+    SceneManager sceneManager;
     EventListener<QuitEvent> eventListener = [this](const QuitEvent& e) { Quit(); };
 };
 
