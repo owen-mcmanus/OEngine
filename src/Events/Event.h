@@ -12,7 +12,7 @@
 
 namespace OEngine {
 
-enum class EventType { NONE = 0, KEYDOWN, KEYUP, MOUSE_BUTTON_DOWN, MOUSE_BUTTON_UP, QUIT };
+enum class EventType { NONE = 0, KEYDOWN, KEYUP, MOUSE_BUTTON_DOWN, MOUSE_BUTTON_UP, QUIT, CUSTOM };
 
 class Event {
   public:

@@ -40,6 +40,7 @@ Engine::Engine() {
 Engine::~Engine() {
     OLog::log(OLog::INFO, "Starting Engine Cleanup...");
     window.reset();
+    EventManager::RemoveListener<QuitEvent>(&eventListener);
     AssetManager::TextureManager::ClearCache();
     SDL_Quit();
     OLog::log(OLog::INFO, "Engine Cleanup Complete");
@@ -50,8 +51,11 @@ void Engine::Run() {
     running = true;
     OLog::log(OLog::INFO, "Starting Game Loop...");
 
+    // int frameCount = 0;
+    // Uint32 timeAccumulator = 0;
+
     while (running) {
-        const std::chrono::milliseconds frameStart(SDL_GetTicks());
+        Uint32 frameStart = SDL_GetTicks();
 
         EventManager::HandleEvents();
 
@@ -62,13 +66,21 @@ void Engine::Run() {
             window->GetRenderer().Present();
         }
 
-        // Calculate the time spent during the current frame
-        const std::chrono::milliseconds frameTime(SDL_GetTicks() - frameStart.count());
+        Uint32 frameTime = SDL_GetTicks() - frameStart;
 
         // If the frame took less time than the desired delay, delay the rest of the frame
-        if (frameTime.count() < frameDelay.count()) {
-            SDL_Delay(frameDelay.count() - frameTime.count());
+        if (frameTime < frameDelay) {
+            SDL_Delay(frameDelay - frameTime);
         }
+
+        // if (frameCount == 100) {
+        //     float fps = 1000.0f * frameCount / timeAccumulator;
+        //     OLog::log(OLog::INFO, "FPS: " + std::to_string(fps));
+        //     frameCount = 0;
+        //     timeAccumulator = 0;
+        // }
+        // timeAccumulator += SDL_GetTicks() - frameStart;
+        // frameCount++;
     }
     OLog::log(OLog::INFO, "Game Loop Complete");
 }

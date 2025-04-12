@@ -10,7 +10,6 @@
 #include "../Events/EventManager.h"
 #include "SceneManager.h"
 
-#include <chrono>
 #include <memory>
 #include <string>
 
@@ -99,11 +98,10 @@ class Engine {
     void Quit();
 
   private:
-    bool running = false; ///< Indicates whether the game loop is running.
-    std::chrono::milliseconds frameDelay =
-        std::chrono::milliseconds(1000 / 60); ///< Desired length of one frame.
-    std::unique_ptr<Window> window;           ///< Unique pointer to the Window instance.
-    SceneManager sceneManager;                ///< Manages scenes and scene transitions.
+    volatile bool running = false;  // marked volatile to supress warnings
+    int frameDelay = 16;         ///< Desired length of one frame.
+    std::unique_ptr<Window> window; ///< Unique pointer to the Window instance.
+    SceneManager sceneManager;      ///< Manages scenes and scene transitions.
     EventListener<QuitEvent> eventListener = [this](const QuitEvent& e) { Quit(); };
 };
 

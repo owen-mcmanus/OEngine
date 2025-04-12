@@ -9,11 +9,12 @@
 #include "Event.h"
 
 #include <SDL3/SDL.h>
+#include <iostream>
 
 using namespace OEngine;
 
 std::queue<std::unique_ptr<Event>> EventManager::eventQueue;
-std::vector<EventListener<QuitEvent>*> EventManager::quitEventListeners;
+std::unordered_map<std::type_index, std::vector<GenericEventListener>> EventManager::eventListeners;
 
 void EventManager::HandleEvents() {
     HandleSDLEvents();
@@ -24,14 +25,7 @@ void EventManager::HandleEvents() {
             eventQueue.pop();
             continue;
         }
-        Event& event = *e_ptr;
-        if (event.GetType() == EventType::QUIT) {
-            auto& q = dynamic_cast<QuitEvent&>(event);
-            for (auto listener : EventManager::quitEventListeners) {
-                if (listener)
-                    (*listener)(q);
-            }
-        }
+        DispatchEvent(*e_ptr);
         eventQueue.pop();
     }
 }
@@ -46,8 +40,24 @@ void EventManager::HandleSDLEvents() {
             AddEvent(QuitEvent());
             break;
         }
+        case SDL_EVENT_KEY_DOWN: {
+            AddEvent(KeyDownEvent(Key::C));
+            break;
+        }
         default:
             break;
         }
+    }
+}
+
+void EventManager::DispatchEvent(Event& event) {
+    auto key = std::type_index(typeid(event));
+    auto it = eventListeners.find(key);
+    if (it != eventListeners.end()) {
+        for (auto& [id, listener] : it->second) {
+            listener(event);
+        }
+    } else {
+        std::cout << "No listeners for event of type: " << key.name() << "\n";
     }
 }
