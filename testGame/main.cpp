@@ -5,8 +5,8 @@
 #include <ostream>
 
 int main() {
-    TestScene test;
     auto engine = OEngine::Engine();
+    TestScene test;
     engine.CreateWindow("Game", 1920, 1080, false);
     engine.SetActiveScene(test);
     engine.Run();
