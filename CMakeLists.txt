@@ -61,12 +61,15 @@ set(SOURCES
         src/Utils/SDLDeleter.h
         src/Events/Event.cpp
         src/Events/Event.h
+        src/Utils/Keys.cpp
+        src/IO/Keyboard.cpp
+        src/IO/Keyboard.h
 )
 
 set(SOURCES_GAME
         testGame/main.cpp
         testGame/TestScene.cpp
-        src/Utils/Keys.h
+
 )
 
 add_library(OEngine STATIC ${SOURCES})
