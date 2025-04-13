@@ -1,7 +1,7 @@
 /**
  * @file SceneManager.cpp
  * @author Owen McManus
- * @date 2025/9/4
+ * @date 2025/4/12
  */
 
 #include "SceneManager.h"
@@ -13,11 +13,6 @@ using namespace OEngine;
 void SceneManager::SetActiveScene(Scene& scene) {
     activeScene = std::ref(scene);
     scene.Init();
-}
-
-void SceneManager::HandleEvents() const {
-    if (activeScene)
-        activeScene->get().HandleEvents();
 }
 
 void SceneManager::Update() const {

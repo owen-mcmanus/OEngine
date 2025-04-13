@@ -1,7 +1,7 @@
 /**
  * @file SceneManager.h
  * @author Owen McManus
- * @date 2025/9/4
+ * @date 2025/4/12
  */
 
 #pragma once
@@ -29,11 +29,6 @@ class SceneManager {
      * @param scene A reference to the new active scene.
      */
     void SetActiveScene(Scene& scene);
-
-    /**
-     * @brief Forwards input or system events to the active scene.
-     */
-    void HandleEvents() const;
 
     /**
      * @brief Updates the logic of the active scene.

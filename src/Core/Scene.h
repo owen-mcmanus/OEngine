@@ -40,10 +40,5 @@ class Scene {
      * @param renderer The renderer used to draw the scene.
      */
     virtual void Render(Renderer& renderer) = 0;
-
-    /**
-     * @brief Handles input or system events for the scene.
-     */
-    virtual void HandleEvents() = 0;
 };
 } // namespace OEngine
