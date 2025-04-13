@@ -1,11 +1,14 @@
 #include "TestScene.h"
 
+#include "../src/IO/Keyboard.h"
+
 void TestScene::Init() {
     s = new OEngine::Sprite("/home/owen/github/OEngine/testGame/plane.png", 32, 32);
     s1 = new OEngine::Sprite("/home/owen/github/OEngine/testGame/plane.png", 16, 16);
     s2 = new OEngine::Sprite("/home/owen/github/OEngine/testGame/plane.png", 32, 32);
     OEngine::EventManager::AddListener<ResetEvent>(&eventListener);
     OEngine::EventManager::AddListener<OEngine::KeyDownEvent>(&eventListener1);
+    OEngine::Keyboard::Connect();
 }
 
 TestScene::~TestScene() {
@@ -14,9 +17,13 @@ TestScene::~TestScene() {
     delete s2;
     OEngine::EventManager::RemoveListener<ResetEvent>(&eventListener);
     OEngine::EventManager::RemoveListener<OEngine::KeyDownEvent>(&eventListener1);
+    OEngine::Keyboard::Disconnect();
 }
 
 void TestScene::Update() {
+    if (OEngine::Keyboard::IsPressed(OEngine::Key::Keycode::SPACE))
+        spritePos += 5;
+
     s->UpdateOriginCenter(300, spritePos, 0);
     s1->UpdateOriginCenter(400, spritePos, 0);
     s2->UpdateOriginCenter(500, spritePos, 180);
@@ -24,8 +31,6 @@ void TestScene::Update() {
         OEngine::EventManager::AddEvent(ResetEvent());
     }
 }
-
-void TestScene::HandleEvents() { return; }
 
 void TestScene::Render(OEngine::Renderer& renderer) {
     renderer.SetBackground(0, 92, 115, 255);

@@ -49,16 +49,16 @@ class KeyEvent : public Event {
      * @brief Constructs a new KeyEvent with the given key.
      * @param key The key involved in the event.
      */
-    explicit KeyEvent(Key key);
+    explicit KeyEvent(Key::Keycode key);
 
     /**
      * @brief Returns the key associated with this event.
      * @return Key The key involved.
      */
-    [[nodiscard]] Key GetKey() const;
+    [[nodiscard]] Key::Keycode GetKey() const;
 
   private:
-    Key key;
+    Key::Keycode key;
 };
 
 /**
@@ -66,7 +66,7 @@ class KeyEvent : public Event {
  */
 class KeyDownEvent : public KeyEvent {
   public:
-    explicit KeyDownEvent(Key key);
+    explicit KeyDownEvent(Key::Keycode key);
     [[nodiscard]] EventType GetType() const override;
     [[nodiscard]] std::unique_ptr<Event> Clone() const override;
 };
@@ -76,7 +76,7 @@ class KeyDownEvent : public KeyEvent {
  */
 class KeyUpEvent : public KeyEvent {
   public:
-    explicit KeyUpEvent(Key key);
+    explicit KeyUpEvent(Key::Keycode key);
     [[nodiscard]] EventType GetType() const override;
     [[nodiscard]] std::unique_ptr<Event> Clone() const override;
 };

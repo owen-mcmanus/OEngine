@@ -7,7 +7,9 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 # Add test executable
-add_executable(testOEngine TestEngine.cpp)
+add_executable(testOEngine TestEngine.cpp
+        TestKeys.cpp
+        TestKeyboard.cpp)
 target_link_libraries(testOEngine ${GTEST_LIBRARIES} GTest::Main OEngine)
 
 # Register the test

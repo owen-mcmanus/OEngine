@@ -1,9 +1,6 @@
 #include "../src/Core/Engine.h"
 #include "TestScene.h"
 
-#include <iostream>
-#include <ostream>
-
 int main() {
     auto engine = OEngine::Engine();
     TestScene test;

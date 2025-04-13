@@ -1,7 +1,7 @@
 /**
  * @file EventManager.cpp
  * @author Owen McManus
- * @date 2025/4/11
+ * @date 2025/4/12
  */
 
 #include "EventManager.h"
@@ -41,7 +41,11 @@ void EventManager::HandleSDLEvents() {
             break;
         }
         case SDL_EVENT_KEY_DOWN: {
-            AddEvent(KeyDownEvent(Key::C));
+            AddEvent(KeyDownEvent(Key::SDLToKey(sdlEvent.key.key)));
+            break;
+        }
+        case SDL_EVENT_KEY_UP: {
+            AddEvent(KeyUpEvent(Key::SDLToKey(sdlEvent.key.key)));
             break;
         }
         default:
@@ -57,7 +61,5 @@ void EventManager::DispatchEvent(Event& event) {
         for (auto& [id, listener] : it->second) {
             listener(event);
         }
-    } else {
-        std::cout << "No listeners for event of type: " << key.name() << "\n";
     }
 }
