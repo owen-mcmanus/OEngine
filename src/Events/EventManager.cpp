@@ -6,9 +6,11 @@
 
 #include "EventManager.h"
 
+#include "../../cmake-build-debug-coverage/_deps/olog-src/include/olog.h"
 #include "Event.h"
 
 #include <SDL3/SDL.h>
+#include <cmath>
 #include <iostream>
 
 using namespace OEngine;
@@ -46,6 +48,28 @@ void EventManager::HandleSDLEvents() {
         }
         case SDL_EVENT_KEY_UP: {
             AddEvent(KeyUpEvent(Key::SDLToKey(sdlEvent.key.key)));
+            break;
+        }
+        case SDL_EVENT_MOUSE_BUTTON_UP: {
+            AddEvent(MouseButtonUpEvent(
+                sdlEvent.button.x, sdlEvent.button.y,
+                static_cast<Mouse::MouseButton>(sdlEvent.button.button)));
+            break;
+        }
+        case SDL_EVENT_MOUSE_BUTTON_DOWN: {
+            AddEvent(MouseButtonDownEvent(
+                sdlEvent.button.x, sdlEvent.button.y,
+                static_cast<Mouse::MouseButton>(sdlEvent.button.button), sdlEvent.button.clicks));
+            break;
+        }
+        case SDL_EVENT_MOUSE_MOTION: {
+            AddEvent(MouseMovedEvent(
+                sdlEvent.motion.x, sdlEvent.motion.y, sdlEvent.motion.xrel, sdlEvent.motion.yrel));
+            break;
+        }
+        case SDL_EVENT_MOUSE_WHEEL: {
+            AddEvent(MouseScrolledEvent(
+                sdlEvent.wheel.mouse_x, sdlEvent.wheel.mouse_y, sdlEvent.wheel.y));
             break;
         }
         default:

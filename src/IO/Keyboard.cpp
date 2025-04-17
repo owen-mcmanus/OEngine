@@ -11,11 +11,11 @@
 
 using namespace OEngine;
 
-enum class KeyState { RELEASED, PRESSED };
+enum class KeyState { RELEASED = 0, PRESSED };
 
 static constexpr int NUMBER_OF_KEYS = 104;
 
-static std::unordered_map<Key::Keycode, KeyState> keyboardState;
+static std::unordered_map<Key::Keycode, KeyState> keyboardState(NUMBER_OF_KEYS);
 
 EventListener<KeyDownEvent> keyDownListener = [](const KeyDownEvent& e) {
     keyboardState[e.GetKey()] = KeyState::PRESSED;
@@ -28,7 +28,6 @@ EventListener<KeyUpEvent> keyUpListener = [](const KeyUpEvent& e) {
 void Keyboard::Connect() {
     EventManager::AddListener<KeyDownEvent>(&keyDownListener);
     EventManager::AddListener<KeyUpEvent>(&keyUpListener);
-    keyboardState.reserve(NUMBER_OF_KEYS);
 }
 
 void Keyboard::Disconnect() {

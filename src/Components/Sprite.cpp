@@ -4,7 +4,7 @@
  * @date 2025/9/4
  */
 
-#include "Sprite.h"
+#include "../Core/Sprite.h"
 
 #include "../AssetManager/TextureManager.h"
 

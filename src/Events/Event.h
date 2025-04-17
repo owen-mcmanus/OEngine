@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "../IO/Mouse.h"
 #include "../Utils/Keys.h"
 
 #include <memory>
@@ -15,7 +16,17 @@ namespace OEngine {
 /**
  * @brief Enumeration of supported event types.
  */
-enum class EventType { NONE = 0, KEYDOWN, KEYUP, MOUSE_BUTTON_DOWN, MOUSE_BUTTON_UP, QUIT, CUSTOM };
+enum class EventType {
+    NONE = 0,
+    KEYDOWN,
+    KEYUP,
+    MOUSE_BUTTON_DOWN,
+    MOUSE_BUTTON_UP,
+    MOUSE_MOTION,
+    MOUSE_SCROLL,
+    QUIT,
+    CUSTOM
+};
 
 /**
  * @brief Abstract base class for all events.
@@ -89,5 +100,78 @@ class QuitEvent : public Event {
     QuitEvent() = default;
     [[nodiscard]] EventType GetType() const override;
     [[nodiscard]] std::unique_ptr<Event> Clone() const override;
+};
+
+/**
+ * @brief Base class for all mouse related events.
+ */
+class MouseEvent : public Event {
+  public:
+    explicit MouseEvent(float x, float y);
+    [[nodiscard]] float GetX() const;
+    [[nodiscard]] float GetY() const;
+
+  private:
+    float x;
+    float y;
+};
+
+/**
+ * @brief Base class for  a mouse button state change
+ */
+class MouseButtonEvent : public MouseEvent {
+  public:
+    explicit MouseButtonEvent(float x, float y, Mouse::MouseButton button);
+    [[nodiscard]] Mouse::MouseButton GetButton() const;
+
+  private:
+    Mouse::MouseButton button;
+};
+
+/**
+ * @brief Represents a mouse button press
+ */
+class MouseButtonDownEvent : public MouseButtonEvent {
+  public:
+    explicit MouseButtonDownEvent(float x, float y, Mouse::MouseButton button, int clicks);
+    [[nodiscard]] EventType GetType() const override;
+    [[nodiscard]] std::unique_ptr<Event> Clone() const override;
+
+  private:
+    int clicks;
+};
+
+/**
+ * @brief Represents a mouse button release
+ */
+class MouseButtonUpEvent : public MouseButtonEvent {
+  public:
+    explicit MouseButtonUpEvent(float x, float y, Mouse::MouseButton button);
+    [[nodiscard]] EventType GetType() const override;
+    [[nodiscard]] std::unique_ptr<Event> Clone() const override;
+};
+
+class MouseMovedEvent : public MouseEvent {
+  public:
+    MouseMovedEvent(float x, float y, float xrel, float yrel);
+    [[nodiscard]] EventType GetType() const override;
+    [[nodiscard]] std::unique_ptr<Event> Clone() const override;
+    [[nodiscard]] float GetXRel() const;
+    [[nodiscard]] float GetYRel() const;
+
+  private:
+    float xrel;
+    float yrel;
+};
+
+class MouseScrolledEvent : public MouseEvent {
+  public:
+    MouseScrolledEvent(float x, float y, float scroll);
+    [[nodiscard]] EventType GetType() const override;
+    [[nodiscard]] std::unique_ptr<Event> Clone() const override;
+    [[nodiscard]] float GetScroll() const;
+
+  private:
+    float scroll;
 };
 } // namespace OEngine
