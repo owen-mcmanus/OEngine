@@ -1,16 +1,46 @@
-//
-// Created by owen on 4/16/25.
-//
+/**
+ * @file Transform.h
+ * @author Owen McManus
+ * @date 2025/5/1
+ */
 
-#ifndef TRANSFORM_H
-#define TRANSFORM_H
+#pragma once
+#include "Component.h"
 
+#include <glm/vec2.hpp>
+#include <memory>
+#include <vector>
 
+namespace OEngine {
+class Transform : public Component {
+  public:
+    Transform() = default;
+    explicit Transform(
+        const float x = 0,
+        const float y = 0,
+        const float rotation = 0,
+        const float scale_x = 1,
+        const float scale_y = 1)
+        : localPosition(glm::vec2(x, y)), localRotation(rotation), localScale(scale_x, scale_y) {};
+    explicit Transform(
+        const glm::vec2 position = {0, 0},
+        const float rotation = 0,
+        const glm::vec2 scale = {1, 1})
+        : localPosition(position), localRotation(rotation), localScale(scale) {};
 
-class Transform {
+    glm::vec2 localPosition{0.0f, 0.0f};
+    float localRotation{0.0f};
+    glm::vec2 localScale{1.0f, 1.0f};
 
+    [[nodiscard]] glm::vec2 GetWorldPosition() const;
+    [[nodiscard]] float GetWorldRotation() const;
+    [[nodiscard]] glm::vec2 GetWorldScale() const;
+    void Translate(const glm::vec2& amount);
+
+    void SetParent(const std::weak_ptr<Transform>& newParent);
+
+  private:
+    std::weak_ptr<Transform> parent;
+    std::vector<std::weak_ptr<Transform>> children;
 };
-
-
-
-#endif //TRANSFORM_H
+} // namespace OEngine

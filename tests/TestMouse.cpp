@@ -12,12 +12,12 @@ class MouseTest : public ::testing::Test {
     void TearDown() override { Mouse::Disconnect(); }
 
     void PressButton(Mouse::MouseButton button) {
-        EventManager::AddEvent(MouseButtonDownEvent(0, 0, button, 1));
+        EventManager::AddEvent<MouseButtonDownEvent>(0, 0, button, 1);
         EventManager::HandleEvents();
     }
 
     void ReleaseButton(Mouse::MouseButton button) {
-        EventManager::AddEvent(MouseButtonUpEvent(0, 0, button));
+        EventManager::AddEvent<MouseButtonUpEvent>(0, 0, button);
         EventManager::HandleEvents();
     }
 };
@@ -55,7 +55,7 @@ TEST_F(MouseTest, ButtonReleaseUnregistersCorrectly) {
 }
 
 TEST_F(MouseTest, MousePosition) {
-    EventManager::AddEvent(MouseMovedEvent(200, 100, 0, 0));
+    EventManager::AddEvent<MouseMovedEvent>(200, 100, 0, 0);
     EventManager::HandleEvents();
 
     EXPECT_EQ(Mouse::GetX(), 200);

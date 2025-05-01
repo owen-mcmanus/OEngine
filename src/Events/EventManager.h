@@ -47,7 +47,9 @@ class EventManager {
      *
      * @param e The event to enqueue.
      */
-    static void AddEvent(const Event& e);
+    template <typename T, typename... Args> static void AddEvent(Args&&... args) {
+        eventQueue.push(std::make_unique<T>(std::forward<Args>(args)...));
+    }
 
     /**
      * @brief Registers a listener for a specific type of event.

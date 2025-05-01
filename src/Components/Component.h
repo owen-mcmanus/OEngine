@@ -1,8 +1,23 @@
-//
-// Created by owen on 4/16/25.
-//
+/**
+ * @file Component.h
+ * @author Owen McManus
+ * @date 2025/4/16
+ */
 
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#pragma once
 
-#endif //COMPONENT_H
+namespace OEngine {
+
+class GameObject;
+
+class Component {
+  public:
+    virtual ~Component() = default;
+    virtual void Update(float deltaTime) {};
+
+    void SetOwner(GameObject* owner) { this->owner = owner; }
+
+  protected:
+    GameObject* owner = nullptr;
+};
+}; // namespace OEngine

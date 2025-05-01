@@ -1,19 +1,9 @@
 #pragma once
 
-#include "../src/Components/Sprite.h"
-#include "../src/Core/GameObject.h"
 #include "../src/Core/Renderer.h"
 #include "../src/Core/Scene.h"
 #include "../src/Events/EventManager.h"
-
-#include <iostream>
-
-class ResetEvent : public OEngine::Event {
-  public:
-    ResetEvent() = default;
-    [[nodiscard]] OEngine::EventType GetType() const override;
-    [[nodiscard]] std::unique_ptr<Event> Clone() const override;
-};
+#include "Plane.h"
 
 class TestScene : public OEngine::Scene {
   public:
@@ -24,9 +14,7 @@ class TestScene : public OEngine::Scene {
     void Render(OEngine::Renderer& renderer) override;
 
   private:
-    OEngine::GameObject* s = nullptr;
-    OEngine::GameObject* s1 = nullptr;
-    OEngine::GameObject* s2 = nullptr;
+    Plane* s2 = nullptr;
     int spritePos = 300;
 
     OEngine::EventListener<OEngine::MouseButtonDownEvent> eventListener =

@@ -1,10 +1,13 @@
 /**
  * @file Scene.h
  * @author Owen McManus
- * @date 2025/9/4
+ * @date 2025/5/1
  */
 
 #pragma once
+#include "GameObject.h"
+
+#include <unordered_set>
 
 namespace OEngine {
 
@@ -40,5 +43,11 @@ class Scene {
      * @param renderer The renderer used to draw the scene.
      */
     virtual void Render(Renderer& renderer) = 0;
+
+    void AddGameObject(const std::shared_ptr<GameObject>& gameObject);
+    void RemoveGameObject(GameObject* ptr);
+
+  protected:
+    std::unordered_set<std::shared_ptr<GameObject>> activeGameObjects;
 };
 } // namespace OEngine

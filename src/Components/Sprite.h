@@ -1,12 +1,13 @@
 /**
  * @file Sprite.h
  * @author Owen McManus
- * @date 2025/9/4
+ * @date 2025/9/16
  */
 
 #pragma once
 
 #include "../Utils/SDLDeleter.h"
+#include "Component.h"
 
 #include <memory>
 #include <string>
@@ -23,7 +24,7 @@ using surface_id = int;
  * A Sprite handles positional and rotational transformations,
  * and stores metadata like width, height, and associated surface ID.
  */
-class Sprite {
+class Sprite : public Component {
   public:
     /**
      * @brief Constructs a sprite from a texture sheet.

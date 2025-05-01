@@ -13,8 +13,7 @@ class KeyboardTest : public ::testing::Test {
 };
 
 TEST_F(KeyboardTest, KeyDownUpdatesStateToPressed) {
-    KeyDownEvent event(Key::Keycode::A);
-    EventManager::AddEvent(event);
+    EventManager::AddEvent<KeyDownEvent>(Key::Keycode::A);
     EventManager::HandleEvents();
 
     auto pressed = Keyboard::GetPressed();
@@ -23,12 +22,10 @@ TEST_F(KeyboardTest, KeyDownUpdatesStateToPressed) {
 }
 
 TEST_F(KeyboardTest, KeyUpUpdatesStateToReleased) {
-    KeyDownEvent downEvent(Key::Keycode::B);
-    EventManager::AddEvent(downEvent);
+    EventManager::AddEvent<KeyDownEvent>(Key::Keycode::B);
     EventManager::HandleEvents();
 
-    KeyUpEvent upEvent(Key::Keycode::B);
-    EventManager::AddEvent(upEvent);
+    EventManager::AddEvent<KeyUpEvent>(Key::Keycode::B);
     EventManager::HandleEvents();
 
     auto pressed = Keyboard::GetPressed();
@@ -36,10 +33,8 @@ TEST_F(KeyboardTest, KeyUpUpdatesStateToReleased) {
 }
 
 TEST_F(KeyboardTest, MultipleKeysPressedAndReleased) {
-    KeyDownEvent downA(Key::Keycode::A);
-    KeyDownEvent downB(Key::Keycode::B);
-    EventManager::AddEvent(downA);
-    EventManager::AddEvent(downB);
+    EventManager::AddEvent<KeyDownEvent>(Key::Keycode::A);
+    EventManager::AddEvent<KeyDownEvent>(Key::Keycode::B);
     EventManager::HandleEvents();
 
     auto pressed = Keyboard::GetPressed();
@@ -47,8 +42,7 @@ TEST_F(KeyboardTest, MultipleKeysPressedAndReleased) {
     EXPECT_NE(std::find(pressed.begin(), pressed.end(), Key::Keycode::A), pressed.end());
     EXPECT_NE(std::find(pressed.begin(), pressed.end(), Key::Keycode::B), pressed.end());
 
-    KeyUpEvent upA(Key::Keycode::A);
-    EventManager::AddEvent(upA);
+    EventManager::AddEvent<KeyUpEvent>(Key::Keycode::A);
     EventManager::HandleEvents();
 
     pressed = Keyboard::GetPressed();
@@ -57,8 +51,7 @@ TEST_F(KeyboardTest, MultipleKeysPressedAndReleased) {
 }
 
 TEST_F(KeyboardTest, ReturnsTrueWhenKeyIsPressed) {
-    KeyDownEvent event(Key::Keycode::C);
-    EventManager::AddEvent(event);
+    EventManager::AddEvent<KeyDownEvent>(Key::Keycode::C);
     EventManager::HandleEvents();
 
     EXPECT_TRUE(Keyboard::IsPressed(Key::Keycode::C));
@@ -66,8 +59,8 @@ TEST_F(KeyboardTest, ReturnsTrueWhenKeyIsPressed) {
 
 TEST_F(KeyboardTest, ReturnsFalseWhenKeyIsReleased) {
     // Press and then release the key
-    EventManager::AddEvent(KeyDownEvent(Key::Keycode::D));
-    EventManager::AddEvent(KeyUpEvent(Key::Keycode::D));
+    EventManager::AddEvent<KeyDownEvent>(Key::Keycode::D);
+    EventManager::AddEvent<KeyUpEvent>(Key::Keycode::D);
     EventManager::HandleEvents();
 
     EXPECT_FALSE(Keyboard::IsPressed(Key::Keycode::D));

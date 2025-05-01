@@ -16,17 +16,17 @@ namespace OEngine {
 /**
  * @brief Enumeration of supported event types.
  */
-enum class EventType {
-    NONE = 0,
-    KEYDOWN,
-    KEYUP,
-    MOUSE_BUTTON_DOWN,
-    MOUSE_BUTTON_UP,
-    MOUSE_MOTION,
-    MOUSE_SCROLL,
-    QUIT,
-    CUSTOM
-};
+// enum class EventType {
+//     NONE = 0,
+//     KEYDOWN,
+//     KEYUP,
+//     MOUSE_BUTTON_DOWN,
+//     MOUSE_BUTTON_UP,
+//     MOUSE_MOTION,
+//     MOUSE_SCROLL,
+//     QUIT,
+//     CUSTOM
+// };
 
 /**
  * @brief Abstract base class for all events.
@@ -34,18 +34,6 @@ enum class EventType {
 class Event {
   public:
     virtual ~Event() = default;
-
-    /**
-     * @brief Retrieves the event type.
-     * @return EventType The type of the event.
-     */
-    virtual EventType GetType() const = 0;
-
-    /**
-     * @brief Clones the event object.
-     * @return A unique_ptr to a copy of this event.
-     */
-    virtual std::unique_ptr<Event> Clone() const = 0;
 
     /// Indicates whether the event has been handled.
     bool Handled = false;
@@ -78,8 +66,6 @@ class KeyEvent : public Event {
 class KeyDownEvent : public KeyEvent {
   public:
     explicit KeyDownEvent(Key::Keycode key);
-    [[nodiscard]] EventType GetType() const override;
-    [[nodiscard]] std::unique_ptr<Event> Clone() const override;
 };
 
 /**
@@ -88,8 +74,6 @@ class KeyDownEvent : public KeyEvent {
 class KeyUpEvent : public KeyEvent {
   public:
     explicit KeyUpEvent(Key::Keycode key);
-    [[nodiscard]] EventType GetType() const override;
-    [[nodiscard]] std::unique_ptr<Event> Clone() const override;
 };
 
 /**
@@ -98,8 +82,6 @@ class KeyUpEvent : public KeyEvent {
 class QuitEvent : public Event {
   public:
     QuitEvent() = default;
-    [[nodiscard]] EventType GetType() const override;
-    [[nodiscard]] std::unique_ptr<Event> Clone() const override;
 };
 
 /**
@@ -134,8 +116,6 @@ class MouseButtonEvent : public MouseEvent {
 class MouseButtonDownEvent : public MouseButtonEvent {
   public:
     explicit MouseButtonDownEvent(float x, float y, Mouse::MouseButton button, int clicks);
-    [[nodiscard]] EventType GetType() const override;
-    [[nodiscard]] std::unique_ptr<Event> Clone() const override;
 
   private:
     int clicks;
@@ -147,15 +127,11 @@ class MouseButtonDownEvent : public MouseButtonEvent {
 class MouseButtonUpEvent : public MouseButtonEvent {
   public:
     explicit MouseButtonUpEvent(float x, float y, Mouse::MouseButton button);
-    [[nodiscard]] EventType GetType() const override;
-    [[nodiscard]] std::unique_ptr<Event> Clone() const override;
 };
 
 class MouseMovedEvent : public MouseEvent {
   public:
     MouseMovedEvent(float x, float y, float xrel, float yrel);
-    [[nodiscard]] EventType GetType() const override;
-    [[nodiscard]] std::unique_ptr<Event> Clone() const override;
     [[nodiscard]] float GetXRel() const;
     [[nodiscard]] float GetYRel() const;
 
@@ -167,8 +143,6 @@ class MouseMovedEvent : public MouseEvent {
 class MouseScrolledEvent : public MouseEvent {
   public:
     MouseScrolledEvent(float x, float y, float scroll);
-    [[nodiscard]] EventType GetType() const override;
-    [[nodiscard]] std::unique_ptr<Event> Clone() const override;
     [[nodiscard]] float GetScroll() const;
 
   private:

@@ -32,44 +32,42 @@ void EventManager::HandleEvents() {
     }
 }
 
-void EventManager::AddEvent(const Event& e) { eventQueue.emplace(e.Clone()); }
-
 void EventManager::HandleSDLEvents() {
     SDL_Event sdlEvent;
     while (SDL_PollEvent(&sdlEvent)) { // TODO: consider SDL_WaitEvent
         switch (sdlEvent.type) {
         case SDL_EVENT_QUIT: {
-            AddEvent(QuitEvent());
+            AddEvent<QuitEvent>();
             break;
         }
         case SDL_EVENT_KEY_DOWN: {
-            AddEvent(KeyDownEvent(Key::SDLToKey(sdlEvent.key.key)));
+            AddEvent<KeyDownEvent>(Key::SDLToKey(sdlEvent.key.key));
             break;
         }
         case SDL_EVENT_KEY_UP: {
-            AddEvent(KeyUpEvent(Key::SDLToKey(sdlEvent.key.key)));
+            AddEvent<KeyUpEvent>(Key::SDLToKey(sdlEvent.key.key));
             break;
         }
         case SDL_EVENT_MOUSE_BUTTON_UP: {
-            AddEvent(MouseButtonUpEvent(
+            AddEvent<MouseButtonUpEvent>(
                 sdlEvent.button.x, sdlEvent.button.y,
-                static_cast<Mouse::MouseButton>(sdlEvent.button.button)));
+                static_cast<Mouse::MouseButton>(sdlEvent.button.button));
             break;
         }
         case SDL_EVENT_MOUSE_BUTTON_DOWN: {
-            AddEvent(MouseButtonDownEvent(
+            AddEvent<MouseButtonDownEvent>(
                 sdlEvent.button.x, sdlEvent.button.y,
-                static_cast<Mouse::MouseButton>(sdlEvent.button.button), sdlEvent.button.clicks));
+                static_cast<Mouse::MouseButton>(sdlEvent.button.button), sdlEvent.button.clicks);
             break;
         }
         case SDL_EVENT_MOUSE_MOTION: {
-            AddEvent(MouseMovedEvent(
-                sdlEvent.motion.x, sdlEvent.motion.y, sdlEvent.motion.xrel, sdlEvent.motion.yrel));
+            AddEvent<MouseMovedEvent>(
+                sdlEvent.motion.x, sdlEvent.motion.y, sdlEvent.motion.xrel, sdlEvent.motion.yrel);
             break;
         }
         case SDL_EVENT_MOUSE_WHEEL: {
-            AddEvent(MouseScrolledEvent(
-                sdlEvent.wheel.mouse_x, sdlEvent.wheel.mouse_y, sdlEvent.wheel.y));
+            AddEvent<MouseScrolledEvent>(
+                sdlEvent.wheel.mouse_x, sdlEvent.wheel.mouse_y, sdlEvent.wheel.y);
             break;
         }
         default:

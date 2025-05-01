@@ -6,7 +6,7 @@
 
 #include "Renderer.h"
 
-#include "Sprite.h"
+#include "../Components/Sprite.h"
 
 #include <olog.h>
 #include <stdexcept>
