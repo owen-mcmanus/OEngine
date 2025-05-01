@@ -27,6 +27,12 @@ FetchContent_Declare(
         GIT_REPOSITORY https://github.com/owen-mcmanus/OLog.git
         GIT_TAG v1.1.0
 )
+FetchContent_Declare(
+        glm
+        GIT_REPOSITORY	https://github.com/g-truc/glm.git
+        GIT_TAG 	1.0.1
+)
+
 set(SDL_STATIC ON)
 set(SDL_SHARED OFF)
 FetchContent_MakeAvailable(SDL3)
@@ -36,8 +42,9 @@ FetchContent_MakeAvailable(SDL_image)
 FetchContent_MakeAvailable(SDL_ttf)
 
 FetchContent_MakeAvailable(OLog)
+FetchContent_MakeAvailable(glm)
 
-include_directories(${SDL3_INCLUDE_DIRS} ${SDL3_IMAGE_INCLUDE_DIRS} ${SDL3TTF_INCLUDE_DIR} ${OLOG_INCLUDE_DIR})
+include_directories(${SDL3_INCLUDE_DIRS} ${SDL3_IMAGE_INCLUDE_DIRS} ${SDL3TTF_INCLUDE_DIR} ${OLOG_INCLUDE_DIR} ${GLM_INCLUDE_DIR})
 
 
 set(SOURCES
@@ -46,7 +53,7 @@ set(SOURCES
         src/Core/SceneManager.cpp
         src/Core/Window.cpp
         src/Core/Renderer.cpp
-        src/Core/Sprite.cpp
+        src/Components/Sprite.cpp
         src/Events/EventManager.cpp
         src/AssetManager/TextureCache.cpp
         src/AssetManager/TextureManager.cpp
@@ -55,7 +62,7 @@ set(SOURCES
         src/Core/Renderer.h
         src/Core/Scene.h
         src/Core/SceneManager.h
-        src/Core/Sprite.h
+        src/Components/Sprite.h
         src/Core/Window.h
         src/Events/EventManager.h
         src/Utils/SDLDeleter.h
@@ -64,11 +71,25 @@ set(SOURCES
         src/Utils/Keys.cpp
         src/IO/Keyboard.cpp
         src/IO/Keyboard.h
+        src/IO/Mouse.cpp
+        src/IO/Mouse.h
+        src/Core/GameObject.cpp
+        src/Core/GameObject.h
+        src/Core/GameObject.tpp
+        src/Components/Transform.cpp
+        src/Components/Transform.h
 )
 
 set(SOURCES_GAME
         testGame/main.cpp
         testGame/TestScene.cpp
+        src/Components/Component.h
+        testGame/PlaneController1.cpp
+        testGame/PlaneController1.h
+        testGame/PlaneController2.cpp
+        testGame/PlaneController2.h
+        testGame/Plane.cpp
+        testGame/Plane.h
 
 )
 
@@ -77,6 +98,7 @@ target_link_libraries(OEngine PUBLIC SDL3::SDL3-static)
 target_link_libraries(OEngine PUBLIC SDL3_image::SDL3_image-static)
 target_link_libraries(OEngine PUBLIC SDL3_ttf::SDL3_ttf-static)
 target_link_libraries(OEngine PUBLIC OLog)
+target_link_libraries(OEngine PUBLIC glm::glm)
 
 add_executable(Game ${SOURCES_GAME})
 target_link_libraries(Game PRIVATE OEngine)
