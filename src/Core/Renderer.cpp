@@ -7,6 +7,7 @@
 #include "Renderer.h"
 
 #include "../Components/Sprite.h"
+#include "../Components/Transform.h"
 
 #include <olog.h>
 #include <stdexcept>
@@ -74,20 +75,29 @@ void Renderer::FillRect(float x, float y, float w, float h) const {
     }
 }
 
-void Renderer::RenderSprite(Sprite& sprite) const {
+void Renderer::RenderSprite(const Sprite& sprite, const Transform& transform) const {
+    const glm::vec2 pos = transform.GetWorldPosition();
+    const SDL_FRect destRec{
+        pos.x, pos.y, static_cast<float>(sprite.GetWidth()),
+        static_cast<float>(sprite.GetHeight())};
+
     SDL_RenderTexture(
-        renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr,
-        sprite.GetDestRect());
+        renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr, &destRec);
 }
 
-void Renderer::RenderSpriteWithRotation(Sprite& sprite) const {
+void Renderer::RenderSpriteWithRotation(const Sprite& sprite, const Transform& transform) const {
     SDL_FPoint pt;
     pt.x = sprite.GetWidth() / 2;
     pt.y = sprite.GetHeight() / 2;
 
+    const glm::vec2 pos = transform.GetWorldPosition();
+    const SDL_FRect destRec{
+        pos.x, pos.y, static_cast<float>(sprite.GetWidth()),
+        static_cast<float>(sprite.GetHeight())};
+
     SDL_RenderTextureRotated(
-        renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr,
-        sprite.GetDestRect(), sprite.GetRotation(), &pt, SDL_FLIP_NONE);
+        renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr, &destRec,
+        transform.GetWorldRotation(), &pt, SDL_FLIP_NONE);
 }
 
 SDL_Renderer& Renderer::GetSDLRenderer() const { return *renderer; }

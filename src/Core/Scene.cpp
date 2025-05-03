@@ -11,7 +11,7 @@
 
 using namespace OEngine;
 
-void Scene::Update(double deltaTime) {
+void Scene::Update(const double deltaTime) {
     PreUpdate(deltaTime);
     for (auto& object : activeGameObjects) {
         object->Update(deltaTime);
@@ -22,9 +22,16 @@ void Scene::Update(double deltaTime) {
 void Scene::Render(Renderer& renderer) {
     PreRender(renderer);
     for (auto& object : activeGameObjects) {
-        auto pos = object->GetComponent<OEngine::Transform>()->GetWorldPosition();
-        object->GetComponent<OEngine::Sprite>()->UpdateOriginCenter(pos.x, pos.y, 0);
-        renderer.RenderSprite(*object->GetComponent<OEngine::Sprite>());
+        if (object->HasComponent<Transform>() && object->HasComponent<Sprite>()) {
+            const Transform* transform = object->GetComponent<Transform>();
+            const Sprite* sprite = object->GetComponent<Sprite>();
+
+            if (transform->GetWorldRotation() == 0) {
+                renderer.RenderSprite(*sprite, *transform);
+            } else {
+                renderer.RenderSpriteWithRotation(*sprite, *transform);
+            }
+        }
     }
     PostRender(renderer);
 }

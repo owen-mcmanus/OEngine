@@ -34,50 +34,19 @@ class Sprite : public Component {
      * @param height Height of the sprite in pixels.
      */
     Sprite(const std::string& texturesheet, int width, int height);
-    ~Sprite() = default;
+    ~Sprite() override = default;
 
-    /**
-     * @brief Updates the sprite's position and rotation using the center as the origin.
-     *
-     * @param x New x-coordinate of the center.
-     * @param y New y-coordinate of the center.
-     * @param rotation New rotation in degrees.
-     */
-    void UpdateOriginCenter(float x, float y, float rotation);
-
-    /**
-     * @brief Updates the sprite's position and rotation using the top-left corner as the origin.
-     *
-     * @param x New x-coordinate of the corner.
-     * @param y New y-coordinate of the corner.
-     * @param rotation New rotation in degrees.
-     */
-    void UpdateOriginCorner(float x, float y, float rotation);
-
-    /// @return The sprite's x-position.
-    [[nodiscard]] float GetX() const;
-    /// @return The sprite's y-position.
-    [[nodiscard]] float GetY() const;
-    /// @return The sprite's current rotation in degrees.
-    [[nodiscard]] float GetRotation() const;
     /// @return The width of the sprite.
     [[nodiscard]] int GetWidth() const;
     /// @return The height of the sprite.
     [[nodiscard]] int GetHeight() const;
     /// @return The surface ID associated with the sprite.
     [[nodiscard]] AssetManager::surface_id GetSurfaceId() const;
-    /// @return A pointer to the destination rectangle used for rendering.
-    [[nodiscard]] const SDL_FRect* GetDestRect() const;
 
   private:
-    float x;
-    float y;
-    float rotation;
-
     int width;
     int height;
 
-    SDL_FRect destRect;
     AssetManager::surface_id surf_id;
 };
 

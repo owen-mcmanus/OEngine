@@ -13,6 +13,7 @@
 #include <memory>
 
 namespace OEngine {
+class Transform;
 
 namespace AssetManager {
 class TextureCache;
@@ -137,8 +138,9 @@ class Renderer {
      *
      * @param sprite The sprite to be rendered. The sprite must have a valid surface ID and
      *               a destination rectangle defined for positioning.
+     * @param transform
      */
-    void RenderSprite(Sprite& sprite) const;
+    void RenderSprite(const Sprite& sprite, const Transform& transform) const;
 
     /**
      * @brief Renders a sprite with rotation.
@@ -149,11 +151,12 @@ class Renderer {
      *
      * @param sprite The sprite to be rendered. The sprite must have a valid surface ID,
      *               a destination rectangle, and a rotation angle defined.
+     * @param transform
      *
      * @note The rotation is applied around the center of the sprite, and flipping is
      *       disabled (no mirroring).
      */
-    void RenderSpriteWithRotation(Sprite& sprite) const;
+    void RenderSpriteWithRotation(const Sprite& sprite, const Transform& transform) const;
 
     [[nodiscard]] SDL_Renderer& GetSDLRenderer() const;
 

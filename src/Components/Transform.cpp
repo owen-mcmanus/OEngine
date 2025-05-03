@@ -7,6 +7,8 @@
 #include "Transform.h"
 #include "../Core/GameObject.h"
 
+#include <cmath>
+
 using namespace OEngine;
 
 glm::vec2 Transform::GetWorldPosition() const {
@@ -20,7 +22,7 @@ double Transform::GetWorldRotation() const {
     if (auto p = parent.lock()) {
         return p->GetWorldRotation() + localRotation;
     }
-    return localRotation;
+    return fmod(localRotation, 360);
 }
 
 glm::vec2 Transform::GetWorldScale() const {
