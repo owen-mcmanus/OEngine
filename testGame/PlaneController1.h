@@ -8,5 +8,5 @@ class ResetEvent : public OEngine::Event {};
 
 class PlaneController1 : public OEngine::Component {
   public:
-    void Update(float deltaTime) override;
+    void Update(double deltaTime) override;
 };

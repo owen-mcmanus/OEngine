@@ -6,14 +6,17 @@
 #include "../src/IO/Keyboard.h"
 #include "../src/IO/Mouse.h"
 
-void PlaneController1::Update(float deltaTime) {
+#include <iostream>
+
+void PlaneController1::Update(double deltaTime) {
     auto* t = owner->GetComponent<OEngine::Transform>();
     if (OEngine::Keyboard::IsPressed(OEngine::Key::Keycode::SPACE))
-        t->Translate({0, 5});
+        t->Translate({0, 500 * deltaTime});
     if (OEngine::Mouse::IsPressed(OEngine::Mouse::MouseButton::MIDDLE)) {
-        t->Translate({0, -5});
+        t->Translate({0, -500 * deltaTime});
     }
     if (t->GetWorldPosition().y > 400) {
         OEngine::EventManager::AddEvent<ResetEvent>();
     }
+    // std::cout << t->GetWorldPosition().y << std::endl;
 }

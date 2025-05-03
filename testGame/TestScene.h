@@ -10,8 +10,8 @@ class TestScene : public OEngine::Scene {
     TestScene() = default;
     ~TestScene() override;
     void Init() override;
-    void Update() override;
-    void Render(OEngine::Renderer& renderer) override;
+    // void Update() override;
+    void PreRender(OEngine::Renderer& renderer) override;
 
   private:
     Plane* s2 = nullptr;
