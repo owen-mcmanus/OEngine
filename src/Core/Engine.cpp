@@ -51,36 +51,40 @@ void Engine::Run() {
     running = true;
     OLog::log(OLog::INFO, "Starting Game Loop...");
 
-    // int frameCount = 0;
-    // Uint32 timeAccumulator = 0;
+    int frameCount = 0;
+    Uint64 timeAccumulator = 0;
+
+    Uint64 lastTime = 0;
 
     while (running) {
         Uint32 frameStart = SDL_GetTicks();
 
         EventManager::HandleEvents();
 
-        sceneManager.Update();
+        Uint64 currentTime = SDL_GetPerformanceCounter();
+        sceneManager.Update((double)(currentTime - lastTime) / SDL_GetPerformanceFrequency());
+        lastTime = currentTime;
 
         if (window) {
             sceneManager.Render(window->GetRenderer());
             window->GetRenderer().Present();
         }
 
-        Uint32 frameTime = SDL_GetTicks() - frameStart;
+        // Uint32 frameTime = SDL_GetTicks() - frameStart;
 
         // If the frame took less time than the desired delay, delay the rest of the frame
-        if (frameTime < frameDelay) {
-            SDL_Delay(frameDelay - frameTime);
-        }
-
-        // if (frameCount == 100) {
-        //     float fps = 1000.0f * frameCount / timeAccumulator;
-        //     OLog::log(OLog::INFO, "FPS: " + std::to_string(fps));
-        //     frameCount = 0;
-        //     timeAccumulator = 0;
+        // if (frameTime < frameDelay) {
+        // SDL_Delay(frameDelay - frameTime);
         // }
-        // timeAccumulator += SDL_GetTicks() - frameStart;
-        // frameCount++;
+
+        if (frameCount == 100) {
+            double fps = 1000.0 * frameCount / timeAccumulator;
+            OLog::log(OLog::INFO, "FPS: " + std::to_string(fps));
+            frameCount = 0;
+            timeAccumulator = 0;
+        }
+        timeAccumulator += SDL_GetTicks() - frameStart;
+        frameCount++;
     }
     OLog::log(OLog::INFO, "Game Loop Complete");
 }

@@ -12,7 +12,7 @@ int GameObject::nextID = 0;
 
 GameObject::GameObject() : id(nextID++) {}
 
-void GameObject::Update(float deltaTime) {
+void GameObject::Update(double deltaTime) {
     for (auto& [_, comp] : components) {
         comp->Update(deltaTime);
     }

@@ -35,14 +35,18 @@ class Scene {
     /**
      * @brief Updates the scene logic every frame.
      */
-    virtual void Update() = 0;
+    virtual void Update(double deltaTime);
+    virtual void PreUpdate(double deltaTime) {};
+    virtual void PostUpdate(double deltaTime) {};
 
     /**
      * @brief Renders the scene to the screen.
      *
      * @param renderer The renderer used to draw the scene.
      */
-    virtual void Render(Renderer& renderer) = 0;
+    virtual void Render(Renderer& renderer);
+    virtual void PreRender(Renderer& renderer) {};
+    virtual void PostRender(Renderer& renderer) {};
 
     void AddGameObject(const std::shared_ptr<GameObject>& gameObject);
     void RemoveGameObject(GameObject* ptr);

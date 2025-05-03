@@ -8,6 +8,8 @@
 
 #include "Scene.h"
 
+#include <iostream>
+
 using namespace OEngine;
 
 void SceneManager::SetActiveScene(Scene& scene) {
@@ -15,9 +17,9 @@ void SceneManager::SetActiveScene(Scene& scene) {
     scene.Init();
 }
 
-void SceneManager::Update() const {
+void SceneManager::Update(double deltaTime) const {
     if (activeScene)
-        activeScene->get().Update();
+        activeScene->get().Update(deltaTime);
 }
 
 void SceneManager::Render(Renderer& renderer) const {

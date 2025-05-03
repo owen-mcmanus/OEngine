@@ -5,8 +5,29 @@
  */
 
 #include "Scene.h"
+#include "../Components/Sprite.h"
+#include "../Components/Transform.h"
+#include "Renderer.h"
 
 using namespace OEngine;
+
+void Scene::Update(double deltaTime) {
+    PreUpdate(deltaTime);
+    for (auto& object : activeGameObjects) {
+        object->Update(deltaTime);
+    }
+    PostUpdate(deltaTime);
+}
+
+void Scene::Render(Renderer& renderer) {
+    PreRender(renderer);
+    for (auto& object : activeGameObjects) {
+        auto pos = object->GetComponent<OEngine::Transform>()->GetWorldPosition();
+        object->GetComponent<OEngine::Sprite>()->UpdateOriginCenter(pos.x, pos.y, 0);
+        renderer.RenderSprite(*object->GetComponent<OEngine::Sprite>());
+    }
+    PostRender(renderer);
+}
 
 void Scene::AddGameObject(const std::shared_ptr<GameObject>& gameObject) {
     activeGameObjects.insert(gameObject);

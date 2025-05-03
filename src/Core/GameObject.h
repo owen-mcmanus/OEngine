@@ -17,7 +17,7 @@ class GameObject {
     GameObject();
     virtual ~GameObject() = default;
 
-    void Update(float deltaTime);
+    void Update(double deltaTime);
     template <typename T, typename... Args> T& AddComponent(Args&&... args);
     template <typename T> T* GetComponent();
     template <typename T> std::weak_ptr<T> GetCacheableComponent();

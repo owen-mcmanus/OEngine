@@ -33,7 +33,7 @@ class SceneManager {
     /**
      * @brief Updates the logic of the active scene.
      */
-    void Update() const;
+    void Update(double deltaTime) const;
 
     /**
      * @brief Renders the active scene.

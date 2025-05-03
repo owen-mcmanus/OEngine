@@ -13,7 +13,7 @@ class GameObject;
 class Component {
   public:
     virtual ~Component() = default;
-    virtual void Update(float deltaTime) {};
+    virtual void Update(double deltaTime) {};
 
     void SetOwner(GameObject* owner) { this->owner = owner; }
 

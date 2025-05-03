@@ -14,8 +14,9 @@
 using namespace OEngine;
 
 Renderer::Renderer(SDL_Renderer* rawRenderer) {
-    renderer = std::unique_ptr<SDL_Renderer, SDL_Deleter>(rawRenderer);
+    SDL_SetRenderVSync(rawRenderer, 1);
 
+    renderer = std::unique_ptr<SDL_Renderer, SDL_Deleter>(rawRenderer);
     texture_cache = std::make_unique<AssetManager::TextureCache>(*renderer);
 }
 

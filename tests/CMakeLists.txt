@@ -10,7 +10,8 @@ include_directories(${GTEST_INCLUDE_DIRS})
 add_executable(testOEngine TestEngine.cpp
         TestKeys.cpp
         TestKeyboard.cpp
-        TestMouse.cpp)
+        TestMouse.cpp
+        TestTransform.cpp)
 target_link_libraries(testOEngine ${GTEST_LIBRARIES} GTest::Main OEngine)
 
 # Register the test
