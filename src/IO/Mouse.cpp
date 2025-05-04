@@ -16,6 +16,8 @@ enum class KeyState { RELEASED = 0, PRESSED };
 
 static constexpr int NUMBER_OF_KEYS = 3;
 
+static float scroll = 0;
+
 std::vector<KeyState> mouseState(NUMBER_OF_KEYS, KeyState::RELEASED);
 float x, y = 0;
 

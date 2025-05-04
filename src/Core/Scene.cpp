@@ -23,14 +23,8 @@ void Scene::Render(Renderer& renderer) {
     PreRender(renderer);
     for (auto& object : activeGameObjects) {
         if (object->HasComponent<Transform>() && object->HasComponent<Sprite>()) {
-            const Transform* transform = object->GetComponent<Transform>();
-            const Sprite* sprite = object->GetComponent<Sprite>();
-
-            if (transform->GetWorldRotation() == 0) {
-                renderer.RenderSprite(*sprite, *transform);
-            } else {
-                renderer.RenderSpriteWithRotation(*sprite, *transform);
-            }
+            renderer.RenderSpriteWithRotation(
+                *object->GetComponent<Sprite>(), *object->GetComponent<Transform>());
         }
     }
     PostRender(renderer);

@@ -5,6 +5,7 @@
  */
 
 #pragma once
+#include "../GameObjects/Camera.h"
 #include "GameObject.h"
 
 #include <unordered_set>

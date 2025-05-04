@@ -1,18 +1,21 @@
 #include "TestScene.h"
 
+#include "../src/GameObjects/Camera.h"
 #include "../src/IO/Keyboard.h"
 #include "Plane.h"
 
 void TestScene::Init() {
     std::shared_ptr<OEngine::GameObject> s = std::make_shared<Plane>(400, 300);
     std::shared_ptr<OEngine::GameObject> s2 = std::make_shared<Plane>(100, 300);
-    s2->GetComponent<OEngine::Transform>()->localRotation = 90;
+
+    std::shared_ptr<OEngine::Camera> c = std::make_shared<OEngine::Camera>(glm::vec2{0, 0}, 0);
 
     OEngine::Keyboard::Connect();
     OEngine::Mouse::Connect();
 
     AddGameObject(s);
     AddGameObject(s2);
+    AddGameObject(c);
 }
 
 TestScene::~TestScene() {

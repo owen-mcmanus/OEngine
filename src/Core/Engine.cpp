@@ -51,8 +51,8 @@ void Engine::Run() {
     running = true;
     OLog::log(OLog::INFO, "Starting Game Loop...");
 
-    int frameCount = 0;
-    Uint64 timeAccumulator = 0;
+    // int frameCount = 0;
+    // Uint64 timeAccumulator = 0;
 
     Uint64 lastTime = 0;
 
@@ -77,14 +77,14 @@ void Engine::Run() {
         // SDL_Delay(frameDelay - frameTime);
         // }
 
-        if (frameCount == 100) {
-            double fps = 1000.0 * frameCount / timeAccumulator;
-            OLog::log(OLog::INFO, "FPS: " + std::to_string(fps));
-            frameCount = 0;
-            timeAccumulator = 0;
-        }
-        timeAccumulator += SDL_GetTicks() - frameStart;
-        frameCount++;
+        // if (frameCount == 100) {
+        //     double fps = 1000.0 * frameCount / timeAccumulator;
+        //     OLog::log(OLog::INFO, "FPS: " + std::to_string(fps));
+        //     frameCount = 0;
+        //     timeAccumulator = 0;
+        // }
+        // timeAccumulator += SDL_GetTicks() - frameStart;
+        // frameCount++;
     }
     OLog::log(OLog::INFO, "Game Loop Complete");
 }

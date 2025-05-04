@@ -80,11 +80,12 @@ class EventManager {
         }
     }
 
+    static void DispatchEvent(Event& event);
+
   private:
     static std::queue<std::unique_ptr<Event>> eventQueue;
     static std::unordered_map<std::type_index, std::vector<GenericEventListener>> eventListeners;
     static void HandleSDLEvents();
-    static void DispatchEvent(Event& event);
 };
 
 } // namespace OEngine

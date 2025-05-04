@@ -9,8 +9,10 @@
 #include "../Components/Sprite.h"
 #include "../Components/Transform.h"
 
+#include "../Events/EventManager.h"
+
+#include <iostream>
 #include <olog.h>
-#include <stdexcept>
 
 using namespace OEngine;
 
@@ -19,7 +21,11 @@ Renderer::Renderer(SDL_Renderer* rawRenderer) {
 
     renderer = std::unique_ptr<SDL_Renderer, SDL_Deleter>(rawRenderer);
     texture_cache = std::make_unique<AssetManager::TextureCache>(*renderer);
+
+    EventManager::AddListener<ChangeViewEvent>(&changeViewListener);
 }
+
+Renderer::~Renderer() { EventManager::RemoveListener<ChangeViewEvent>(&changeViewListener); }
 
 void Renderer::Clear() const {
     if (!rendering_paused)
@@ -75,29 +81,36 @@ void Renderer::FillRect(float x, float y, float w, float h) const {
     }
 }
 
-void Renderer::RenderSprite(const Sprite& sprite, const Transform& transform) const {
-    const glm::vec2 pos = transform.GetWorldPosition();
-    const SDL_FRect destRec{
-        pos.x, pos.y, static_cast<float>(sprite.GetWidth()),
-        static_cast<float>(sprite.GetHeight())};
-
-    SDL_RenderTexture(
-        renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr, &destRec);
-}
+// void Renderer::RenderSprite(const Sprite& sprite, const Transform& transform) const {
+//     SDL_FRect destRec{};
+//
+//     glm::vec3 worldPos(transform.GetWorldPosition(), 1.0);
+//     glm::vec3 screenPos = viewMatrix * worldPos;
+//     destRec.x = screenPos.x;
+//     destRec.y = screenPos.y;
+//     destRec.w = static_cast<float>(sprite.GetWidth());
+//     destRec.h = static_cast<float>(sprite.GetHeight());
+//
+//     SDL_RenderTexture(
+//         renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr, &destRec);
+// }
 
 void Renderer::RenderSpriteWithRotation(const Sprite& sprite, const Transform& transform) const {
     SDL_FPoint pt;
     pt.x = sprite.GetWidth() / 2;
     pt.y = sprite.GetHeight() / 2;
 
-    const glm::vec2 pos = transform.GetWorldPosition();
-    const SDL_FRect destRec{
-        pos.x, pos.y, static_cast<float>(sprite.GetWidth()),
-        static_cast<float>(sprite.GetHeight())};
+    SDL_FRect destRec{};
+    glm::vec3 worldPos(transform.GetWorldPosition(), 1.0);
+    glm::vec3 screenPos = viewMatrix * worldPos;
+    destRec.x = screenPos.x;
+    destRec.y = screenPos.y;
+    destRec.w = static_cast<float>(sprite.GetWidth());
+    destRec.h = static_cast<float>(sprite.GetHeight());
 
     SDL_RenderTextureRotated(
         renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr, &destRec,
-        transform.GetWorldRotation(), &pt, SDL_FLIP_NONE);
+        transform.GetWorldRotation() - viewRotation, &pt, SDL_FLIP_NONE);
 }
 
 SDL_Renderer& Renderer::GetSDLRenderer() const { return *renderer; }

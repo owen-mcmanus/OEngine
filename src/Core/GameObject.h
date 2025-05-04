@@ -1,7 +1,7 @@
 /**
  * @file GameObject.h
  * @author Owen McManus
- * @date 2025/4/16
+ * @date 2025/5/3
  */
 
 #pragma once
@@ -17,7 +17,7 @@ class GameObject {
     GameObject();
     virtual ~GameObject() = default;
 
-    void Update(double deltaTime);
+    virtual void Update(double deltaTime);
     template <typename T, typename... Args> T& AddComponent(Args&&... args);
     template <typename T> T* GetComponent();
     template <typename T> std::weak_ptr<T> GetCacheableComponent();

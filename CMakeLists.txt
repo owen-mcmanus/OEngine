@@ -78,19 +78,18 @@ set(SOURCES
         src/Core/GameObject.tpp
         src/Components/Transform.cpp
         src/Components/Transform.h
+        src/GameObjects/Camera.cpp
+        src/GameObjects/Camera.h
+        src/Components/Component.h
+        src/Components/PrimitiveSprite.cpp
+        src/Components/PrimitiveSprite.h
 )
 
 set(SOURCES_GAME
         testGame/main.cpp
         testGame/TestScene.cpp
-        src/Components/Component.h
-        testGame/PlaneController1.cpp
-        testGame/PlaneController1.h
-        testGame/PlaneController2.cpp
-        testGame/PlaneController2.h
         testGame/Plane.cpp
         testGame/Plane.h
-
 )
 
 add_library(OEngine STATIC ${SOURCES})
