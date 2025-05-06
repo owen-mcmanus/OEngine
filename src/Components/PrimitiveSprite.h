@@ -1,16 +1,34 @@
-//
-// Created by owen on 5/4/25.
-//
+/**
+ * @file PrimitiveSprite.h
+ * @author Owen McManus
+ * @date 2025/5/4
+ */
 
-#ifndef PRIMITIVESPRITE_H
-#define PRIMITIVESPRITE_H
+#pragma once
+#include "../Utils/Color.h"
+#include "Component.h"
 
+namespace OEngine {
 
+enum class PrimitiveSpriteType { POINT, LINE, RECTANGLE, FILL_RECTANGLE };
 
-class PrimitiveSprite {
-
+class Background : public Component {
+  public:
+    explicit Background(const Color& color) : color(color) {};
+    Color color;
 };
 
-
-
-#endif //PRIMITIVESPRITE_H
+class PrimitiveSprite : public Component {
+  public:
+    explicit PrimitiveSprite(
+        const PrimitiveSpriteType type,
+        const Color& color,
+        float width = 0,
+        float height = 0)
+        : type(type), color(color), width(width), height(height) {};
+    PrimitiveSpriteType type;
+    Color color;
+    double width;
+    double height;
+};
+}; // namespace OEngine

@@ -1,5 +1,9 @@
-//
-// Created by owen on 5/4/25.
-//
+/**
+ * @file PrimitiveSprite.cpp
+ * @author Owen McManus
+ * @date 2025/5/4
+ */
 
 #include "PrimitiveSprite.h"
+
+using namespace OEngine;

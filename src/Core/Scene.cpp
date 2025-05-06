@@ -5,6 +5,7 @@
  */
 
 #include "Scene.h"
+#include "../Components/PrimitiveSprite.h"
 #include "../Components/Sprite.h"
 #include "../Components/Transform.h"
 #include "Renderer.h"
@@ -25,6 +26,13 @@ void Scene::Render(Renderer& renderer) {
         if (object->HasComponent<Transform>() && object->HasComponent<Sprite>()) {
             renderer.RenderSpriteWithRotation(
                 *object->GetComponent<Sprite>(), *object->GetComponent<Transform>());
+        }
+        if (object->HasComponent<Transform>() && object->HasComponent<PrimitiveSprite>()) {
+            renderer.RenderPrimitiveSprite(
+                *object->GetComponent<PrimitiveSprite>(), *object->GetComponent<Transform>());
+        }
+        if (object->HasComponent<Background>()) {
+            renderer.RenderBackground(*object->GetComponent<Background>());
         }
     }
     PostRender(renderer);

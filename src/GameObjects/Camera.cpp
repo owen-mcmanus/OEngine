@@ -100,7 +100,7 @@ void CameraComponent::SetViewMatrix() {
     view = glm::scale(view, glm::vec2(zoom));
     view = glm::rotate(view, static_cast<float>(-rotation));
     view = glm::translate(view, -offset);
-    ChangeViewEvent e = ChangeViewEvent(view, rotation);
+    ChangeViewEvent e = ChangeViewEvent(view, rotation, zoom);
     EventManager::DispatchEvent(e);
     // EventManager::AddEvent<ChangeViewEvent>(view, rotation);
 }

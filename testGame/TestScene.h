@@ -11,7 +11,6 @@ class TestScene : public OEngine::Scene {
     ~TestScene() override;
     void Init() override;
     // void Update() override;
-    void PreRender(OEngine::Renderer& renderer) override;
 
   private:
     Plane* s2 = nullptr;

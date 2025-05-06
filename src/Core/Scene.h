@@ -8,7 +8,7 @@
 #include "../GameObjects/Camera.h"
 #include "GameObject.h"
 
-#include <unordered_set>
+#include <set>
 
 namespace OEngine {
 
@@ -53,6 +53,6 @@ class Scene {
     void RemoveGameObject(GameObject* ptr);
 
   protected:
-    std::unordered_set<std::shared_ptr<GameObject>> activeGameObjects;
+    std::set<std::shared_ptr<GameObject>, GameObjectComparator> activeGameObjects;
 };
 } // namespace OEngine

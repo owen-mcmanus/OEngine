@@ -7,8 +7,10 @@
 #pragma once
 
 #include "../AssetManager/TextureManager.h"
+#include "../Components/PrimitiveSprite.h"
 #include "../Events/EventManager.h"
 #include "../GameObjects/Camera.h"
+#include "../Utils/Color.h"
 #include "../Utils/SDLDeleter.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
@@ -87,7 +89,7 @@ class Renderer {
      * @param b The blue component of the background color (0-255).
      * @param a The alpha (transparency) component of the background color (0-255).
      */
-    void SetBackground(Uint8 r, Uint8 g, Uint8 b, Uint8 a) const;
+    void SetBackground(const Color& color) const;
 
     /**
      * @brief Draws a single point at the specified coordinates.
@@ -96,8 +98,9 @@ class Renderer {
      *
      * @param x The x-coordinate of the point.
      * @param y The y-coordinate of the point.
+     * @param color
      */
-    void DrawPoint(float x, float y) const;
+    void DrawPoint(float x, float y, const Color& color) const;
 
     /**
      * @brief Draws a line between two points.
@@ -109,7 +112,7 @@ class Renderer {
      * @param x2 The x-coordinate of the ending point.
      * @param y2 The y-coordinate of the ending point.
      */
-    void DrawLine(float x1, float y1, float x2, float y2) const;
+    void DrawLine(float x1, float y1, float x2, float y2, const Color& color) const;
 
     /**
      * @brief Draws a rectangle.
@@ -122,7 +125,7 @@ class Renderer {
      * @param w The width of the rectangle.
      * @param h The height of the rectangle.
      */
-    void DrawRect(float x, float y, float w, float h) const;
+    void DrawRect(float x, float y, float w, float h, const Color& color) const;
 
     /**
      * @brief Draws a filled rectangle.
@@ -135,7 +138,7 @@ class Renderer {
      * @param w The width of the rectangle.
      * @param h The height of the rectangle.
      */
-    void FillRect(float x, float y, float w, float h) const;
+    void FillRect(float x, float y, float w, float h, const Color& color) const;
 
     /**
      * @brief Renders a sprite onto the screen.
@@ -165,16 +168,23 @@ class Renderer {
      */
     void RenderSpriteWithRotation(const Sprite& sprite, const Transform& transform) const;
 
+    void RenderPrimitiveSprite(const PrimitiveSprite& sprite, const Transform& transform) const;
+
+    void RenderBackground(const Background& background) const;
     [[nodiscard]] SDL_Renderer& GetSDLRenderer() const;
 
   private:
+    void SetColor(const Color& color) const;
+
     std::unique_ptr<SDL_Renderer, SDL_Deleter> renderer;
     std::unique_ptr<AssetManager::TextureCache> texture_cache;
     glm::mat3 viewMatrix = glm::mat3(1.0f);
     double viewRotation = 0.0f;
+    double viewScale = 1.0f;
     EventListener<ChangeViewEvent> changeViewListener = [this](const ChangeViewEvent& e) {
         this->viewMatrix = e.viewMatrix;
         this->viewRotation = e.rotation * 180.0 / M_PI;
+        this->viewScale = e.scale;
     };
     bool rendering_paused = false;
 };

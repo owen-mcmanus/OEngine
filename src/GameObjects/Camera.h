@@ -14,11 +14,12 @@ namespace OEngine {
 
 class ChangeViewEvent : public Event {
   public:
-    explicit ChangeViewEvent(const glm::mat3& viewMatrix, double rotation)
-        : viewMatrix(viewMatrix), rotation(rotation) {};
+    explicit ChangeViewEvent(const glm::mat3& viewMatrix, double rotation, double scale)
+        : viewMatrix(viewMatrix), rotation(rotation), scale(scale) {};
 
     glm::mat3 viewMatrix;
     double rotation;
+    double scale;
 };
 
 class CameraComponent : public Component {

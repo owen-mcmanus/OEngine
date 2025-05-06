@@ -14,7 +14,7 @@ namespace OEngine {
 
 class GameObject {
   public:
-    GameObject();
+    explicit GameObject(int layer = -1);
     virtual ~GameObject() = default;
 
     virtual void Update(double deltaTime);
@@ -24,10 +24,23 @@ class GameObject {
     template <typename T> bool HasComponent() const;
     int GetID() const;
 
+    bool operator<(const GameObject& g) const;
+    bool operator<=(const GameObject& g) const;
+    bool operator>=(const GameObject& g) const;
+    bool operator>(const GameObject& g) const;
+    int layer;
+
   private:
     int id;
     static int nextID;
     std::unordered_map<std::type_index, std::shared_ptr<Component>> components;
+};
+
+struct GameObjectComparator {
+    bool
+    operator()(const std::shared_ptr<GameObject>& a, const std::shared_ptr<GameObject>& b) const {
+        return *a < *b;
+    }
 };
 } // namespace OEngine
 

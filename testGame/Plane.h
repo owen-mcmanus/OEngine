@@ -13,7 +13,7 @@ class PlaneController : public OEngine::Component {
 
 class Plane : public OEngine::GameObject {
   public:
-    Plane(int x, int y) {
+    Plane(int x, int y) : GameObject(2) {
         AddComponent<OEngine::Transform>(x, y);
         AddComponent<OEngine::Sprite>("/home/owen/github/OEngine/testGame/plane.png", 32, 32);
         AddComponent<PlaneController>();
