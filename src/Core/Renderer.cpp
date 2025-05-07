@@ -54,12 +54,18 @@ void Renderer::SetBackground(const Color& color) const {
 
 void Renderer::DrawPoint(float x, float y, const Color& color) const {
     if (!rendering_paused) {
+        if (!BoundingBoxOnScreen({x, y, 1, 1}))
+            return;
         SDL_RenderPoint(renderer.get(), x, y);
     }
 }
 
 void Renderer::DrawLine(float x1, float y1, float x2, float y2, const Color& color) const {
     if (!rendering_paused) {
+        if (!BoundingBoxOnScreen(
+                {std::min(x1, x2), std::min(y1, y2), std::abs(x1 - x2), std::abs(y1 - y2)}))
+            return;
+
         SetColor(color);
         SDL_RenderLine(renderer.get(), x1, y1, x2, y2);
     }
@@ -67,6 +73,8 @@ void Renderer::DrawLine(float x1, float y1, float x2, float y2, const Color& col
 
 void Renderer::DrawRect(float x, float y, float w, float h, const Color& color) const {
     if (!rendering_paused) {
+        if (!BoundingBoxOnScreen({x, y, w, h}))
+            return;
         SetColor(color);
         SDL_FRect rect = {x, y, w, h};
         SDL_RenderRect(renderer.get(), &rect);
@@ -75,6 +83,8 @@ void Renderer::DrawRect(float x, float y, float w, float h, const Color& color) 
 
 void Renderer::FillRect(float x, float y, float w, float h, const Color& color) const {
     if (!rendering_paused) {
+        if (!BoundingBoxOnScreen({x, y, w, h}))
+            return;
         SetColor(color);
         SDL_FRect rect = {x, y, w, h};
         SDL_RenderFillRect(renderer.get(), &rect);
@@ -107,6 +117,24 @@ void Renderer::RenderSpriteWithRotation(const Sprite& sprite, const Transform& t
     destRec.y = screenPos.y;
     destRec.w = static_cast<float>(sprite.GetWidth());
     destRec.h = static_cast<float>(sprite.GetHeight());
+
+    SDL_FRect bounding;
+    int rot = transform.GetWorldRotation() - viewRotation;
+    if (rot == 0 || rot == 180) {
+        bounding = {destRec.x, destRec.y, destRec.w, destRec.h};
+    } else if (rot == 90 || rot == 270) {
+        bounding = {destRec.y, destRec.x, destRec.h, destRec.w};
+    } else {
+        float rotf = transform.GetWorldRotation() - viewRotation * 3.1415 / 180;
+        float cx = destRec.x + destRec.w / 2;
+        float cy = destRec.y + destRec.h / 2;
+        float dx = abs(destRec.w * std::cos(rotf)) / 2 + abs(destRec.h * std::sin(rotf)) / 2;
+        float dy = abs(destRec.w * std::sin(rotf)) / 2 + abs(destRec.h * std::cos(rotf)) / 2;
+        bounding = {cx - dx, cy - dy, dx * 2, dy * 2};
+    }
+
+    if (!BoundingBoxOnScreen(bounding))
+        return;
 
     SDL_RenderTextureRotated(
         renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr, &destRec,
@@ -158,4 +186,16 @@ SDL_Renderer& Renderer::GetSDLRenderer() const { return *renderer; }
 void Renderer::SetColor(const Color& color) const {
     SDL_SetRenderDrawColor(
         renderer.get(), color.r * 255, color.g * 255, color.b * 255, color.a * 255);
+}
+
+bool Renderer::BoundingBoxOnScreen(const SDL_FRect rect) const {
+    // SetColor(Color::Red);
+    // SDL_RenderRect(renderer.get(), &rect);
+    if (rect.x > 1920 || rect.y > 1080) {
+        return false;
+    }
+    if (rect.x + rect.w < 0 || rect.y + rect.h < 0) {
+        return false;
+    }
+    return true;
 }

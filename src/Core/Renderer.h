@@ -175,6 +175,7 @@ class Renderer {
 
   private:
     void SetColor(const Color& color) const;
+    bool BoundingBoxOnScreen(SDL_FRect rect) const;
 
     std::unique_ptr<SDL_Renderer, SDL_Deleter> renderer;
     std::unique_ptr<AssetManager::TextureCache> texture_cache;
