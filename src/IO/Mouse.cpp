@@ -1,7 +1,7 @@
 /**
  * @file Mouse.cpp
  * @author Owen McManus
- * @date 2025/4/16
+ * @date 2025/5/16
  */
 
 #include "Mouse.h"
@@ -33,14 +33,19 @@ EventListener<MouseMovedEvent> mouseMoveListener = [](const MouseMovedEvent& e) 
     x = e.GetX();
     y = e.GetY();
 };
+static bool isConnected = false;
 
 void Mouse::Connect() {
-    EventManager::AddListener<MouseButtonDownEvent>(&buttonDownListener);
-    EventManager::AddListener<MouseButtonUpEvent>(&buttonUpListener);
-    EventManager::AddListener<MouseMovedEvent>(&mouseMoveListener);
+    if (!isConnected) {
+        isConnected = true;
+        EventManager::AddListener<MouseButtonDownEvent>(&buttonDownListener);
+        EventManager::AddListener<MouseButtonUpEvent>(&buttonUpListener);
+        EventManager::AddListener<MouseMovedEvent>(&mouseMoveListener);
+    }
 }
 
 void Mouse::Disconnect() {
+    isConnected = false;
     EventManager::RemoveListener<MouseButtonDownEvent>(&buttonDownListener);
     EventManager::RemoveListener<MouseButtonUpEvent>(&buttonUpListener);
     EventManager::RemoveListener<MouseMovedEvent>(&mouseMoveListener);

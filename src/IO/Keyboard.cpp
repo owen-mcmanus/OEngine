@@ -1,7 +1,7 @@
 /**
  * @file Keyboard.cpp
  * @author Owen McManus
- * @date 2025/4/12
+ * @date 2025/5/16
  */
 
 #include "Keyboard.h"
@@ -24,13 +24,18 @@ EventListener<KeyDownEvent> keyDownListener = [](const KeyDownEvent& e) {
 EventListener<KeyUpEvent> keyUpListener = [](const KeyUpEvent& e) {
     keyboardState[e.GetKey()] = KeyState::RELEASED;
 };
+static bool isConnected = false;
 
 void Keyboard::Connect() {
-    EventManager::AddListener<KeyDownEvent>(&keyDownListener);
-    EventManager::AddListener<KeyUpEvent>(&keyUpListener);
+    if (!isConnected) {
+        isConnected = true;
+        EventManager::AddListener<KeyDownEvent>(&keyDownListener);
+        EventManager::AddListener<KeyUpEvent>(&keyUpListener);
+    }
 }
 
 void Keyboard::Disconnect() {
+    isConnected = false;
     EventManager::RemoveListener<KeyDownEvent>(&keyDownListener);
     EventManager::RemoveListener<KeyUpEvent>(&keyUpListener);
     keyboardState.clear();
