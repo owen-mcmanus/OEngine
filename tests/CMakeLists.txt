@@ -11,7 +11,8 @@ add_executable(testOEngine TestEngine.cpp
         TestKeys.cpp
         TestKeyboard.cpp
         TestMouse.cpp
-        TestTransform.cpp)
+        TestTransform.cpp
+        TestPrimitiveFactory.cpp)
 target_link_libraries(testOEngine ${GTEST_LIBRARIES} GTest::Main OEngine)
 
 # Register the test

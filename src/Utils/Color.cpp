@@ -64,10 +64,6 @@ bool Color::operator==(const Color& c) const {
            std::fabs(a - c.a) < eps;
 }
 
-std::ostream& operator<<(std::ostream& os, const Color& c) {
-    return os << "Color(" << c.r << ", " << c.g << ", " << c.b << ", " << c.a << ")";
-}
-
 Color Color::Lerp(const Color& a, const Color& b, float t) {
     return Color(
         a.r + (b.r - a.r) * t, a.g + (b.g - a.g) * t, a.b + (b.b - a.b) * t, a.a + (b.a - a.a) * t);

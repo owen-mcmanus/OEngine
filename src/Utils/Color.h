@@ -44,4 +44,9 @@ class Color {
     float r, g, b, a;
 };
 
+inline std::ostream& operator<<(std::ostream& s, const Color& c) {
+    s << c.r << ", " << c.g << ", " << c.b << ", " << c.a;
+    return s;
+}
+
 } // namespace OEngine
