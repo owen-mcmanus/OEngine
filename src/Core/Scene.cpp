@@ -31,7 +31,7 @@ void Scene::Render(Renderer& renderer) {
             renderer.RenderPrimitiveSprite(
                 *object->GetComponent<PrimitiveSprite>(), *object->GetComponent<Transform>());
         }
-        if (object->HasComponent<Background>()) {
+        if (object->layer == 0 && object->HasComponent<Background>()) {
             renderer.RenderBackground(*object->GetComponent<Background>());
         }
     }

@@ -18,7 +18,7 @@
 using namespace OEngine;
 
 Renderer::Renderer(SDL_Renderer* rawRenderer) {
-    SDL_SetRenderVSync(rawRenderer, 1);
+    SDL_SetRenderVSync(rawRenderer, -1);
     SDL_SetRenderDrawBlendMode(rawRenderer, SDL_BLENDMODE_BLEND);
 
     renderer = std::unique_ptr<SDL_Renderer, SDL_Deleter>(rawRenderer);
@@ -125,7 +125,11 @@ void Renderer::RenderSpriteWithRotation(const Sprite& sprite, const Transform& t
     } else if (rot == 90 || rot == 270) {
         bounding = {destRec.y, destRec.x, destRec.h, destRec.w};
     } else {
-        float rotf = transform.GetWorldRotation() - viewRotation * 3.1415 / 180;
+        int r2 = (destRec.w * destRec.w + destRec.h * destRec.h) * 0.25f;
+        if (!BoundingCircleOnScreen(destRec.x + destRec.w / 2, destRec.y + destRec.h / 2, r2))
+            return;
+
+        float rotf = transform.GetWorldRotation() - viewRotation * 3.14159f / 180.0f;
         float cx = destRec.x + destRec.w / 2;
         float cy = destRec.y + destRec.h / 2;
         float dx = abs(destRec.w * std::cos(rotf)) / 2 + abs(destRec.h * std::sin(rotf)) / 2;
@@ -198,4 +202,14 @@ bool Renderer::BoundingBoxOnScreen(const SDL_FRect rect) const {
         return false;
     }
     return true;
+}
+
+bool Renderer::BoundingCircleOnScreen(int x, int y, int r2) const {
+    const int clampedX = std::min(std::max(x, 0), 1920 - 1);
+    const int clampedY = std::min(std::max(y, 0), 1080 - 1);
+
+    const int dx = x - clampedX;
+    const int dy = y - clampedY;
+
+    return int64_t(dx) * dx + int64_t(dy) * dy <= int64_t(r2);
 }

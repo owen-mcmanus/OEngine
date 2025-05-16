@@ -6,6 +6,7 @@
 
 #pragma once
 #include "../Components/Component.h"
+#include <absl/container/flat_hash_map.h>
 #include <memory>
 #include <typeindex>
 #include <unordered_map>
@@ -33,7 +34,11 @@ class GameObject {
   private:
     int id;
     static int nextID;
+#ifdef __OPTIMIZE__
+    absl::flat_hash_map<std::type_index, std::shared_ptr<Component>> components;
+#else
     std::unordered_map<std::type_index, std::shared_ptr<Component>> components;
+#endif
 };
 
 struct GameObjectComparator {
