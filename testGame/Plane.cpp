@@ -16,6 +16,8 @@ void PlaneController::Update(const double deltaTime) {
     if (OEngine::Keyboard::IsPressed(OEngine::Key::Keycode::G))
         t->localRotation += 90 * deltaTime;
 
-    if (t->GetWorldPosition().y > 400)
-        OEngine::EventManager::AddEvent<ResetEvent>();
+    if (rotate) {
+        t->localRotation += 90;
+        rotate = false;
+    }
 }

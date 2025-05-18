@@ -166,9 +166,13 @@ class Renderer {
      * @note The rotation is applied around the center of the sprite, and flipping is
      *       disabled (no mirroring).
      */
-    void RenderSpriteWithRotation(const Sprite& sprite, const Transform& transform) const;
+    void
+    RenderSpriteWithRotation(const Sprite& sprite, const Transform& transform, bool inWorld) const;
 
-    void RenderPrimitiveSprite(const PrimitiveSprite& sprite, const Transform& transform) const;
+    void RenderPrimitiveSprite(
+        const PrimitiveSprite& sprite,
+        const Transform& transform,
+        bool inWorld) const;
 
     void RenderBackground(const Background& background) const;
     [[nodiscard]] SDL_Renderer& GetSDLRenderer() const;

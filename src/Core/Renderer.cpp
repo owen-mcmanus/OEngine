@@ -105,16 +105,28 @@ void Renderer::FillRect(float x, float y, float w, float h, const Color& color) 
 //         renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr, &destRec);
 // }
 
-void Renderer::RenderSpriteWithRotation(const Sprite& sprite, const Transform& transform) const {
+void Renderer::RenderSpriteWithRotation(
+    const Sprite& sprite,
+    const Transform& transform,
+    bool inWorld) const {
     SDL_FPoint pt;
     pt.x = sprite.GetWidth() / 2;
     pt.y = sprite.GetHeight() / 2;
 
     SDL_FRect destRec{};
     glm::vec3 worldPos(transform.GetWorldPosition(), 1.0);
-    glm::vec3 screenPos = viewMatrix * worldPos;
-    destRec.x = screenPos.x;
-    destRec.y = screenPos.y;
+
+    if (inWorld) {
+        glm::vec3 screenPos = viewMatrix * worldPos;
+        destRec.x = screenPos.x;
+        destRec.y = screenPos.y;
+        destRec.w = static_cast<float>(sprite.GetWidth());
+        destRec.h = static_cast<float>(sprite.GetHeight());
+        // screenScale = static_cast<float>(viewScale) * screenScale;
+    } else {
+        destRec.x = worldPos.x;
+        destRec.y = worldPos.y;
+    }
     destRec.w = static_cast<float>(sprite.GetWidth());
     destRec.h = static_cast<float>(sprite.GetHeight());
 
@@ -123,7 +135,7 @@ void Renderer::RenderSpriteWithRotation(const Sprite& sprite, const Transform& t
     if (rot == 0 || rot == 180) {
         bounding = {destRec.x, destRec.y, destRec.w, destRec.h};
     } else if (rot == 90 || rot == 270) {
-        bounding = {destRec.y, destRec.x, destRec.h, destRec.w};
+        bounding = {destRec.x, destRec.y, destRec.h, destRec.w};
     } else {
         int r2 = (destRec.w * destRec.w + destRec.h * destRec.h) * 0.25f;
         if (!BoundingCircleOnScreen(destRec.x + destRec.w / 2, destRec.y + destRec.h / 2, r2))
@@ -145,12 +157,14 @@ void Renderer::RenderSpriteWithRotation(const Sprite& sprite, const Transform& t
         transform.GetWorldRotation() - viewRotation, &pt, SDL_FLIP_NONE);
 }
 
-void Renderer::RenderPrimitiveSprite(const PrimitiveSprite& sprite, const Transform& transform)
-    const {
+void Renderer::RenderPrimitiveSprite(
+    const PrimitiveSprite& sprite,
+    const Transform& transform,
+    bool inWorld) const {
     glm::vec3 worldPosition{transform.GetWorldPosition(), 1.0};
     glm::vec3 screenPosition;
     glm::vec2 screenScale = {sprite.width, sprite.height};
-    if (true) {
+    if (inWorld) {
         screenPosition = viewMatrix * worldPosition;
         screenScale = static_cast<float>(viewScale) * screenScale;
     } else {

@@ -23,16 +23,25 @@ void Scene::Update(const double deltaTime) {
 void Scene::Render(Renderer& renderer) {
     PreRender(renderer);
     for (auto& object : activeGameObjects) {
+        if (object->layer == -1)
+            continue;
+        if (object->layer == 0 && object->HasComponent<Background>()) {
+            renderer.RenderBackground(*object->GetComponent<Background>());
+            continue;
+        }
+
+        bool inWorld = true;
+        if (object->layer >= 100)
+            inWorld = false;
+
         if (object->HasComponent<Transform>() && object->HasComponent<Sprite>()) {
             renderer.RenderSpriteWithRotation(
-                *object->GetComponent<Sprite>(), *object->GetComponent<Transform>());
+                *object->GetComponent<Sprite>(), *object->GetComponent<Transform>(), inWorld);
         }
         if (object->HasComponent<Transform>() && object->HasComponent<PrimitiveSprite>()) {
             renderer.RenderPrimitiveSprite(
-                *object->GetComponent<PrimitiveSprite>(), *object->GetComponent<Transform>());
-        }
-        if (object->layer == 0 && object->HasComponent<Background>()) {
-            renderer.RenderBackground(*object->GetComponent<Background>());
+                *object->GetComponent<PrimitiveSprite>(), *object->GetComponent<Transform>(),
+                inWorld);
         }
     }
     PostRender(renderer);
