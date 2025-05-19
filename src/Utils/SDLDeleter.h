@@ -6,6 +6,7 @@
 
 #pragma once
 #include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 // #define LOG_DELETES
 
@@ -46,6 +47,14 @@ struct SDL_Deleter {
 #endif
         if (ptr)
             SDL_DestroySurface(ptr);
+    }
+
+    void operator()(TTF_Font* ptr) const {
+#ifdef LOG_DELETES
+        OLog::log(OLog::DEBUG, "Clean Font");
+#endif
+        if (ptr)
+            TTF_CloseFont(ptr);
     }
 };
 

@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "Utils/Color.h"
+
 #include <SDL3/SDL.h>
 #include <string>
 #include <unordered_map>
@@ -20,6 +22,12 @@ class TextureManager {
     static surface_id LoadSurface(const std::string& path);
     static SDL_Surface* GetSurface(surface_id id);
     static void ClearCache();
+
+    static surface_id CreateText(
+        const std::string& fontName,
+        int fontSize,
+        const std::string& text,
+        const Color& color);
 
   private:
     static surface_id GetNextId();

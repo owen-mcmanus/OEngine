@@ -1,0 +1,13 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Let downstream projects pull in the same dependencies we used
+find_dependency(SDL3)
+find_dependency(SDL3_image)
+find_dependency(SDL3_ttf)
+find_dependency(glm)
+find_dependency(absl)
+find_dependency(OLog)
+
+include("${CMAKE_CURRENT_LIST_DIR}/OEngineTargets.cmake")

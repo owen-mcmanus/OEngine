@@ -7,6 +7,7 @@
 #include "TextureManager.h"
 
 #include "../Utils/SDLDeleter.h"
+#include "FontManager.h"
 
 #include <SDL3_image/SDL_image.h>
 #include <olog.h>
@@ -45,6 +46,21 @@ void TextureManager::ClearCache() {
         SDL_Deleter{}(entry.second);
     }
     surface_cache.clear();
+}
+
+surface_id TextureManager::CreateText(
+    const std::string& fontName,
+    int fontSize,
+    const std::string& text,
+    const Color& color) {
+    int fontId = FontManager::LoadFont(fontName, fontSize);
+    TTF_Font* font = FontManager::GetFont(fontId);
+    SDL_Surface* surface =
+        TTF_RenderText_Blended_Wrapped(font, text.c_str(), text.length(), color.toSDLColor(), 0);
+
+    surface_id id = GetNextId();
+    surface_cache[id] = surface;
+    return id;
 }
 
 surface_id TextureManager::GetNextId() {

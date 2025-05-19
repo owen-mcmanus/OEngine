@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <SDL3/SDL_pixels.h>
 #include <cstdint>
 #include <ostream>
 
@@ -27,6 +28,7 @@ class Color {
         : r(red), g(green), b(blue), a(alpha) {}
 
     uint32_t toARGB32() const;
+    SDL_Color toSDLColor() const;
 
     Color operator+(const Color& c) const;
     Color operator-(const Color& c) const;

@@ -28,6 +28,11 @@ void TestScene::Init() {
     std::shared_ptr<OEngine::UI::Button> button =
         std::make_shared<OEngine::UI::Button>("rotate", 0, 50, 100, 50);
 
+    std::shared_ptr<OEngine::GameObject> text = std::make_shared<OEngine::GameObject>(3);
+    text->AddComponent<OEngine::Sprite>(
+        "/home/owen/github/OEngine/testGame/VRC.ttf", 50, "test\n text!", OEngine::Color::Red);
+    text->AddComponent<OEngine::Transform>(0, 0);
+
     OEngine::Keyboard::Connect();
     OEngine::Mouse::Connect();
 
@@ -37,6 +42,7 @@ void TestScene::Init() {
     AddGameObject(c);
     AddGameObject(c);
     AddGameObject(button);
+    AddGameObject(text);
 }
 
 TestScene::~TestScene() {

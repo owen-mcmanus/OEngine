@@ -27,6 +27,12 @@ uint32_t Color::toARGB32() const {
     return (c(a) << 24) | (c(r) << 16) | (c(g) << 8) | c(b);
 }
 
+SDL_Color Color::toSDLColor() const {
+    return SDL_Color{
+        static_cast<Uint8>(r * 255), static_cast<Uint8>(g * 255), static_cast<Uint8>(b * 255),
+        static_cast<Uint8>(a * 255)};
+}
+
 const Color Color::Black = Color(0.f, 0.f, 0.f, 1.f);
 const Color Color::White = Color(1.f, 1.f, 1.f, 1.f);
 const Color Color::Red = Color(1.f, 0.f, 0.f, 1.f);

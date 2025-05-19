@@ -7,6 +7,7 @@
 #include "Engine.h"
 
 #include "../AssetManager/TextureManager.h"
+#include "AssetManager/FontManager.h"
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "Window.h"
@@ -32,6 +33,11 @@ Engine::Engine() {
         throw std::runtime_error("SDL_Init failed");
     }
 
+    if (!TTF_Init()) {
+        OLog::log(OLog::CRITICAL, SDL_GetError());
+        throw std::runtime_error("TTF_Init failed");
+    }
+
     EventManager::AddListener<QuitEvent>(&eventListener);
 
     OLog::log(OLog::INFO, "Engine Startup Complete");
@@ -42,6 +48,8 @@ Engine::~Engine() {
     window.reset();
     EventManager::RemoveListener<QuitEvent>(&eventListener);
     AssetManager::TextureManager::ClearCache();
+    AssetManager::FontManager::ClearCache();
+    TTF_Quit();
     SDL_Quit();
     OLog::log(OLog::INFO, "Engine Cleanup Complete");
     OLog::closeLogFile();

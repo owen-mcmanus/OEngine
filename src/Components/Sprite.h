@@ -8,6 +8,7 @@
 
 #include "../Utils/SDLDeleter.h"
 #include "Component.h"
+#include "Utils/Color.h"
 
 #include <memory>
 #include <string>
@@ -34,6 +35,7 @@ class Sprite : public Component {
      * @param height Height of the sprite in pixels.
      */
     Sprite(const std::string& texturesheet, int width, int height);
+    Sprite(const std::string& fontName, int fontSize, const std::string& text, const Color& color);
     ~Sprite() override = default;
 
     /// @return The width of the sprite.
