@@ -2,12 +2,22 @@
 
 include(CMakeFindDependencyMacro)
 
-# Let downstream projects pull in the same dependencies we used
-find_dependency(SDL3)
-find_dependency(SDL3_image)
-find_dependency(SDL3_ttf)
-find_dependency(glm)
-find_dependency(absl)
-find_dependency(OLog)
+find_dependency(SDL3       CONFIG REQUIRED)
+find_dependency(SDL3_image CONFIG REQUIRED)
+find_dependency(SDL3_ttf   CONFIG REQUIRED)
+find_dependency(glm        CONFIG REQUIRED)
+find_dependency(absl       CONFIG REQUIRED COMPONENTS flat_hash_map)
+find_dependency(OLog       CONFIG REQUIRED)
 
 include("${CMAKE_CURRENT_LIST_DIR}/OEngineTargets.cmake")
+
+# Hand the public deps to consumers *here*, using the imported names
+target_link_libraries(OEngine::OEngine
+    INTERFACE
+        SDL3::SDL3
+        SDL3_image::SDL3_image
+        SDL3_ttf::SDL3_ttf
+        glm::glm
+        absl::flat_hash_map
+        OLog           # or OLog::OLog if the package provides it
+)
