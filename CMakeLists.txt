@@ -18,6 +18,16 @@ if(OENGINE_FETCH_DEPS)
     FetchContent_Declare(SDL3
             GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
             GIT_TAG        release-3.2.10)
+    FetchContent_MakeAvailable(SDL3)
+    # --- make sure the alias exists (needed if SDL_SHARED=OFF) --------------
+    if (TARGET SDL3-static AND NOT TARGET SDL3::SDL3)
+        add_library(SDL3::SDL3 ALIAS SDL3-static)
+    endif()
+
+    # expose build-tree SDL3 to siblings
+    FetchContent_GetProperties(SDL3)
+    set(SDL3_DIR "${SDL3_BINARY_DIR}" CACHE PATH "" FORCE)
+    list(PREPEND CMAKE_PREFIX_PATH "${SDL3_BINARY_DIR}")
 
     # SDL3_image ───────────────────────────────────────────────────────
     set(SDL3IMAGE_DISABLE_INSTALL OFF CACHE BOOL "" FORCE)
@@ -46,17 +56,6 @@ if(OENGINE_FETCH_DEPS)
     FetchContent_Declare(abseil
             GIT_REPOSITORY https://github.com/abseil/abseil-cpp.git
             GIT_TAG        20240116.2)
-
-    FetchContent_MakeAvailable(SDL3)
-    # --- make sure the alias exists (needed if SDL_SHARED=OFF) --------------
-    if (TARGET SDL3-static AND NOT TARGET SDL3::SDL3)
-        add_library(SDL3::SDL3 ALIAS SDL3-static)
-    endif()
-
-    # expose build-tree SDL3 to siblings
-    FetchContent_GetProperties(SDL3)
-    set(SDL3_DIR "${SDL3_BINARY_DIR}" CACHE PATH "" FORCE)
-    list(PREPEND CMAKE_PREFIX_PATH "${SDL3_BINARY_DIR}")
 
     FetchContent_MakeAvailable(SDL3_image SDL3_ttf OLog glm abseil)
 endif()
