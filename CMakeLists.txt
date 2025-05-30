@@ -89,10 +89,19 @@ add_library(OEngine::OEngine ALIAS OEngine)
 
 target_compile_features(OEngine PUBLIC cxx_std_20)
 
-target_include_directories(OEngine
-        PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+#target_include_directories(OEngine
+#        PUBLIC
+#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+#        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+#)
+
+target_include_directories(OEngine PUBLIC
+        $<TARGET_PROPERTY:SDL3-static,INTERFACE_INCLUDE_DIRECTORIES>
+        $<TARGET_PROPERTY:SDL3_image-static,INTERFACE_INCLUDE_DIRECTORIES>
+        $<TARGET_PROPERTY:SDL3_ttf-static,INTERFACE_INCLUDE_DIRECTORIES>
+        $<TARGET_PROPERTY:absl_flat_hash_map,INTERFACE_INCLUDE_DIRECTORIES>
+        $<TARGET_PROPERTY:glm::glm,INTERFACE_INCLUDE_DIRECTORIES>
+        $<TARGET_PROPERTY:OLog,INTERFACE_INCLUDE_DIRECTORIES>
 )
 
 # All build-tree deps are PRIVATE, wrapped so they **never** leak to install
