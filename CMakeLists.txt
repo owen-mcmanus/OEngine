@@ -13,16 +13,12 @@ if(OENGINE_FETCH_DEPS)
 
     # SDL3 ──────────────────────────────────────────────────────────────
     set(SDL_STATIC  ON  CACHE BOOL "" FORCE)
-    set(SDL_SHARED  OFF CACHE BOOL "" FORCE)
+    set(SDL_SHARED  ON CACHE BOOL "" FORCE)
     set(SDL3_DISABLE_INSTALL OFF CACHE BOOL "" FORCE)
     FetchContent_Declare(SDL3
             GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
             GIT_TAG        release-3.2.10)
     FetchContent_MakeAvailable(SDL3)
-    # --- make sure the alias exists (needed if SDL_SHARED=OFF) --------------
-    if (TARGET SDL3-static AND NOT TARGET SDL3::SDL3)
-        add_library(SDL3::SDL3 ALIAS SDL3-static)
-    endif()
 
     # expose build-tree SDL3 to siblings
     FetchContent_GetProperties(SDL3)
