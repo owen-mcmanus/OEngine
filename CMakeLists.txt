@@ -48,12 +48,14 @@ if(OENGINE_FETCH_DEPS)
             GIT_TAG        20240116.2)
 
     FetchContent_MakeAvailable(SDL3)
-    # -------------------------------------------------------------------
-    # Register SDL3's *build tree* so find_package() works for siblings
-    # -------------------------------------------------------------------
+    # --- make sure the alias exists (needed if SDL_SHARED=OFF) --------------
+    if (TARGET SDL3-static AND NOT TARGET SDL3::SDL3)
+        add_library(SDL3::SDL3 ALIAS SDL3-static)
+    endif()
+
+    # expose build-tree SDL3 to siblings
     FetchContent_GetProperties(SDL3)
-    # SDL3_BINARY_DIR is set by the call above
-    set(SDL3_DIR "${SDL3_BINARY_DIR}" CACHE PATH "SDL3 build dir" FORCE)
+    set(SDL3_DIR "${SDL3_BINARY_DIR}" CACHE PATH "" FORCE)
     list(PREPEND CMAKE_PREFIX_PATH "${SDL3_BINARY_DIR}")
 
     FetchContent_MakeAvailable(SDL3_image SDL3_ttf OLog glm abseil)
