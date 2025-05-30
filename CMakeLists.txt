@@ -47,7 +47,7 @@ if(OENGINE_FETCH_DEPS)
             GIT_REPOSITORY https://github.com/abseil/abseil-cpp.git
             GIT_TAG        20240116.2)
 
-    FetchContent_MakeAvailable(SDL3 SDL3_image SDL3_ttf OLog glm abseil)
+    FetchContent_MakeAvailable(SDL3)
     # -------------------------------------------------------------------
     # Register SDL3's *build tree* so find_package() works for siblings
     # -------------------------------------------------------------------
@@ -55,6 +55,8 @@ if(OENGINE_FETCH_DEPS)
     # SDL3_BINARY_DIR is set by the call above
     set(SDL3_DIR "${SDL3_BINARY_DIR}" CACHE PATH "SDL3 build dir" FORCE)
     list(PREPEND CMAKE_PREFIX_PATH "${SDL3_BINARY_DIR}")
+
+    FetchContent_MakeAvailable(SDL3_image SDL3_ttf OLog glm abseil)
 endif()
 
 # ───── library ─────────────────────────────────────────────────────────
