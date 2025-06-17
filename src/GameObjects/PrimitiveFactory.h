@@ -23,5 +23,7 @@ class PrimitiveFactory {
     CreateLine(double x1, double y1, double x2, double y2, Color color, int layer);
 
     static std::shared_ptr<GameObject> CreatePoint(double x, double y, Color color, int layer);
+
+    static std::shared_ptr<GameObject> CreateBackground(Color color);
 };
 } // namespace OEngine

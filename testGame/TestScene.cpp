@@ -22,8 +22,8 @@ void TestScene::Init() {
     std::shared_ptr<OEngine::GameObject> box1 = OEngine::PrimitiveFactory::CreateFilledRectangle(
         200, 50, 100, 200, OEngine::Color::Black, 13);
 
-    std::shared_ptr<OEngine::GameObject> background = std::make_shared<OEngine::GameObject>(0);
-    background->AddComponent<OEngine::Background>(OEngine::Color::fromBytes(0, 92, 115, 255));
+    std::shared_ptr<OEngine::GameObject> background =
+        OEngine::PrimitiveFactory::CreateBackground(OEngine::Color::fromBytes(0, 92, 115, 255));
 
     std::shared_ptr<OEngine::UI::Button> button =
         std::make_shared<OEngine::UI::Button>("rotate", 0, 50, 100, 50);

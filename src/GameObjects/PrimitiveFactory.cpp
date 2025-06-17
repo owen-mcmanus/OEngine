@@ -51,3 +51,9 @@ PrimitiveFactory::CreatePoint(double x, double y, Color color, int layer) {
     box->AddComponent<PrimitiveSprite>(PrimitiveSpriteType::POINT, color, 1, 1);
     return box;
 }
+
+std::shared_ptr<GameObject> PrimitiveFactory::CreateBackground(Color color) {
+    auto background = std::make_shared<GameObject>(0);
+    background->AddComponent<Background>(color);
+    return background;
+}
