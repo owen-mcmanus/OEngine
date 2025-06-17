@@ -21,6 +21,9 @@ if(OENGINE_FETCH_DEPS)
             GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
             GIT_TAG release-3.2.10)
     FetchContent_MakeAvailable(SDL3)
+    FetchContent_GetProperties(SDL3)
+    set(SDL3_DIR "${SDL3_BINARY_DIR}" CACHE PATH "Path to SDL3" FORCE)
+    list(PREPEND CMAKE_PREFIX_PATH "${SDL3_BINARY_DIR}")
 
     # SDL3_image
     set(SDL3IMAGE_DISABLE_INSTALL OFF CACHE BOOL "" FORCE)
