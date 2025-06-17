@@ -14,8 +14,9 @@ if(OENGINE_FETCH_DEPS)
     include(FetchContent)
 
     # SDL3 Core
-    set(SDL_STATIC ON CACHE BOOL "" FORCE)
-    set(SDL_SHARED OFF CACHE BOOL "" FORCE)
+    set(SDL_STATIC  ON  CACHE BOOL "" FORCE)  # build static
+    set(SDL_SHARED  ON  CACHE BOOL "" FORCE)  # build shared (needed by SDL3_image)
+    set(SDL_INSTALL ON  CACHE BOOL "" FORCE)  # write a complete SDL3Config.cmake
     set(SDL3_DISABLE_INSTALL OFF CACHE BOOL "" FORCE)
     FetchContent_Declare(SDL3
             GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
