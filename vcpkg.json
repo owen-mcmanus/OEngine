@@ -1,0 +1,23 @@
+{
+  "name": "oengine-deps",
+  "version-string": "0.1.0",
+  "description": "All third-party libs used by OEngine",
+  "dependencies": [
+    "sdl3",
+    {
+      "name":"sdl3-image",
+      "features": ["png", "jpeg"]
+    },
+    "sdl3-ttf",
+    "glm",
+    "abseil"
+  ],
+
+  "overrides": [
+    { "name": "sdl3",      "version": "3.2.10"},
+    { "name": "sdl3-image","version": "3.2.4" },
+    { "name": "sdl3-ttf",  "version": "3.2.2"}
+  ],
+
+  "builtin-baseline": "16c71a39e5a0fc0bdb3fad03beef8f38ee00ee3b"
+}

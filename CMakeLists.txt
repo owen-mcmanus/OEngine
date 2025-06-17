@@ -7,54 +7,22 @@ include(GNUInstallDirs)
 option(OENGINE_FETCH_DEPS     "FetchContent third-party deps"       ON)
 option(OENGINE_ENABLE_INSTALL "Generate install + export targets"   ON)
 option(OENGINE_BUILD_TESTS    "Build OEngine unit tests"            OFF)
-option(OENGINE_BUILD_EXAMPLES "Build example Game executable"       OFF)
+option(OENGINE_BUILD_EXAMPLES "Build example Game executable"       ON)
 
 # ─── Dependencies ────────────────────────────────────────────
 if(OENGINE_FETCH_DEPS)
+    find_package(SDL3       CONFIG REQUIRED)
+    find_package(SDL3_image CONFIG REQUIRED)
+    find_package(SDL3_ttf   CONFIG REQUIRED)
+    find_package(glm        CONFIG REQUIRED)
+    find_package(absl       CONFIG REQUIRED)
+
     include(FetchContent)
-
-    # SDL3 Core
-    set(SDL_STATIC  ON  CACHE BOOL "" FORCE)  # build static
-    set(SDL_SHARED  ON  CACHE BOOL "" FORCE)  # build shared (needed by SDL3_image)
-    set(SDL_INSTALL ON  CACHE BOOL "" FORCE)  # write a complete SDL3Config.cmake
-    set(SDL3_DISABLE_INSTALL OFF CACHE BOOL "" FORCE)
-    FetchContent_Declare(SDL3
-            GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-            GIT_TAG release-3.2.10)
-    FetchContent_MakeAvailable(SDL3)
-    FetchContent_GetProperties(SDL3)
-    set(SDL3_DIR "${SDL3_BINARY_DIR}" CACHE PATH "Path to SDL3" FORCE)
-    list(PREPEND CMAKE_PREFIX_PATH "${SDL3_BINARY_DIR}")
-
-    # SDL3_image
-    set(SDL3IMAGE_DISABLE_INSTALL OFF CACHE BOOL "" FORCE)
-    FetchContent_Declare(SDL3_image
-            GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
-            GIT_TAG release-3.2.4)
-
-    # SDL3_ttf
-    set(SDL3TTF_DISABLE_INSTALL OFF CACHE BOOL "" FORCE)
-    FetchContent_Declare(SDL3_ttf
-            GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
-            GIT_TAG release-3.2.2)
-
-    # OLog
     FetchContent_Declare(OLog
             GIT_REPOSITORY https://github.com/owen-mcmanus/OLog.git
             GIT_TAG v1.1.0)
-
-    # glm
-    FetchContent_Declare(glm
-            GIT_REPOSITORY https://github.com/g-truc/glm.git
-            GIT_TAG 1.0.1)
-
-    # Abseil
-    set(ABSL_ENABLE_INSTALL ON CACHE BOOL "" FORCE)
-    FetchContent_Declare(abseil
-            GIT_REPOSITORY https://github.com/abseil/abseil-cpp.git
-            GIT_TAG 20240116.2)
-
-    FetchContent_MakeAvailable(SDL3_image SDL3_ttf OLog glm abseil)
+    FetchContent_MakeAvailable(OLog)
+#    find_package(olog       CONFIG REQUIRED)
 endif()
 
 # ─── Library Target ──────────────────────────────────────────
@@ -93,24 +61,24 @@ add_library(OEngine STATIC
 add_library(OEngine::OEngine ALIAS OEngine)
 target_compile_features(OEngine PUBLIC cxx_std_20)
 
-target_include_directories(OEngine PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/OEngine>
-)
+target_include_directories(OEngine
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 target_link_libraries(OEngine
-        PUBLIC
-        $<BUILD_INTERFACE:SDL3-static;SDL3_image-static;SDL3_ttf-static;OLog;glm::glm;absl::flat_hash_map>
-)
+        PUBLIC SDL3::SDL3 SDL3_image::SDL3_image SDL3_ttf::SDL3_ttf
+        glm::glm
+        absl::flat_hash_map
+        OLog)
 
 # ─── Example Executable ──────────────────────────────────────
-if(OENGINE_BUILD_EXAMPLES)
+#if(OENGINE_BUILD_EXAMPLES)
     add_executable(Game
             testGame/main.cpp
             testGame/TestScene.cpp
             testGame/Plane.cpp testGame/Plane.h)
     target_link_libraries(Game PRIVATE OEngine::OEngine)
-endif()
+#endif()
 
 # ─── Unit Tests ──────────────────────────────────────────────
 if(OENGINE_BUILD_TESTS AND PROJECT_IS_TOP_LEVEL)
