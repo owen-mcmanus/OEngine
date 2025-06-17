@@ -6,7 +6,6 @@
 
 #include "EventManager.h"
 
-#include "../../cmake-build-debug-coverage/_deps/olog-src/include/olog.h"
 #include "Event.h"
 
 #include <SDL3/SDL.h>
