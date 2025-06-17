@@ -83,3 +83,15 @@ float Mouse::GetY() {
     // SDL_GetMouseState(nullptr, &y1);
     return y;
 }
+
+void Mouse::SetCursorDefault() {
+    // TODO: fix memory leak
+    SDL_Cursor* c = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT);
+    SDL_SetCursor(c);
+}
+
+void Mouse::SetCursorPointer() {
+    // TODO: fix memory leak
+    SDL_Cursor* c = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_POINTER);
+    SDL_SetCursor(c);
+}

@@ -22,9 +22,11 @@ class ButtonComponent : public Component {
   public:
     ButtonComponent(float x, float y, float width, float height, const std::string& name);
     ~ButtonComponent();
+    void Update(double deltaTime) override;
 
   private:
     float x, y, width, height;
+    bool hovered = false;
     std::string name;
     EventListener<MouseButtonDownEvent> clickListener = [this](const MouseButtonDownEvent& e) {
         if (e.GetButton() != Mouse::MouseButton::LEFT)

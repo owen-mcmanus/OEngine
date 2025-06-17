@@ -25,6 +25,21 @@ ButtonComponent::~ButtonComponent() {
     EventManager::RemoveListener<MouseButtonDownEvent>(&clickListener);
 }
 
+void ButtonComponent::Update(double deltaTime) {
+    if (Mouse::GetX() > x && Mouse::GetX() < x + width && Mouse::GetY() > y &&
+        Mouse::GetY() < y + height) {
+        if (hovered == false) {
+            Mouse::SetCursorPointer();
+            hovered = true;
+        }
+    } else {
+        if (hovered == true) {
+            hovered = false;
+            Mouse::SetCursorDefault();
+        }
+    }
+}
+
 Button::Button(const std::string& name, float x, float y, float width, float height) {
     AddComponent<Transform>(x, y);
     AddComponent<ButtonComponent>(x, y, width, height, name);

@@ -16,5 +16,7 @@ std::vector<MouseButton> GetPressed();
 bool IsPressed(MouseButton key);
 float GetX();
 float GetY();
+void SetCursorDefault();
+void SetCursorPointer();
 
 } // namespace OEngine::Mouse
