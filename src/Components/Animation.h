@@ -11,20 +11,30 @@
 #include <vector>
 
 namespace OEngine {
+typedef enum { linear, easeIn, easeOut, ease, easeInOut, custom } AnimationCurve;
+
+typedef struct {
+    uint32_t time;
+    float value;
+    AnimationCurve curve;
+    int keyId;
+} KeyFrame;
+
 class Animation : public Component {
   public:
-    Animation();
-    ~Animation() = default;
+    Animation() = default;
+    ~Animation() override = default;
 
-    Sprite* GetFrame();
-    Sprite* GetFrame(int frame);
-
-    void AddFrame(const std::string& texturesheet, int width, int height);
+    void Update(double deltaTime) override;
+    virtual void HandleFrame(std::vector<KeyFrame> keys) = 0;
+    void AddKeyFrame(const std::vector<KeyFrame>& kf);
+    void StartAnimation();
 
   private:
-    int currentFrame = 0;
-    int frameCount = 0;
-    std::vector<std::unique_ptr<Sprite>> frames;
+    uint32_t startTime = 0;
+    uint32_t animationTime = 0;
+    bool running;
+    std::vector<std::vector<KeyFrame>> keyFrames;
 };
 
 } // namespace OEngine

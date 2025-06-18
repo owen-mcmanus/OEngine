@@ -19,6 +19,9 @@ void TestScene::Init() {
 
     std::shared_ptr<OEngine::GameObject> box =
         OEngine::PrimitiveFactory::CreateRectangle(50, 50, 100, 200, OEngine::Color::Black, 13);
+    box->AddComponent<GrowAnimation>();
+    box->GetComponent<GrowAnimation>()->StartAnimation();
+
     std::shared_ptr<OEngine::GameObject> box1 = OEngine::PrimitiveFactory::CreateFilledRectangle(
         200, 50, 100, 200, OEngine::Color::Black, 13);
 
@@ -48,4 +51,20 @@ void TestScene::Init() {
 TestScene::~TestScene() {
     OEngine::Keyboard::Disconnect();
     OEngine::Mouse::Disconnect();
+}
+
+GrowAnimation::GrowAnimation() {
+    const std::vector<OEngine::KeyFrame> keys = {
+        {0, 100, OEngine::AnimationCurve::easeInOut, 1},
+        {2000, 500, OEngine::AnimationCurve::linear, 1}};
+    AddKeyFrame(keys);
+}
+
+void GrowAnimation::HandleFrame(std::vector<OEngine::KeyFrame> keys) {
+    for (auto key : keys) {
+        if (key.keyId == 1) {
+            auto t = owner->GetComponent<OEngine::Transform>();
+            t->localPosition.x = key.value;
+        }
+    }
 }
