@@ -86,16 +86,6 @@ class Engine {
     [[nodiscard]] Window& GetWindow() const;
 
     /**
-     * @brief Sets the active scene for the engine.
-     *
-     * Assigns the specified Scene as the active scene. The engine will update and render
-     * this scene during the game loop.
-     *
-     * @param scene Reference to the Scene to be set as active.
-     */
-    void SetActiveScene(Scene& scene);
-
-    /**
      * @brief Signals the engine to stop running.
      *
      * Sets the internal running flag to `false`, which will cause the main game loop
@@ -107,7 +97,6 @@ class Engine {
     volatile bool running = false; // marked volatile to supress warnings
     int frameDelay = 16;
     std::unique_ptr<Window> window;
-    SceneManager sceneManager;
     EventListener<QuitEvent> eventListener = [this](const QuitEvent& e) { Quit(); };
 };
 

@@ -1,7 +1,7 @@
 /**
  * @file SceneManager.h
  * @author Owen McManus
- * @date 2025/4/12
+ * @date 2025/6/17
  */
 
 #pragma once
@@ -28,22 +28,22 @@ class SceneManager {
      *
      * @param scene A reference to the new active scene.
      */
-    void SetActiveScene(Scene& scene);
+    static void SetActiveScene(Scene& scene);
 
     /**
      * @brief Updates the logic of the active scene.
      */
-    void Update(double deltaTime) const;
+    static void Update(double deltaTime);
 
     /**
      * @brief Renders the active scene.
      *
      * @param renderer The renderer used for drawing.
      */
-    void Render(Renderer& renderer) const;
+    static void Render(Renderer& renderer);
 
   private:
-    std::optional<std::reference_wrapper<Scene>> activeScene;
+    static std::optional<std::reference_wrapper<Scene>> activeScene;
 };
 
 } // namespace OEngine

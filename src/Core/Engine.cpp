@@ -70,11 +70,11 @@ void Engine::Run() {
         EventManager::HandleEvents();
 
         Uint64 currentTime = SDL_GetPerformanceCounter();
-        sceneManager.Update((double)(currentTime - lastTime) / SDL_GetPerformanceFrequency());
+        SceneManager::Update((double)(currentTime - lastTime) / SDL_GetPerformanceFrequency());
         lastTime = currentTime;
 
         if (window) {
-            sceneManager.Render(window->GetRenderer());
+            SceneManager::Render(window->GetRenderer());
             window->GetRenderer().Present();
         }
 
@@ -109,7 +109,5 @@ Window& Engine::GetWindow() const {
     }
     return *window;
 }
-
-void Engine::SetActiveScene(Scene& scene) { sceneManager.SetActiveScene(scene); }
 
 void Engine::Quit() { running = false; }
