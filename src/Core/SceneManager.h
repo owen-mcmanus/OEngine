@@ -1,17 +1,17 @@
 /**
  * @file SceneManager.h
  * @author Owen McManus
- * @date 2025/6/17
+ * @date 2025/6/18
  */
 
 #pragma once
 
+#include "Scene.h"
+
 #include <memory>
-#include <optional>
 
 namespace OEngine {
 
-class Scene;
 class Renderer;
 
 /**
@@ -28,7 +28,14 @@ class SceneManager {
      *
      * @param scene A reference to the new active scene.
      */
-    static void SetActiveScene(Scene& scene);
+    static void SetActiveScene(std::unique_ptr<Scene>&& scene);
+
+    /// Replace any existing scene with a freshly constructed on
+    // template <class TScene, class... Args> static void MakeActiveScene(Args&&... args) {
+    //     static_assert(std::is_base_of_v<Scene, TScene>, "TScene must derive from Scene");
+    //     activeScene = std::make_unique<TScene>(std::forward<Args>(args)...);
+    //     activeScene->Init();
+    // }
 
     /**
      * @brief Updates the logic of the active scene.
@@ -41,9 +48,10 @@ class SceneManager {
      * @param renderer The renderer used for drawing.
      */
     static void Render(Renderer& renderer);
+    static void ClearActiveScene();
 
   private:
-    static std::optional<std::reference_wrapper<Scene>> activeScene;
+    static std::unique_ptr<Scene> activeScene;
 };
 
 } // namespace OEngine

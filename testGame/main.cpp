@@ -3,8 +3,7 @@
 
 int main() {
     auto engine = OEngine::Engine();
-    TestScene test;
     engine.CreateWindow("Game", 1920, 1080, false);
-    OEngine::SceneManager::SetActiveScene(test);
+    OEngine::SceneManager::SetActiveScene(std::make_unique<TestScene>());
     engine.Run();
 }

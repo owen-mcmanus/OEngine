@@ -1,7 +1,7 @@
 /**
  * @file SceneManager.cpp
  * @author Owen McManus
- * @date 2025/6/17
+ * @date 2025/6/18
  */
 
 #include "SceneManager.h"
@@ -10,19 +10,25 @@
 
 using namespace OEngine;
 
-std::optional<std::reference_wrapper<Scene>> SceneManager::activeScene;
+std::unique_ptr<Scene> SceneManager::activeScene = nullptr;
 
-void SceneManager::SetActiveScene(Scene& scene) {
-    activeScene = std::ref(scene);
-    scene.Init();
+void SceneManager::SetActiveScene(std::unique_ptr<Scene>&& scene) {
+    activeScene = std::move(scene);
+    if (activeScene)
+        activeScene->Init();
 }
 
 void SceneManager::Update(double deltaTime) {
     if (activeScene)
-        activeScene->get().Update(deltaTime);
+        activeScene->Update(deltaTime);
 }
 
 void SceneManager::Render(Renderer& renderer) {
     if (activeScene)
-        activeScene->get().Render(renderer);
+        activeScene->Render(renderer);
+}
+
+void SceneManager::ClearActiveScene() {
+    activeScene.reset();
+    activeScene = nullptr;
 }

@@ -45,6 +45,7 @@ Engine::Engine() {
 
 Engine::~Engine() {
     OLog::log(OLog::INFO, "Starting Engine Cleanup...");
+    SceneManager::ClearActiveScene();
     window.reset();
     EventManager::RemoveListener<QuitEvent>(&eventListener);
     AssetManager::TextureManager::ClearCache();
