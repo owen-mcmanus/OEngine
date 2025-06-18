@@ -30,6 +30,7 @@ class CameraComponent : public Component {
     void SetZoom(double zoom);
     [[nodiscard]] double GetZoom() const;
     void SetPosition(glm::vec2 position);
+    glm::vec2 GetPosition();
     void Translate(glm::vec2 amount);
     void SetRotation(double rotation);
     [[nodiscard]] double GetRotation() const;

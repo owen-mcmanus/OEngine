@@ -117,6 +117,8 @@ void CameraComponent::SetPosition(glm::vec2 position) {
     this->offset = position;
 }
 
+glm::vec2 CameraComponent::GetPosition() { return offset; }
+
 void CameraComponent::Translate(glm::vec2 amount) {
     dirty = true;
     this->offset += amount;
