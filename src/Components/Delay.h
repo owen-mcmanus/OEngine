@@ -6,6 +6,7 @@
 #pragma once
 #include "Component.h"
 
+#include <cstdint>
 #include <functional>
 
 namespace OEngine {

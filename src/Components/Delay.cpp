@@ -5,6 +5,8 @@
  */
 #include "Delay.h"
 
+#include <SDL3/SDL_timer.h>
+
 OEngine::Delay::Delay(uint32_t delay, std::function<void()> cb) : delay(delay), cb(cb) {
     startTime = SDL_GetTicks();
 }
