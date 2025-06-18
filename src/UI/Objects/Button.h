@@ -18,6 +18,18 @@ class ButtonClickEvent : public Event {
     std::string name;
 };
 
+class ButtonMouseOver : public Event {
+  public:
+    explicit ButtonMouseOver(const std::string& name) : name(name) {};
+    std::string name;
+};
+
+class ButtonMouseOff : public Event {
+  public:
+    explicit ButtonMouseOff(const std::string& name) : name(name) {};
+    std::string name;
+};
+
 class ButtonComponent : public Component {
   public:
     ButtonComponent(float x, float y, float width, float height, const std::string& name);
