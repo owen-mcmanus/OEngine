@@ -57,6 +57,8 @@ add_library(OEngine STATIC
         src/AssetManager/FontManager.cpp src/AssetManager/FontManager.h
         src/GameObjects/Camera.cpp       src/GameObjects/Camera.h
         src/GameObjects/PrimitiveFactory.cpp src/GameObjects/PrimitiveFactory.h
+        src/Components/Delay.cpp
+        src/Components/Delay.h
 )
 add_library(OEngine::OEngine ALIAS OEngine)
 target_compile_features(OEngine PUBLIC cxx_std_20)

@@ -5,6 +5,7 @@
 #include "../src/GameObjects/PrimitiveFactory.h"
 #include "../src/IO/Keyboard.h"
 #include "../src/UI/Objects/Button.h"
+#include "Components/Delay.h"
 #include "Plane.h"
 
 void TestScene::Init() {
