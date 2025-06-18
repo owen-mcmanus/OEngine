@@ -80,15 +80,7 @@ void CameraController::Update(double dt) {
     }
 }
 
-Camera::Camera(glm::vec2 pos, double rotation) {
-    AddComponent<CameraController>();
-    AddComponent<CameraComponent>(pos, rotation);
-}
-
-void Camera::Update(double deltaTime) {
-    GetComponent<CameraController>()->Update(deltaTime);
-    GetComponent<CameraComponent>()->Update(deltaTime);
-}
+Camera::Camera(glm::vec2 pos, double rotation) { AddComponent<CameraComponent>(pos, rotation); }
 
 CameraComponent::CameraComponent(glm::vec2 position, double rotation, double zoom)
     : zoom(zoom), offset(position), rotation(rotation) {}

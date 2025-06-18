@@ -61,6 +61,5 @@ class CameraController : public Component {
 class Camera : public GameObject {
   public:
     explicit Camera(glm::vec2 pos, double rotation = 0);
-    void Update(double deltaTime) override;
 };
 } // namespace OEngine

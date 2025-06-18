@@ -16,6 +16,7 @@ void TestScene::Init() {
     }
 
     auto c = std::make_shared<OEngine::Camera>(glm::vec2{0, 0}, 0);
+    c->AddComponent<OEngine::CameraController>();
 
     std::shared_ptr<OEngine::GameObject> box =
         OEngine::PrimitiveFactory::CreateRectangle(50, 50, 100, 200, OEngine::Color::Black, 13);
@@ -42,7 +43,6 @@ void TestScene::Init() {
     AddGameObject(box);
     AddGameObject(box1);
     AddGameObject(background);
-    AddGameObject(c);
     AddGameObject(c);
     AddGameObject(button);
     AddGameObject(text);
