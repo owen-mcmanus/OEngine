@@ -35,3 +35,7 @@ int Sprite::GetWidth() const { return width; }
 int Sprite::GetHeight() const { return height; }
 
 AssetManager::surface_id Sprite::GetSurfaceId() const { return surf_id; }
+
+void Sprite::SetWidth(int width) { this->width = width; }
+
+void Sprite::SetHeight(int height) { this->height = height; }

@@ -45,6 +45,9 @@ class Sprite : public Component {
     /// @return The surface ID associated with the sprite.
     [[nodiscard]] AssetManager::surface_id GetSurfaceId() const;
 
+    void SetWidth(int width);
+    void SetHeight(int height);
+
   private:
     int width;
     int height;
