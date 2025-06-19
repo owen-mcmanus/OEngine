@@ -7,6 +7,7 @@
 #include "SceneManager.h"
 
 #include "Scene.h"
+#include <olog.h>
 
 using namespace OEngine;
 
@@ -19,8 +20,14 @@ void SceneManager::SetActiveScene(std::unique_ptr<Scene>&& scene) {
 }
 
 void SceneManager::Update(double deltaTime) {
-    if (activeScene)
-        activeScene->Update(deltaTime);
+    try {
+        if (activeScene)
+            activeScene->Update(deltaTime);
+    } catch (std::runtime_error& e) {
+        if (e.what() != "change scene") {
+            OLog::log(OLog::ERROR, std::string("Error: ") + e.what());
+        }
+    }
 }
 
 void SceneManager::Render(Renderer& renderer) {
