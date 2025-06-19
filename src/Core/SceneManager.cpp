@@ -24,7 +24,7 @@ void SceneManager::Update(double deltaTime) {
         if (activeScene)
             activeScene->Update(deltaTime);
     } catch (std::runtime_error& e) {
-        if (e.what() != "change scene") {
+        if (std::string(e.what()) != "change scene") {
             OLog::log(OLog::ERROR, std::string("Error: ") + e.what());
         }
     }

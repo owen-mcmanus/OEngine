@@ -45,6 +45,30 @@ inline float easeInterpolation(float delta, float t0, float t1, float v0, float 
     return v0 + (v1 - v0) * s;
 }
 
+inline float springInterpolation(
+    float delta,
+    float t0,
+    float t1,
+    float v0,
+    float v1,
+    float frequency,
+    float damping) {
+    if (t1 <= t0)
+        return v1;
+
+    float t = std::clamp((delta - t0) / (t1 - t0), 0.0f, 1.0f);
+
+    // constexpr float frequency = 8.0f; // oscillations (Hz-ish)
+    // constexpr float damping = 5.0f;   // larger → quicker settling
+
+    // damped cosine:  exp(-d*t) * cos(2π f t)
+    float oscillation = std::cos(2.0f * M_PI * frequency * t) * std::exp(-damping * t);
+
+    float s = 1.0f - oscillation;
+
+    return v0 + (v1 - v0) * s;
+}
+
 void Animation::Update(double deltaTime) {
     if (!running)
         return;
@@ -89,6 +113,11 @@ void Animation::Update(double deltaTime) {
                     value = easeInOutInterpolation(
                         delta, keyFrame[i - 1].time, keyFrame[i].time, keyFrame[i - 1].value,
                         keyFrame[i].value);
+                    break;
+                case spring:
+                    value = springInterpolation(
+                        delta, keyFrame[i - 1].time, keyFrame[i].time, keyFrame[i - 1].value,
+                        keyFrame[i].value, keyFrame[i - 1].frequency, keyFrame[i - 1].damping);
                     break;
                 default:
                     value = keyFrame[i - 1].value;

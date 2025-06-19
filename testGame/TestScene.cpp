@@ -56,7 +56,7 @@ TestScene::~TestScene() {
 
 GrowAnimation::GrowAnimation() {
     const std::vector<OEngine::KeyFrame> keys = {
-        {0, 100, OEngine::AnimationCurve::easeInOut, 1},
+        {0, 100, OEngine::AnimationCurve::spring, 1},
         {2000, 500, OEngine::AnimationCurve::linear, 1}};
     AddKeyFrame(keys);
 }

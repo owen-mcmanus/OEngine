@@ -11,13 +11,15 @@
 #include <vector>
 
 namespace OEngine {
-typedef enum { linear, easeIn, easeOut, ease, easeInOut, custom } AnimationCurve;
+typedef enum { linear, easeIn, easeOut, ease, easeInOut, spring } AnimationCurve;
 
 typedef struct {
     uint32_t time;
     float value;
     AnimationCurve curve;
     int keyId;
+    int frequency = 1;
+    int damping = 1;
 } KeyFrame;
 
 class Animation : public Component {
