@@ -23,8 +23,9 @@ Sprite::Sprite(
     const std::string& fontName,
     int fontSize,
     const std::string& text,
-    const Color& color) {
-    surf_id = AssetManager::TextureManager::CreateText(fontName, fontSize, text, color);
+    const Color& color,
+    int wrapWidth) {
+    surf_id = AssetManager::TextureManager::CreateText(fontName, fontSize, text, color, wrapWidth);
     SDL_Surface* s = AssetManager::TextureManager::GetSurface(surf_id);
     width = s->w;
     height = s->h;

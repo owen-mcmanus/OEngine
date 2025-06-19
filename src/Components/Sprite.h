@@ -35,7 +35,12 @@ class Sprite : public Component {
      * @param height Height of the sprite in pixels.
      */
     Sprite(const std::string& texturesheet, int width, int height);
-    Sprite(const std::string& fontName, int fontSize, const std::string& text, const Color& color);
+    Sprite(
+        const std::string& fontName,
+        int fontSize,
+        const std::string& text,
+        const Color& color,
+        int wrapWidth = 0);
     ~Sprite() override = default;
 
     /// @return The width of the sprite.

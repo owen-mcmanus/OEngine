@@ -27,7 +27,8 @@ class TextureManager {
         const std::string& fontName,
         int fontSize,
         const std::string& text,
-        const Color& color);
+        const Color& color,
+        int wrapWidth = 0);
 
   private:
     static surface_id GetNextId();

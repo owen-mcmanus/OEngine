@@ -52,11 +52,12 @@ surface_id TextureManager::CreateText(
     const std::string& fontName,
     int fontSize,
     const std::string& text,
-    const Color& color) {
+    const Color& color,
+    int wrapWidth) {
     int fontId = FontManager::LoadFont(fontName, fontSize);
     TTF_Font* font = FontManager::GetFont(fontId);
-    SDL_Surface* surface =
-        TTF_RenderText_Blended_Wrapped(font, text.c_str(), text.length(), color.toSDLColor(), 0);
+    SDL_Surface* surface = TTF_RenderText_Blended_Wrapped(
+        font, text.c_str(), text.length(), color.toSDLColor(), wrapWidth);
 
     surface_id id = GetNextId();
     surface_cache[id] = surface;
