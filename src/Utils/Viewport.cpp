@@ -23,25 +23,25 @@ EventListener<ChangeViewEvent> changeViewListener = [](const ChangeViewEvent& e)
 
 static bool isConnected = false;
 
-void Mouse::Connect() {
+void Viewport::Connect() {
     if (!isConnected) {
         isConnected = true;
         EventManager::AddListener<ChangeViewEvent>(&changeViewListener);
     }
 }
 
-void Mouse::Disconnect() {
+void Viewport::Disconnect() {
     isConnected = false;
     EventManager::RemoveListener<ChangeViewEvent>(&changeViewListener);
 }
 
-glm::vec2 ScreenToWorld(float x, float y) {
+glm::vec2 Viewport::ScreenToWorld(float x, float y) {
     glm::vec3 screen{x, y, 1.0f};
     glm::vec3 world = glm::inverse(viewMatrix) * screen;
     return glm::vec2(world);
 }
 
-glm::vec2 WorldToScreen(float x, float y) {
+glm::vec2 Viewport::WorldToScreen(float x, float y) {
     glm::vec3 world{x, y, 1.0f};
     glm::vec3 screen = viewMatrix * world;
     return glm::vec2(screen);
