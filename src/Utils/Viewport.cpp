@@ -15,7 +15,7 @@ glm::mat3 viewMatrix = glm::mat3(1.0f);
 double viewRotation = 0.0f;
 double viewScale = 1.0f;
 
-EventListener<ChangeViewEvent> changeViewListener = [this](const ChangeViewEvent& e) {
+EventListener<ChangeViewEvent> changeViewListener = [](const ChangeViewEvent& e) {
     viewMatrix = e.viewMatrix;
     viewRotation = e.rotation * 180.0 / M_PI;
     viewScale = e.scale;
