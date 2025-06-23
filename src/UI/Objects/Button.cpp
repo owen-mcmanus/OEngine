@@ -44,6 +44,16 @@ void ButtonComponent::Update(double deltaTime) {
 
 std::string ButtonComponent::GetName() { return name; }
 
+void ButtonComponent::SetPosition(float x, float y) {
+    this->x = x;
+    this->y = y;
+}
+
+void ButtonComponent::SetSize(float width, float height) {
+    this->width = width;
+    this->height = height;
+}
+
 Button::Button(const std::string& name, float x, float y, float width, float height) {
     AddComponent<Transform>(x, y);
     AddComponent<ButtonComponent>(x, y, width, height, name);

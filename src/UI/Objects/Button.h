@@ -36,6 +36,8 @@ class ButtonComponent : public Component {
     ~ButtonComponent();
     void Update(double deltaTime) override;
     std::string GetName();
+    void SetPosition(float x, float y);
+    void SetSize(float width, float height);
 
   private:
     float x, y, width, height;
