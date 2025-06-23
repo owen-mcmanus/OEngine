@@ -17,9 +17,9 @@ using namespace OEngine::AssetManager;
 std::unordered_map<font_id, TTF_Font*> FontManager::fontCache;
 std::unordered_map<std::string, font_id> FontManager::fontNameCache;
 
-font_id FontManager::LoadFont(const std::string& path, int size) {
+font_id FontManager::LoadFont(const std::filesystem::path& path, int size) {
     font_id id;
-    std::string textId = path + std::to_string(size);
+    std::string textId = path.string() + std::to_string(size);
     if (!fontNameCache.contains(textId)) {
         id = GetNextId();
         fontNameCache[textId] = id;
@@ -28,10 +28,15 @@ font_id FontManager::LoadFont(const std::string& path, int size) {
     }
 
     if (!fontCache.contains(id)) {
+#ifdef _WIN32
+        TTF_Font* font = TTF_OpenFont(path.u8string().c_str(), size);
+#else
         TTF_Font* font = TTF_OpenFont(path.c_str(), size);
+#endif
         if (font == nullptr) {
-            OLog::log(OLog::ERROR, SDL_GetError());
-            throw std::runtime_error(SDL_GetError());
+            const char* err = SDL_GetError();
+            OLog::log(OLog::ERROR, err);
+            throw std::runtime_error(err);
         }
         fontCache[id] = font;
     }

@@ -18,7 +18,7 @@ using namespace OEngine::AssetManager;
 std::unordered_map<surface_id, SDL_Surface*> TextureManager::surface_cache;
 std::unordered_map<std::string, surface_id> TextureManager::name_cache;
 
-surface_id TextureManager::LoadSurface(const std::string& path) {
+surface_id TextureManager::LoadSurface(const std::filesystem::path& path) {
     surface_id id;
     if (!name_cache.contains(path)) {
         id = GetNextId();
@@ -28,7 +28,12 @@ surface_id TextureManager::LoadSurface(const std::string& path) {
     }
 
     if (!surface_cache.contains(id)) {
+
+#ifdef _WIN32
+        SDL_Surface* surface = IMG_Load(path.u8string().c_str());
+#else
         SDL_Surface* surface = IMG_Load(path.c_str());
+#endif
         if (surface == nullptr) {
             OLog::log(OLog::ERROR, SDL_GetError());
             throw std::runtime_error(SDL_GetError());
@@ -49,7 +54,7 @@ void TextureManager::ClearCache() {
 }
 
 surface_id TextureManager::CreateText(
-    const std::string& fontName,
+    const std::filesystem::path& fontName,
     int fontSize,
     const std::string& text,
     const Color& color,

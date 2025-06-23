@@ -9,6 +9,7 @@
 #include "Utils/Color.h"
 
 #include <SDL3/SDL.h>
+#include <filesystem>
 #include <string>
 #include <unordered_map>
 
@@ -19,12 +20,12 @@ using surface_id = int;
 class TextureManager {
   public:
     TextureManager() = delete;
-    static surface_id LoadSurface(const std::string& path);
+    static surface_id LoadSurface(const std::filesystem::path& path);
     static SDL_Surface* GetSurface(surface_id id);
     static void ClearCache();
 
     static surface_id CreateText(
-        const std::string& fontName,
+        const std::filesystem::path& fontName,
         int fontSize,
         const std::string& text,
         const Color& color,

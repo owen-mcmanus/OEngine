@@ -10,6 +10,7 @@
 #include "Component.h"
 #include "Utils/Color.h"
 
+#include <filesystem>
 #include <memory>
 #include <string>
 
@@ -34,9 +35,9 @@ class Sprite : public Component {
      * @param width Width of the sprite in pixels.
      * @param height Height of the sprite in pixels.
      */
-    Sprite(const std::string& texturesheet, int width, int height);
+    Sprite(const std::filesystem::path& texturesheet, int width, int height);
     Sprite(
-        const std::string& fontName,
+        const std::filesystem::path& fontName,
         int fontSize,
         const std::string& text,
         const Color& color,

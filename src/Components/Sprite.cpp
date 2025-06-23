@@ -7,20 +7,17 @@
 #include "Sprite.h"
 
 #include "../AssetManager/TextureManager.h"
-#include "AssetManager/FontManager.h"
 #include "Utils/Color.h"
-
-#include <cmath>
 
 using namespace OEngine;
 
-Sprite::Sprite(const std::string& texturesheet, int width, int height)
+Sprite::Sprite(const std::filesystem::path& texturesheet, int width, int height)
     : width(width), height(height) {
     surf_id = AssetManager::TextureManager::LoadSurface(texturesheet);
 }
 
 Sprite::Sprite(
-    const std::string& fontName,
+    const std::filesystem::path& fontName,
     int fontSize,
     const std::string& text,
     const Color& color,

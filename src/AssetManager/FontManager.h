@@ -5,6 +5,7 @@
  */
 #pragma once
 #include <SDL3_ttf/SDL_ttf.h>
+#include <filesystem>
 #include <string>
 #include <unordered_map>
 
@@ -15,7 +16,8 @@ using font_id = int;
 class FontManager {
   public:
     FontManager() = delete;
-    static font_id LoadFont(const std::string& path, int size);
+    // static font_id LoadFont(const std::string& path, int size);
+    static font_id LoadFont(const std::filesystem::path& path, int size);
     static TTF_Font* GetFont(font_id id);
     static void ClearCache();
 
