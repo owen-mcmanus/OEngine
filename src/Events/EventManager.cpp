@@ -80,7 +80,10 @@ void EventManager::DispatchEvent(Event& event) {
     auto it = eventListeners.find(key);
     if (it != eventListeners.end()) {
         for (auto& [id, listener] : it->second) {
-            listener(event);
+            try {
+                listener(event);
+            } catch (std::bad_function_call& e) {
+            }
         }
     }
 }
