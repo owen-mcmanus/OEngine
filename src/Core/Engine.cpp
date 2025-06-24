@@ -71,7 +71,9 @@ void Engine::Run() {
         EventManager::HandleEvents();
 
         Uint64 currentTime = SDL_GetPerformanceCounter();
-        SceneManager::Update((double)(currentTime - lastTime) / SDL_GetPerformanceFrequency());
+        SceneManager::Update(
+            std::min(
+                static_cast<double>(currentTime - lastTime) / SDL_GetPerformanceFrequency(), 0.5));
         lastTime = currentTime;
 
         if (window) {
