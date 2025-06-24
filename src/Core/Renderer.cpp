@@ -122,6 +122,8 @@ void Renderer::RenderSpriteWithRotation(
         destRec.y = screenPos.y;
         destRec.w = static_cast<float>(sprite.GetWidth()) * static_cast<float>(viewScale);
         destRec.h = static_cast<float>(sprite.GetHeight()) * static_cast<float>(viewScale);
+        pt.x = pt.x * static_cast<float>(viewScale);
+        pt.y = pt.y * static_cast<float>(viewScale);
     } else {
         destRec.x = worldPos.x;
         destRec.y = worldPos.y;
