@@ -5,6 +5,7 @@
  */
 
 #pragma once
+#include <filesystem>
 #include <vector>
 
 namespace OEngine::Mouse {
@@ -16,6 +17,7 @@ std::vector<MouseButton> GetPressed();
 bool IsPressed(MouseButton key);
 float GetX();
 float GetY();
+void SetCursor(const std::filesystem::path& path);
 void SetCursorDefault();
 void SetCursorPointer();
 

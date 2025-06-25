@@ -56,6 +56,14 @@ struct SDL_Deleter {
         if (ptr)
             TTF_CloseFont(ptr);
     }
+
+    void operator()(SDL_Cursor* ptr) const {
+#ifdef LOG_DELETES
+        OLog::log(OLog::DEBUG, "Clean Cursor");
+#endif
+        if (ptr)
+            SDL_DestroyCursor(ptr);
+    }
 };
 
 } // namespace OEngine

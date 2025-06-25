@@ -7,7 +7,10 @@
 #include "Mouse.h"
 #include "../Events/Event.h"
 #include "../Events/EventManager.h"
+#include "AssetManager/TextureManager.h"
+
 #include <SDL3/SDL.h>
+#include <filesystem>
 #include <olog.h>
 
 using namespace OEngine;
@@ -84,14 +87,35 @@ float Mouse::GetY() {
     return y;
 }
 
+// void Mouse::SetCursor(const std::filesystem::path& path) {
+//     AssetManager::cursor_id id = AssetManager::CursorManager::LoadCursor(path);
+//     SDL_Cursor* c = AssetManager::CursorManager::GetCursor(id);
+//
+//     SDL_Cursor* old_c = SDL_GetCursor();
+//     SDL_SetCursor(c);
+//     SDL_DestroyCursor(old_c);
+// }
+
+void Mouse::SetCursor(const std::filesystem::path& path) {
+    AssetManager::surface_id surf_id = AssetManager::TextureManager::LoadSurface(path);
+    SDL_Surface* s = AssetManager::TextureManager::GetSurface(surf_id);
+    SDL_Cursor* c = SDL_CreateColorCursor(s, 0, 0);
+
+    SDL_Cursor* old_c = SDL_GetCursor();
+    SDL_SetCursor(c);
+    SDL_DestroyCursor(old_c);
+}
+
 void Mouse::SetCursorDefault() {
-    // TODO: fix memory leak
+    SDL_Cursor* old_c = SDL_GetCursor();
     SDL_Cursor* c = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT);
     SDL_SetCursor(c);
+    SDL_DestroyCursor(old_c);
 }
 
 void Mouse::SetCursorPointer() {
-    // TODO: fix memory leak
+    SDL_Cursor* old_c = SDL_GetCursor();
     SDL_Cursor* c = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_POINTER);
     SDL_SetCursor(c);
+    SDL_DestroyCursor(old_c);
 }

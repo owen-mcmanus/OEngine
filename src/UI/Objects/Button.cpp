@@ -29,14 +29,14 @@ void ButtonComponent::Update(double deltaTime) {
     if (Mouse::GetX() > x && Mouse::GetX() < x + width && Mouse::GetY() > y &&
         Mouse::GetY() < y + height) {
         if (hovered == false) {
-            Mouse::SetCursorPointer();
+            // Mouse::SetCursorPointer();
             EventManager::AddEvent<ButtonMouseOver>(name);
             hovered = true;
         }
     } else {
         if (hovered == true) {
             hovered = false;
-            Mouse::SetCursorDefault();
+            // Mouse::SetCursorDefault();
             EventManager::AddEvent<ButtonMouseOff>(name);
         }
     }
