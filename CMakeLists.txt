@@ -61,6 +61,8 @@ add_library(OEngine STATIC
         src/Components/Delay.h
         src/Utils/Viewport.cpp
         src/Utils/Viewport.h
+        src/Components/MultiSprite.cpp
+        src/Components/MultiSprite.h
 )
 add_library(OEngine::OEngine ALIAS OEngine)
 target_compile_features(OEngine PUBLIC cxx_std_20)

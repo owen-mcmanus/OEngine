@@ -1,11 +1,11 @@
 #include "TestScene.h"
 
-#include "../src/Components/PrimitiveSprite.h"
 #include "../src/GameObjects/Camera.h"
 #include "../src/GameObjects/PrimitiveFactory.h"
 #include "../src/IO/Keyboard.h"
 #include "../src/UI/Objects/Button.h"
 #include "Components/Delay.h"
+#include "Components/MultiSprite.h"
 #include "Plane.h"
 
 void TestScene::Init() {
@@ -41,12 +41,31 @@ void TestScene::Init() {
     OEngine::Keyboard::Connect();
     OEngine::Mouse::Connect();
 
+    OEngine::Mouse::SetCursor("/home/owen/github/Scopes/Assets/Cursors/AsdexFixed.cur");
+
+    auto testMulti = std::make_shared<OEngine::GameObject>(5);
+    testMulti->AddComponent<OEngine::Transform>(600, 600);
+    OEngine::MultiSprite& ms = testMulti->AddComponent<OEngine::MultiSprite>();
+    ms.AddSprite(
+        std::make_unique<OEngine::Sprite>(
+            "/home/owen/github/OEngine/testGame/VRC.ttf", 50, "test\n text!", OEngine::Color::Red),
+        {0, 0}, 2);
+    ms.AddSprite(
+        std::make_unique<OEngine::Sprite>(
+            "/home/owen/github/OEngine/testGame/VRC.ttf", 50, "test\n text!", OEngine::Color::Red),
+        {20, 20});
+    ms.AddPrimitiveSprite(
+        std::make_unique<OEngine::PrimitiveSprite>(
+            OEngine::PrimitiveSpriteType::FILL_RECTANGLE, OEngine::Color::Black, 50, 50),
+        {50, 50}, 1);
+
     AddGameObject(box);
     AddGameObject(box1);
     AddGameObject(background);
     AddGameObject(c);
     AddGameObject(button);
     AddGameObject(text);
+    AddGameObject(testMulti);
 }
 
 TestScene::~TestScene() {

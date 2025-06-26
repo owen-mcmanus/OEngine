@@ -8,6 +8,7 @@
 #include "../Components/PrimitiveSprite.h"
 #include "../Components/Sprite.h"
 #include "../Components/Transform.h"
+#include "Components/MultiSprite.h"
 #include "Renderer.h"
 
 using namespace OEngine;
@@ -33,7 +34,33 @@ void Scene::Render(Renderer& renderer) {
         bool inWorld = true;
         if (object->layer >= 100)
             inWorld = false;
-
+        if (object->HasComponent<Transform>() && object->HasComponent<MultiSprite>()) {
+            const MultiSprite* ms = object->GetComponent<MultiSprite>();
+            int sI = 0;
+            int psI = 0;
+            while (sI < ms->GetNumSprites() || psI < ms->GetNumPrimitiveSprites()) {
+                if (sI < ms->GetNumSprites() && psI < ms->GetNumPrimitiveSprites()) {
+                    if (ms->GetSpriteLayer(sI) < ms->GetPrimitiveSpriteLayer(psI)) {
+                        renderer.RenderSpriteWithRotation(
+                            *ms->GetSprite(sI), *ms->GetSpriteOffset(sI), inWorld);
+                        sI++;
+                    } else {
+                        renderer.RenderPrimitiveSprite(
+                            *ms->GetPrimitiveSprite(psI), *ms->GetPrimitiveSpriteOffset(psI),
+                            inWorld);
+                        psI++;
+                    }
+                } else if (sI < ms->GetNumSprites()) {
+                    renderer.RenderSpriteWithRotation(
+                        *ms->GetSprite(sI), *ms->GetSpriteOffset(sI), inWorld);
+                    sI++;
+                } else {
+                    renderer.RenderPrimitiveSprite(
+                        *ms->GetPrimitiveSprite(psI), *ms->GetPrimitiveSpriteOffset(psI), inWorld);
+                    psI++;
+                }
+            }
+        }
         if (object->HasComponent<Transform>() && object->HasComponent<Sprite>()) {
             renderer.RenderSpriteWithRotation(
                 *object->GetComponent<Sprite>(), *object->GetComponent<Transform>(), inWorld);
