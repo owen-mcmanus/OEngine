@@ -10,6 +10,7 @@
 #include "Sprite.h"
 
 #include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
 #include <memory>
 #include <vector>
 
@@ -35,7 +36,9 @@ class MultiSprite : public Component {
     MultiSprite& operator=(MultiSprite&&) noexcept = default;
 
     void AddSprite(std::unique_ptr<Sprite> s, glm::vec2 offset, int layer = 0);
+    void AddSprite(std::unique_ptr<Sprite> s, glm::vec3 offset, int layer = 0);
     void AddPrimitiveSprite(std::unique_ptr<PrimitiveSprite> ps, glm::vec2 offset, int layer = 0);
+    void AddPrimitiveSprite(std::unique_ptr<PrimitiveSprite> ps, glm::vec3 offset, int layer = 0);
 
     void RemoveSprite(Sprite* s);
     void RemovePrimitiveSprite(PrimitiveSprite* ps);

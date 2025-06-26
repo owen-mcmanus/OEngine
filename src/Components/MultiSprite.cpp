@@ -25,7 +25,17 @@ void MultiSprite::AddSprite(std::unique_ptr<Sprite> s, glm::vec2 offset, int lay
     if (!s)
         return;
 
-    auto t = std::make_unique<Transform>(offset);
+    auto t = std::make_unique<Transform>(offset, 0);
+    t->SetParent(owner->GetCacheableComponent<Transform>());
+
+    InsertOrdered(sprites, LayerEntry<Sprite>{layer, std::move(s), std::move(t)});
+}
+
+void MultiSprite::AddSprite(std::unique_ptr<Sprite> s, glm::vec3 offset, int layer) {
+    if (!s)
+        return;
+
+    auto t = std::make_unique<Transform>(glm::vec2{offset.x, offset.y}, offset.z);
     t->SetParent(owner->GetCacheableComponent<Transform>());
 
     InsertOrdered(sprites, LayerEntry<Sprite>{layer, std::move(s), std::move(t)});
@@ -39,6 +49,19 @@ void MultiSprite::AddPrimitiveSprite(
         return;
 
     auto t = std::make_unique<Transform>(offset);
+    t->SetParent(owner->GetCacheableComponent<Transform>());
+
+    InsertOrdered(pSprites, LayerEntry<PrimitiveSprite>{layer, std::move(ps), std::move(t)});
+}
+
+void MultiSprite::AddPrimitiveSprite(
+    std::unique_ptr<PrimitiveSprite> ps,
+    glm::vec3 offset,
+    int layer) {
+    if (!ps)
+        return;
+
+    auto t = std::make_unique<Transform>(glm::vec2{offset.x, offset.y}, offset.z);
     t->SetParent(owner->GetCacheableComponent<Transform>());
 
     InsertOrdered(pSprites, LayerEntry<PrimitiveSprite>{layer, std::move(ps), std::move(t)});

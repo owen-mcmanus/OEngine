@@ -30,5 +30,6 @@ class PrimitiveSprite : public Component {
     Color color;
     double width;
     double height;
+    bool scaleOnZoom = true;
 };
 }; // namespace OEngine
