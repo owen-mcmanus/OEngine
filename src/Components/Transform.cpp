@@ -48,4 +48,9 @@ void Transform::SetParent(const std::weak_ptr<Transform>& newParent) {
     // }
 }
 
-void Transform::LockRotation(float value) { rotationLockedValue = fmod(value, 360); }
+void Transform::LockRotation(float value) {
+    rotationLocked = true;
+    rotationLockedValue = fmod(value, 360);
+}
+
+void Transform::UnlockRotation() { rotationLocked = false; }

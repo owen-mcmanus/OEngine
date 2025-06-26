@@ -39,6 +39,7 @@ class Transform : public Component {
     void Translate(const glm::vec2& amount);
     void SetParent(const std::weak_ptr<Transform>& newParent);
     void LockRotation(float value);
+    void UnlockRotation();
 
   private:
     std::weak_ptr<Transform> parent;
