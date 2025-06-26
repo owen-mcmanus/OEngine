@@ -120,10 +120,15 @@ void Renderer::RenderSpriteWithRotation(
         glm::vec3 screenPos = viewMatrix * worldPos;
         destRec.x = screenPos.x;
         destRec.y = screenPos.y;
-        destRec.w = static_cast<float>(sprite.GetWidth()) * static_cast<float>(viewScale);
-        destRec.h = static_cast<float>(sprite.GetHeight()) * static_cast<float>(viewScale);
-        pt.x = pt.x * static_cast<float>(viewScale);
-        pt.y = pt.y * static_cast<float>(viewScale);
+        if (sprite.GetScaleOnZoom()) {
+            destRec.w = static_cast<float>(sprite.GetWidth()) * static_cast<float>(viewScale);
+            destRec.h = static_cast<float>(sprite.GetHeight()) * static_cast<float>(viewScale);
+            pt.x = pt.x * static_cast<float>(viewScale);
+            pt.y = pt.y * static_cast<float>(viewScale);
+        } else {
+            destRec.w = static_cast<float>(sprite.GetWidth());
+            destRec.h = static_cast<float>(sprite.GetHeight());
+        }
     } else {
         destRec.x = worldPos.x;
         destRec.y = worldPos.y;

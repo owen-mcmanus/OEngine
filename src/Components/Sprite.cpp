@@ -11,8 +11,8 @@
 
 using namespace OEngine;
 
-Sprite::Sprite(const std::filesystem::path& texturesheet, int width, int height)
-    : width(width), height(height) {
+Sprite::Sprite(const std::filesystem::path& texturesheet, int width, int height, bool scaleOnZoom)
+    : width(width), height(height), scaleOnZoom(scaleOnZoom) {
     surf_id = AssetManager::TextureManager::LoadSurface(texturesheet);
 }
 
@@ -21,7 +21,9 @@ Sprite::Sprite(
     int fontSize,
     const std::string& text,
     const Color& color,
-    int wrapWidth) {
+    int wrapWidth,
+    bool scaleOnZoom)
+    : scaleOnZoom(scaleOnZoom) {
     surf_id = AssetManager::TextureManager::CreateText(fontName, fontSize, text, color, wrapWidth);
     SDL_Surface* s = AssetManager::TextureManager::GetSurface(surf_id);
     width = s->w;
@@ -31,6 +33,8 @@ Sprite::Sprite(
 int Sprite::GetWidth() const { return width; }
 
 int Sprite::GetHeight() const { return height; }
+
+int Sprite::GetScaleOnZoom() const { return scaleOnZoom; }
 
 AssetManager::surface_id Sprite::GetSurfaceId() const { return surf_id; }
 

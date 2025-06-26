@@ -35,19 +35,26 @@ class Sprite : public Component {
      * @param width Width of the sprite in pixels.
      * @param height Height of the sprite in pixels.
      */
-    Sprite(const std::filesystem::path& texturesheet, int width, int height);
+    Sprite(
+        const std::filesystem::path& texturesheet,
+        int width,
+        int height,
+        bool scaleOnZoom = true);
     Sprite(
         const std::filesystem::path& fontName,
         int fontSize,
         const std::string& text,
         const Color& color,
-        int wrapWidth = 0);
+        int wrapWidth = 0,
+        bool scaleOnZoom = true);
     ~Sprite() override = default;
 
     /// @return The width of the sprite.
     [[nodiscard]] int GetWidth() const;
     /// @return The height of the sprite.
     [[nodiscard]] int GetHeight() const;
+    /// @return Should the sprite be scaled on zoom.
+    [[nodiscard]] int GetScaleOnZoom() const;
     /// @return The surface ID associated with the sprite.
     [[nodiscard]] AssetManager::surface_id GetSurfaceId() const;
 
@@ -57,6 +64,7 @@ class Sprite : public Component {
   private:
     int width;
     int height;
+    bool scaleOnZoom;
 
     AssetManager::surface_id surf_id;
 };
