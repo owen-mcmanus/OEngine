@@ -38,9 +38,11 @@ class Transform : public Component {
 
     void Translate(const glm::vec2& amount);
     void SetParent(const std::weak_ptr<Transform>& newParent);
+    void LockRotation(float value);
 
   private:
     std::weak_ptr<Transform> parent;
-    // std::vector<Transform*> children;
+    bool rotationLocked = false;
+    float rotationLockedValue = 0;
 };
 } // namespace OEngine

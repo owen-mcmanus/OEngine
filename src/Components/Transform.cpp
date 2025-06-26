@@ -19,6 +19,8 @@ glm::vec2 Transform::GetWorldPosition() const {
 }
 
 double Transform::GetWorldRotation() const {
+    if (rotationLocked)
+        return rotationLockedValue;
     if (auto p = parent.lock()) {
         return p->GetWorldRotation() + localRotation;
     }
@@ -45,3 +47,5 @@ void Transform::SetParent(const std::weak_ptr<Transform>& newParent) {
     //     currentParent->children.push_back(this);
     // }
 }
+
+void Transform::LockRotation(float value) { rotationLockedValue = fmod(value, 360); }
