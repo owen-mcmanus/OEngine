@@ -61,6 +61,8 @@ class Sprite : public Component {
     void SetWidth(int width);
     void SetHeight(int height);
 
+    bool hidden = false;
+
   private:
     int width;
     int height;

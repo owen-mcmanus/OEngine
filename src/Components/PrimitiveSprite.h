@@ -31,5 +31,6 @@ class PrimitiveSprite : public Component {
     double width;
     double height;
     bool scaleOnZoom = true;
+    bool hidden = false;
 };
 }; // namespace OEngine

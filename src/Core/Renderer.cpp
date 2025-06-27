@@ -111,6 +111,9 @@ void Renderer::RenderSpriteWithRotation(
     const Sprite& sprite,
     const Transform& transform,
     bool inWorld) const {
+    if (sprite.hidden)
+        return;
+
     SDL_FPoint pt;
     pt.x = sprite.GetWidth() / 2;
     pt.y = sprite.GetHeight() / 2;
@@ -169,6 +172,9 @@ void Renderer::RenderPrimitiveSprite(
     const PrimitiveSprite& sprite,
     const Transform& transform,
     bool inWorld) const {
+    if (sprite.hidden)
+        return;
+
     glm::vec3 worldPosition{transform.GetWorldPosition(), 1.0};
     glm::vec3 screenPosition;
     glm::vec2 screenScale = {sprite.width, sprite.height};
