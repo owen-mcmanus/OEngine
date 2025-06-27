@@ -60,7 +60,9 @@ void Renderer::DrawPoint(float x, float y, const Color& color) const {
     }
 }
 
-void Renderer::DrawLine(float x1, float y1, float x2, float y2, const Color& color) const {
+void Renderer::DrawLine(float x1, float y1, float width, float height, const Color& color) const {
+    float x2 = x1 + width;
+    float y2 = y1 + height;
     if (!rendering_paused) {
         if (!BoundingBoxOnScreen(
                 {std::min(x1, x2), std::min(y1, y2), std::abs(x1 - x2), std::abs(y1 - y2)}))
@@ -182,9 +184,9 @@ void Renderer::RenderPrimitiveSprite(
         break;
     }
     case PrimitiveSpriteType::LINE: {
-        glm::vec3 endPosition = {sprite.width, sprite.height, 1.0f};
-        endPosition = viewMatrix * endPosition;
-        DrawLine(screenPosition.x, screenPosition.y, endPosition.x, endPosition.y, sprite.color);
+        // glm::vec3 endPosition = {sprite.width, sprite.height, 1.0f};
+        // endPosition = viewMatrix * endPosition;
+        DrawLine(screenPosition.x, screenPosition.y, screenScale.x, screenScale.y, sprite.color);
         break;
     }
     case PrimitiveSpriteType::RECTANGLE: {

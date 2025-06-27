@@ -20,7 +20,7 @@ class PrimitiveFactory {
     CreateFilledRectangle(double x, double y, double width, double height, Color color, int layer);
 
     static std::shared_ptr<GameObject>
-    CreateLine(double x1, double y1, double x2, double y2, Color color, int layer);
+    CreateLine(double x1, double y1, double width, double height, Color color, int layer);
 
     static std::shared_ptr<GameObject> CreatePoint(double x, double y, Color color, int layer);
 

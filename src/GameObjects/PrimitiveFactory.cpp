@@ -36,11 +36,16 @@ std::shared_ptr<GameObject> PrimitiveFactory::CreateFilledRectangle(
     return box;
 }
 
-std::shared_ptr<GameObject>
-PrimitiveFactory::CreateLine(double x1, double y1, double x2, double y2, Color color, int layer) {
+std::shared_ptr<GameObject> PrimitiveFactory::CreateLine(
+    double x1,
+    double y1,
+    double width,
+    double height,
+    Color color,
+    int layer) {
     auto box = std::make_shared<GameObject>(layer);
     box->AddComponent<Transform>(x1, y1);
-    box->AddComponent<PrimitiveSprite>(PrimitiveSpriteType::LINE, color, x2, y2);
+    box->AddComponent<PrimitiveSprite>(PrimitiveSpriteType::LINE, color, width, height);
     return box;
 }
 

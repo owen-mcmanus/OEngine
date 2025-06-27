@@ -59,6 +59,8 @@ void TestScene::Init() {
             OEngine::PrimitiveSpriteType::FILL_RECTANGLE, OEngine::Color::Black, 50, 50),
         {50, 50}, 1);
 
+    auto line = OEngine::PrimitiveFactory::CreateLine(1000, 1000, 10, 10, OEngine::Color::Black, 5);
+
     AddGameObject(box);
     AddGameObject(box1);
     AddGameObject(background);
@@ -66,6 +68,7 @@ void TestScene::Init() {
     AddGameObject(button);
     AddGameObject(text);
     AddGameObject(testMulti);
+    AddGameObject(line);
 }
 
 TestScene::~TestScene() {
