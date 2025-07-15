@@ -159,7 +159,7 @@ void Renderer::RenderSpriteWithRotation(
         if (!BoundingCircleOnScreen(destRec.x + destRec.w / 2, destRec.y + destRec.h / 2, r2))
             return;
 
-        float rotf = transform.GetWorldRotation() - viewRotation * 3.14159f / 180.0f;
+        double rotf = (transform.GetWorldRotation() - viewRotation) * M_PI / 180.0;
         float cx = destRec.x + destRec.w / 2;
         float cy = destRec.y + destRec.h / 2;
         float dx = abs(destRec.w * std::cos(rotf)) / 2 + abs(destRec.h * std::sin(rotf)) / 2;
