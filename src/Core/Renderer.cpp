@@ -115,23 +115,21 @@ void Renderer::RenderSpriteWithRotation(
         return;
 
     SDL_FPoint pt;
-    if (inWorld) {
-        pt.x = 0;
-        pt.y = 0;
-    } else {
-        pt.x = sprite.GetWidth() / 2;
-        pt.y = sprite.GetHeight() / 2;
-    }
+    pt.x = sprite.GetWidth() / 2;
+    pt.y = sprite.GetHeight() / 2;
 
     SDL_FRect destRec{};
     glm::vec3 worldPos(transform.GetWorldPosition(), 1.0);
+
     float rot = 0;
 
     if (inWorld) {
+        worldPos.x += sprite.GetWidth() / 2;
+        worldPos.y += sprite.GetHeight() / 2;
         glm::vec3 screenPos = viewMatrix * worldPos;
         rot = transform.GetWorldRotation() - (sprite.doNotRotate ? 0 : viewRotation);
-        destRec.x = screenPos.x;
-        destRec.y = screenPos.y;
+        destRec.x = screenPos.x - sprite.GetWidth() * static_cast<float>(viewScale) / 2;
+        destRec.y = screenPos.y - sprite.GetHeight() * static_cast<float>(viewScale) / 2;
         if (sprite.GetScaleOnZoom()) {
             destRec.w = static_cast<float>(sprite.GetWidth()) * static_cast<float>(viewScale);
             destRec.h = static_cast<float>(sprite.GetHeight()) * static_cast<float>(viewScale);
