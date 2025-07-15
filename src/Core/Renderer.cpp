@@ -125,7 +125,7 @@ void Renderer::RenderSpriteWithRotation(
 
     SDL_FRect destRec{};
     glm::vec3 worldPos(transform.GetWorldPosition(), 1.0);
-    int rot = 0;
+    float rot = 0;
 
     if (inWorld) {
         glm::vec3 screenPos = viewMatrix * worldPos;
