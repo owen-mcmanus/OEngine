@@ -69,6 +69,9 @@ void EventManager::HandleSDLEvents() {
                 sdlEvent.wheel.mouse_x, sdlEvent.wheel.mouse_y, sdlEvent.wheel.y);
             break;
         }
+        case SDL_EVENT_WINDOW_RESIZED: {
+            AddEvent<WindowResizeEvent>(sdlEvent.window.data1, sdlEvent.window.data2);
+        }
         default:
             break;
         }

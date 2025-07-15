@@ -10,6 +10,8 @@
 
 using namespace OEngine;
 
+WindowResizeEvent::WindowResizeEvent(int width, int height) : width(width), height(height) {}
+
 KeyEvent::KeyEvent(const Key::Keycode key) : key(key) {}
 
 Key::Keycode KeyEvent::GetKey() const { return key; }

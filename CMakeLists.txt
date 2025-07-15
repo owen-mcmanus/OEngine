@@ -47,6 +47,7 @@ add_library(OEngine STATIC
         src/Events/EventManager.cpp      src/Events/EventManager.h
         src/IO/Keyboard.cpp              src/IO/Keyboard.h
         src/IO/Mouse.cpp                 src/IO/Mouse.h
+        src/IO/Screen.cpp                 src/IO/Screen.h
         src/Utils/SDLDeleter.h           src/Utils/Keys.cpp
         src/Utils/Color.cpp              src/Utils/Color.h
 

@@ -39,6 +39,13 @@ class Event {
     bool Handled = false;
 };
 
+class WindowResizeEvent : public Event {
+  public:
+    explicit WindowResizeEvent(int width, int height);
+    int width;
+    int height;
+};
+
 /**
  * @brief Base class for all keyboard-related events.
  */
