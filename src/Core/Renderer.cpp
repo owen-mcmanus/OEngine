@@ -129,7 +129,7 @@ void Renderer::RenderSpriteWithRotation(
 
     if (inWorld) {
         glm::vec3 screenPos = viewMatrix * worldPos;
-        rot = transform.GetWorldRotation() - viewRotation;
+        rot = transform.GetWorldRotation() - (sprite.doNotRotate ? 0 : viewRotation);
         destRec.x = screenPos.x;
         destRec.y = screenPos.y;
         if (sprite.GetScaleOnZoom()) {

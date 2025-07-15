@@ -62,6 +62,7 @@ class Sprite : public Component {
     void SetHeight(int height);
 
     bool hidden = false;
+    bool doNotRotate = false;
 
   private:
     int width;
