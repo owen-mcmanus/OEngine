@@ -115,14 +115,21 @@ void Renderer::RenderSpriteWithRotation(
         return;
 
     SDL_FPoint pt;
-    pt.x = sprite.GetWidth() / 2;
-    pt.y = sprite.GetHeight() / 2;
+    if (inWorld) {
+        pt.x = 0;
+        pt.y = 0;
+    } else {
+        pt.x = sprite.GetWidth() / 2;
+        pt.y = sprite.GetHeight() / 2;
+    }
 
     SDL_FRect destRec{};
     glm::vec3 worldPos(transform.GetWorldPosition(), 1.0);
+    int rot = 0;
 
     if (inWorld) {
         glm::vec3 screenPos = viewMatrix * worldPos;
+        rot = transform.GetWorldRotation() - viewRotation;
         destRec.x = screenPos.x;
         destRec.y = screenPos.y;
         if (sprite.GetScaleOnZoom()) {
@@ -135,6 +142,7 @@ void Renderer::RenderSpriteWithRotation(
             destRec.h = static_cast<float>(sprite.GetHeight());
         }
     } else {
+        rot = transform.GetWorldRotation();
         destRec.x = worldPos.x;
         destRec.y = worldPos.y;
         destRec.w = static_cast<float>(sprite.GetWidth());
@@ -142,7 +150,6 @@ void Renderer::RenderSpriteWithRotation(
     }
 
     SDL_FRect bounding;
-    int rot = transform.GetWorldRotation() - viewRotation;
     if (rot == 0 || rot == 180) {
         bounding = {destRec.x, destRec.y, destRec.w, destRec.h};
     } else if (rot == 90 || rot == 270) {
@@ -164,8 +171,8 @@ void Renderer::RenderSpriteWithRotation(
         return;
 
     SDL_RenderTextureRotated(
-        renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr, &destRec,
-        transform.GetWorldRotation() - viewRotation, &pt, SDL_FLIP_NONE);
+        renderer.get(), texture_cache->GetTexture(sprite.GetSurfaceId()), nullptr, &destRec, rot,
+        &pt, SDL_FLIP_NONE);
 }
 
 void Renderer::RenderPrimitiveSprite(
