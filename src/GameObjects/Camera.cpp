@@ -75,7 +75,7 @@ void CameraController::Update(double dt) {
     if (wheelDelta != 0.0f) {
         const float zoomStep = 0.1f;
         float z = t->GetZoom() * (1.0f + wheelDelta * zoomStep);
-        t->SetZoom(std::max(0.01f, z));
+        t->SetZoom(std::max(0.01f, z), {1920 * .5f, 1080 * .5});
         wheelDelta = 0.0f;
     }
 }
@@ -88,8 +88,10 @@ CameraComponent::CameraComponent(glm::vec2 position, double rotation, double zoo
 void CameraComponent::SetViewMatrix() {
     glm::vec2 pivot = glm::vec2{1920 * .5f, 1080 * .5f};
     glm::mat3 view(1.0f);
-    view = glm::translate(view, (pivot));
+    view = glm::translate(view, (zoomPivot));
     view = glm::scale(view, glm::vec2(zoom));
+    view = glm::translate(view, (-zoomPivot));
+    view = glm::translate(view, (pivot));
     view = glm::rotate(view, static_cast<float>(-rotation));
     view = glm::translate(view, -offset);
     ChangeViewEvent e = ChangeViewEvent(view, rotation, zoom);
@@ -97,8 +99,9 @@ void CameraComponent::SetViewMatrix() {
     // EventManager::AddEvent<ChangeViewEvent>(view, rotation);
 }
 
-void CameraComponent::SetZoom(double zoom) {
+void CameraComponent::SetZoom(double zoom, glm::vec2 pivot) {
     dirty = true;
+    this->zoomPivot = pivot;
     this->zoom = zoom;
 }
 

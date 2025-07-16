@@ -27,7 +27,7 @@ class CameraComponent : public Component {
     explicit CameraComponent(glm::vec2 position = {0, 0}, double rotation = 0, double zoom = 1);
 
     void SetViewMatrix();
-    void SetZoom(double zoom);
+    void SetZoom(double zoom, glm::vec2 pivot);
     [[nodiscard]] double GetZoom() const;
     void SetPosition(glm::vec2 position);
     glm::vec2 GetPosition();
@@ -41,6 +41,7 @@ class CameraComponent : public Component {
     bool dirty = true;
     double zoom = 1;
     glm::vec2 offset = glm::vec2(0, 0);
+    glm::vec2 zoomPivot = glm::vec2(1920 * .5f, 1080 * .5f);
     double rotation = 0;
 };
 
