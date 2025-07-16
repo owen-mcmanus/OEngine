@@ -36,6 +36,9 @@ enum class Keycode {
     TAB = '\t',
     SPACE = ' ',
 
+    LALT = 0x400000e2u,
+    RALT = 0x400000e6u,
+
     A = 'a',
     B = 'b',
     C = 'c',
