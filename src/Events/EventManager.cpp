@@ -71,9 +71,11 @@ void EventManager::HandleSDLEvents() {
         }
         case SDL_EVENT_WINDOW_RESIZED: {
             AddEvent<WindowResizeEvent>(sdlEvent.window.data1, sdlEvent.window.data2);
+            break;
         }
         case SDL_EVENT_TEXT_INPUT: {
             AddEvent<TextInputEvent>(sdlEvent.text.text);
+            break;
         }
         default:
             break;
