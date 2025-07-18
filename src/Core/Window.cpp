@@ -28,7 +28,12 @@ Window::Window(const std::string& title, int width, int height, bool fullscreen)
     window.reset(rawWindow);
 
     renderer = std::make_unique<Renderer>(rawRenderer);
+    windowInstance = window.get();
 }
+
+SDL_Window* Window::windowInstance = nullptr;
+
+SDL_Window* Window::GetSDLWindow() { return windowInstance; }
 
 Renderer& Window::GetRenderer() const { return *renderer; }
 

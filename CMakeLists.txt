@@ -48,6 +48,7 @@ add_library(OEngine STATIC
         src/IO/Keyboard.cpp              src/IO/Keyboard.h
         src/IO/Mouse.cpp                 src/IO/Mouse.h
         src/IO/Screen.cpp                 src/IO/Screen.h
+        src/IO/TextInput.cpp                 src/IO/TextInput.h
         src/Utils/SDLDeleter.h           src/Utils/Keys.cpp
         src/Utils/Color.cpp              src/Utils/Color.h
 

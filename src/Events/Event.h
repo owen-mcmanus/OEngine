@@ -83,6 +83,12 @@ class KeyUpEvent : public KeyEvent {
     explicit KeyUpEvent(Key::Keycode key);
 };
 
+class TextInputEvent : public Event {
+  public:
+    explicit TextInputEvent(const std::string& text) : text(text) {};
+    std::string text;
+};
+
 /**
  * @brief Represents a quit event (e.g., closing the window).
  */

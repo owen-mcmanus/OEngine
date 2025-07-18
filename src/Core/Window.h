@@ -35,6 +35,7 @@ class Window {
     Window(const std::string& title, int width, int height, bool fullscreen);
     ~Window() = default;
 
+    static SDL_Window* GetSDLWindow();
     /**
      * @brief Gets a reference to the internal renderer associated with this window.
      *
@@ -52,6 +53,7 @@ class Window {
   private:
     std::unique_ptr<SDL_Window, SDL_Deleter> window;
     std::unique_ptr<Renderer> renderer;
+    static SDL_Window* windowInstance;
 };
 
 } // namespace OEngine
